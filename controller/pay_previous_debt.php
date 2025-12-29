@@ -58,6 +58,16 @@
         );
         $add_trail = new add_data('customer_trail', $cust_trail);
         $add_trail->create_data();
+        //add to outstanding table
+        $outstanding = array(
+            'customer' => $customer,
+            'amount' => $amount,
+            'trx_number' => $trx_num,
+            'posted_by' => $user,
+            'post_date' => $date
+        );
+        $add_out = new add_data('outstanding', $outstanding);
+        $add_out->create_data();
        
         //get customer details
         $get_balance = new selects();
