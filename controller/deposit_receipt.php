@@ -9,7 +9,7 @@ include "../classes/select.php";
     if(isset($_GET['receipt'])){
         $user = $_SESSION['user_id'];
         $invoice = $_GET['receipt'];
-        // $type = "Deposit";        
+        $type = "Payment Receipt";      
         //get customer
         $get_customer_id = new selects();
         $custs = $get_customer_id->fetch_details_cond('deposits', 'invoice', $invoice);
@@ -23,7 +23,7 @@ include "../classes/select.php";
         $rows = $get_customer->fetch_details_cond('customers', 'customer_id', $customer);
         foreach($rows as $row){
             $wallet = $row->wallet_balance;
-            // $debt = $row->amount_due;
+            $debt = $row->debt_balance;
             $cust_address = $row->customer_address;
             $cust_phone = $row->phone_numbers;
             $full_name = $row->customer;
@@ -46,18 +46,19 @@ include "../classes/select.php";
 <div class="displays allResults sales_receipt">
     <?php include "receipt_header.php"?>
         
-        
     </div>
-    <div class="patient_details">
+        <h3><?php echo $type?></h3>
+
+    <!-- <div class="patient_details">
         <div class="bill_to">
             <h3>CLIENT</h3>
         </div>
         <p><strong><span><?php echo $full_name?></span></strong></p>
-        <!-- <p><strong><span><?php echo $cust_address?></span></strong></p> -->
+        <p><strong><span><?php echo $cust_address?></span></strong></p>
         <p><strong><span><?php echo $cust_phone?></span></strong></p>
-        <!-- <p><strong>Invoice Date:</strong> <span><?php echo date("d-m-Y", strtotime($paid_date))?></span></p> -->
+        <p><strong>Invoice Date:</strong> <span><?php echo date("d-m-Y", strtotime($paid_date))?></span></p>
 
-    </div>
+    </div> -->
     <table id="postsales_table" class="searchTable" style="width:100%">
         <thead>
             <tr style="background:rgba(11, 99, 134, 0.7); color:#fff">
@@ -98,42 +99,11 @@ include "../classes/select.php";
         if(gettype($payments) == "string"){
             echo "<p class='no_result'>'$payments'</p>";
         }
-        //get balance from transactions
-        $get_balance = new selects();
-        $bals = $get_balance->fetch_account_balance($account);
-        if(gettype($bals) == 'array'){
-            foreach($bals as $bal){
-                $balance = $bal->balance;
-            }
-        }
-        // get sum
-         //balances
-        //  echo "<p class='total_amount' style='color:green'>Account balance: ₦".number_format($wallet, 2)."</p>";
-        if($balance > 0){
-            echo "<p class='total_amount' style='color:green; margin:0'>Account balance: ₦".number_format(0, 2)."</p>";
-        }else{
-            echo "<p class='total_amount' style='color:green; margin:0'>Account balance: ₦".number_format($balance, 2)."</p>";
-        }
+        
         //get loan due
-        $dues_p = $get_balance->fetch_sum_single('repayment_schedule', 'amount_paid', 'customer', $customer);
-        if(is_array($dues_p)){
-            foreach($dues_p as $due){
-                $total_paid = $due->total;
-            }
-        }else{
-            $total_paid = 0;
-        }
-        $dues_o = $get_balance->fetch_sum_single('repayment_schedule', 'amount_due', 'customer', $customer);
-        if(is_array($dues_o)){
-            foreach($dues_o as $dueo){
-                $total_due = $dueo->total;
-            }
-        }else{
-            $total_due = 0;
-        }
-        $debt = $total_due - $total_paid;
+        
         if($debt > 0){
-            echo "<p class='total_amount' style='color:red; margin:0'>Loan Due: ₦".number_format($debt, 2)."</p>";
+            echo "<p class='total_amount' style='color:red; margin:0'>Debt Balance: ₦".number_format($debt, 2)."</p>";
         }
         /*  echo "<p class='total_amount' style='color:green'>Amount due: ₦".number_format($debt, 2)."</p>"; */
         //sold by

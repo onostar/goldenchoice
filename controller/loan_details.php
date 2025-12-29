@@ -61,7 +61,7 @@
                         <input type="text" value="<?php echo $product_name?>" readonly>
                     </div>
                     <div class="data" style="width:24%;">
-                        <label for="amount" style="text-align:left!important;">Amount Requested (₦)</label>
+                        <label for="amount" style="text-align:left!important;">Amount (₦)</label>
                         <input type="text" value="<?php echo '₦'.number_format($row->amount, 2)?>" readonly style="color:green">
                     </div>
                     <div class="data" style="width:24%;">

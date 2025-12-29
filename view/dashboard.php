@@ -142,7 +142,17 @@
                         }else{
                             $amount_paid = 0;
                         }
-                        $debt = $amount_due - $amount_paid;
+
+                        //get total outstanding debts
+                        $outs = $get_dashboard->fetch_sum_singleGreat('customers', 'debt_balance', 'debt_balance', 0);
+                        if(is_array($outs)){
+                            foreach($outs as $out){
+                                $outstanding = $out->total;
+                            }
+                        }else{
+                            $outstanding = 0;
+                        }
+                        $debt = ($amount_due - $amount_paid) + $outstanding;
                         echo "₦".number_format($debt, 2);
                         
                     ?>

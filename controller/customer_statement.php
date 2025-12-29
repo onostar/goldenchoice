@@ -20,7 +20,7 @@
         $email = $row->customer_email;
         $joined = $row->reg_date;
         $wallet = $row->wallet_balance;
-        $debt = $row->amount_due;
+        $debt = $row->debt_balance;
         $account = $row->acn;
     }
     //get customer accouunt balance from transactions
@@ -38,7 +38,7 @@
     <a href="javascript:void(0)" title="Close form" onclick="showPage('../view/customer_statement.php');" class="close_form">Close <i class="fas fa-close"></i></a>
 </div>
 <div class="customer_info" class="allResults">
-    <h3 style="background:var(--tertiaryColor)">Statment between <?php echo $name?> and '<?php echo date("jS M, Y", strtotime($from)) . "' to '" . date("jS M, Y", strtotime($to))?>'</h3>
+    <h3 style="background:var(--tertiaryColor)">Statement between <?php echo $name?> and '<?php echo date("jS M, Y", strtotime($from)) . "' to '" . date("jS M, Y", strtotime($to))?>'</h3>
     <div class="demography">
         <div class="demo_block">
             <h4><i class="fas fa-id-card"></i> Name:</h4>
@@ -104,9 +104,14 @@
                         <td style="color:var(--moreColor)"><?php echo date("d-m-Y", strtotime($detail->application_date));?></td>
                         <td>
                             <?php
+                                if($detail->asset == 0){
                                 //get product name
                                 $prds = $get_customer->fetch_details_group('loan_products', 'product', 'product_id', $detail->product);
                                 $product = $prds->product;
+                                }else{
+                                $prds = $get_customer->fetch_details_group('items', 'item_name', 'item_id', $detail->asset);
+                                $product = $prds->item_name;
+                                }
                             ?>
                             <a style="color:green" href="javascript:void(0)" title="View loan details" onclick="viewLoanDetails('<?php echo $detail->loan_id?>')"><?php echo $product?></a>
                         </td>

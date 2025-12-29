@@ -1,7 +1,7 @@
 <?php
     session_start();    
     // if(isset($_POST['change_prize'])){
-        $customer = htmlspecialchars(stripslashes($_POST['vendor']));
+        $customer = htmlspecialchars(stripslashes($_POST['customer']));
         $amount = htmlspecialchars(stripslashes($_POST['amount']));
         
 
@@ -12,17 +12,17 @@
 
         //get customer details
         $get_customer = new selects();
-        $rows = $get_customer->fetch_details_cond('vendors', 'vendor_id', $customer);
+        $rows = $get_customer->fetch_details_cond('customers', 'customer_id', $customer);
         foreach($rows as $row){
-            $name = $row->vendor;
-            $debt = $row->balance;
+            $name = $row->customer;
+            $debt = $row->debt_balance;
         }
 
         
             //add funds to debt
             $new_debt = $amount + $debt;
             $update_debt = new Update_table();
-            $update_debt->update('vendors', 'balance', 'vendor_id', $new_debt, $customer);
+            $update_debt->update('customers', 'debt_balance', 'customer_id', $new_debt, $customer);
         
         
         // if($update_debt){

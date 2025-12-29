@@ -4742,7 +4742,7 @@ function postDebt(){
      }
  }
 //post vendor balance
-function postBalance(){
+/* function postBalance(){
      let vendor = document.getElementById("vendor").value;
      let amount = document.getElementById("amount").value;
      
@@ -4766,6 +4766,38 @@ function postBalance(){
           })
           setTimeout(function(){
                $("#post_debt").load("post_vendor_balance.php #post_debt");
+          }, 1500);
+          return false
+     }
+ } */
+//post customer old debt
+function postBalance(){
+     let customer = document.getElementById("customer").value;
+     let amount = document.getElementById("amount").value;
+     
+     if(amount.length == 0 || amount.replace(/^\s+|\s+$/g, "").length == 0){
+          alert("Please enter amount!");
+          $("#amount").focus();
+          return;
+     
+     }else if(amount <= 0){
+          alert("Amount can not be less than or  equal to 0");
+          return;
+     
+     }else{
+          $.ajax({
+               type : "POST",
+               url : "../controller/post_balance.php",
+               data: {customer:customer, amount:amount},
+               beforeSend : function(){
+                    $("#post_debt").html("<div class='processing'><div class='loader'></div></div>");
+               },
+               success : function(response){
+                    $("#post_debt").html(response);
+               }
+          })
+          setTimeout(function(){
+               showPage("post_debt.php");
           }, 1500);
           return false
      }
@@ -7627,5 +7659,70 @@ function dispenseAsset(loan, asset){
           })
      }else{
           return;
+     }
+}
+
+//previous debt payment
+function payOutstanding(){
+     let invoice = document.getElementById("invoice").value;
+     let posted = document.getElementById("posted").value;
+     let trans_date = document.getElementById("trans_date").value;
+     let customer = document.getElementById("customer").value;
+     let balance = document.getElementById("balance").value;
+     let store = document.getElementById("store").value;
+     let amount = document.getElementById("amount").value;
+     let payment_mode = document.getElementById("payment_mode").value;
+     let details = document.getElementById("details").value;
+     let bank = document.getElementById("bank").value;
+     let todayDate = new Date();
+     if(payment_mode == "POS" || payment_mode == "Transfer"){
+          if(bank.length == 0 || bank.replace(/^\s+|\s+$/g, "").length == 0){
+               alert("Please select bank!");
+               $("#bank").focus();
+               return;
+          }    
+     }
+     if(payment_mode.length == 0 || payment_mode.replace(/^\s+|\s+$/g, "").length == 0){
+          alert("Please select payment_mode!");
+          $("#payment_mode").focus();
+          return;
+     }else if(amount.length == 0 || amount.replace(/^\s+|\s+$/g, "").length == 0){
+          alert("Please input transaction amount");
+          $("#amount").focus();
+          return;
+     }else if(parseFloat(amount) > parseFloat(balance)){
+          alert("The amount entered exceeds the balance due. Please enter an amount that is less than or equal to the balance.");
+          $("#balance").focus();
+          return;
+     }else if(trans_date.length == 0 || trans_date.replace(/^\s+|\s+$/g, "").length == 0){
+          alert("Please input transaction date");
+          $("#trans_date").focus();
+          return;
+     }else if(details.length == 0 || details.replace(/^\s+|\s+$/g, "").length == 0){
+          alert("Please enter description of transaction");
+          $("#details").focus();
+          return;
+     }else if(new Date(trans_date) > todayDate){
+          alert("Transaction date cannot be futuristic!");
+          $("#trans_date").focus();
+          return;
+     }else{
+          let confirmPost = confirm("Are you sure you want to post this transaction?", "");
+          if(confirmPost){
+               $.ajax({
+                    type : "POST",
+                    url : "../controller/pay_previous_debt.php",
+                    data : {posted:posted, customer:customer,payment_mode:payment_mode, amount:amount, details:details, store:store, invoice:invoice, bank:bank, trans_date:trans_date},
+                    beforeSend : function(){
+                         $("#fund_account").html("<div class='processing'><div class='loader'></div></div>");
+                    },
+                    success : function(response){
+                    $("#fund_account").html(response);
+                    }
+               })
+               return false;   
+          }else{
+               return;
+          }
      }
 }

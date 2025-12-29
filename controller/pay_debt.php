@@ -32,8 +32,8 @@
         $add_data->create_data();
         if($add_data){
             //insert into customer trails
-            $insert_trail = new customer_trail($customer, $store, $detail, $amount, $posted_by);
-            $insert_trail->add_trail();
+            /* $insert_trail = new customer_trail($customer, $store, $detail, $amount, $posted_by);
+            $insert_trail->add_trail(); */
             //update debtor
             $update_debt = new Update_table();
             $update_debt->update('debtors', 'debt_status', 'invoice', 1, $invoice);

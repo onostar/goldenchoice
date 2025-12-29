@@ -136,9 +136,9 @@ session_start();
                 <td>Client name</td>
                 <td>Ledger No.</td>
                 <td>Phone number</td>
-                <!-- <td>Address</td> -->
+                <td>Address</td>
                 <td>Email</td>
-                <td>Balance</td>
+                <!-- <td>Balance</td> -->
                 <td>Date reg</td>
                 <td></td>
             </tr>
@@ -156,24 +156,24 @@ session_start();
                 <td><?php echo $detail->customer?></td>
                 <td><?php echo $detail->acn?></td>
                 <td><?php echo $detail->phone_numbers?></td>
-                <!-- <td><?php echo $detail->customer_address?></td> -->
+                <td><?php echo $detail->customer_address?></td>
                 <td><?php echo $detail->customer_email?></td>
                 <?php /* if($detail->wallet_balance >= 0){ */ ?>
                 <!-- <td style="color:green"><?php echo "₦".number_format($detail->wallet_balance, 2);?>
                 </td> -->
                 <?php /* }else{ */?>
                 <!-- <td style="color:red"><?php echo "₦".number_format($detail->wallet_balance * (-1), 2);?> -->
-                <td style="color:red">
+                <!-- <td style="color:red">
                     <?php 
-                        $fetch_bal = new selects();
+                        /* $fetch_bal = new selects();
                         $bals = $fetch_bal->fetch_account_balance($detail->acn);
                         foreach($bals as $bal){
                             $wallet_balance = $bal->balance;
                         }
-                        echo "₦".number_format($wallet_balance, 2);
+                        echo "₦".number_format($wallet_balance, 2); */
                     ?>
                 <?php /* } */?>
-                </td>
+                </td> -->
                 <td><?php echo date("d-m-Y", strtotime($detail->reg_date))?></td>
                 
                 <td>

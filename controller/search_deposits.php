@@ -64,7 +64,11 @@
                         echo $checkedin_by->full_name;
                     ?>
                 </td>
+                 <?php if($detail->details == "Outstanding Debt Payment"){?>
+                <td><a style="background:#cdcdcd; color:#222; border-radius:10px; box-shadow:1px 1px 1px #222; border:1px solid #fff; padding:4px;" href="javascript:void(0)" title="print receipt" onclick="printDepositReceipt('<?php echo $detail->invoice?>')"><i class="fas fa-print"></i></a></td>
+                <?php }else{?>
                 <td><a style="background:#cdcdcd; color:#222; border-radius:10px; box-shadow:1px 1px 1px #222; border:1px solid #fff; padding:4px;" href="javascript:void(0)" title="print receipt" onclick="printPaymentReceipt('<?php echo $detail->invoice?>')"><i class="fas fa-print"></i></a></td>
+                <?php }?>
             </tr>
             <?php $n++; }}?>
         </tbody>
