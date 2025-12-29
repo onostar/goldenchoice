@@ -6,6 +6,20 @@
         .main_consult{
             margin: 10px 0;
         }
+        @media screen and (max-width: 800px){
+            #prescriptions .data{
+                width:32%!important;
+            }
+            .nomenclature .inputs .data{
+                width:100%!important;
+            }
+            #prescriptions .inputs input, #prescriptions .inputs select{
+                margin:0!important;
+            }
+            table td {
+            font-size:.75rem!important;
+        }
+        }
     </style>
 <?php
     date_default_timezone_set("Africa/Lagos");
@@ -84,10 +98,19 @@
                        <div class="data" style="width:24%;">
                             <label for="loan_name">Product:</label>
                             <?php
+                                if($row->asset== 0){
                                 $prods = $get_details->fetch_details_cond('loan_products', 'product_id', $row->product);
                                 if(is_array($prods)){
                                     foreach($prods as $prod){
                                         $product_name = $prod->product;
+                                    }
+                                }
+                                }else{
+                                    $prods = $get_details->fetch_details_cond('items', 'item_id', $row->asset);
+                                    if(is_array($prods)){
+                                        foreach($prods as $prod){
+                                            $product_name = $prod->item_name;
+                                        }
                                     }
                                 }
                             ?>

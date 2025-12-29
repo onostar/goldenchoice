@@ -120,7 +120,7 @@
        <div class="all_modes">
     <?php
         //get total disbursed
-        $cashs = $get_users->fetch_sum_curdate2Con('loan_applications', 'amount', 'disbursed_date', 'loan_status', '2', 'store', $store);
+        $cashs = $get_users->fetch_sum_curdateCon('disbursal', 'amount', 'disbursed_date', 'store', $store);
         if(gettype($cashs) === "array"){
             foreach($cashs as $cash){
                 ?>

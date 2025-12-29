@@ -110,7 +110,7 @@
 
 <?php
     //get total disbursed
-    $cashs = $get_revenue->fetch_sum_2date2Cond('loan_applications', 'amount', 'date(disbursed_date)', 'loan_status', 'store', $from, $to, '2', $store);
+    $cashs = $get_revenue->fetch_sum_2dateCond('loan_applications', 'amount', 'store', 'date(disbursed_date)',  $from, $to,  $store);
     if(gettype($cashs) === "array"){
         foreach($cashs as $cash){
             echo "<p class='sum_amount' style='background:var(--otherColor)'><strong>Total Disbursed</strong>: ₦".number_format($cash->total, 2)."</p>";

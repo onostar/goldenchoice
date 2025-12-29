@@ -3088,11 +3088,37 @@ function printSalesReceipt(invoice){
                $("#direct_sales").html(response);
           }
      }) */
-     setTimeout(function(){
+     /* setTimeout(function(){
           $("#direct_sales").load("wholesale.php #direct_sales");
-     }, 100);
+     }, 100); */
      return false;
  
+ }
+ //update user role
+function updateRole(){
+     let user_id = document.getElementById("user_id").value;
+     let user_role = document.getElementById("user_role").value;
+     if(user_role.length == 0 || user_role.replace(/^\s+|\s+$/g, "").length == 0){
+          alert("Please select role!");
+          $("#user_role").focus();
+          return;
+     }else{
+          $.ajax({
+               type : "POST",
+               url : "../controller/change_role.php",
+               data: {user_id:user_id, user_role:user_role},
+               beforeSend : function(){
+                    $("#staff_list").html("<div class='processing'><div class='loader'></div></div>");
+               },
+               success : function(response){
+                    $("#staff_list").html(response);
+               }
+          })
+          setTimeout(function(){
+               $("#staff_list").load("change_role.php #staff_list");
+          }, 2000);
+          return false
+     }
  }
 // prinit sales receipt for sales order
 function printSalesOrderReceipt(invoice){

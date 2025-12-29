@@ -42,11 +42,20 @@
                     <div class="data" style="width:24%;">
                         <label for="loan_name">Product:</label>
                         <?php
+                            if($row->asset == 0){
                             $prods = $get_details->fetch_details_cond('loan_products', 'product_id', $row->product);
                             if(is_array($prods)){
                                 foreach($prods as $prod){
                                     $product_name = $prod->product;
                                 }
+                            }
+                            }else{
+                                $prods = $get_details->fetch_details_cond('items', 'item_id', $row->asset);
+                                if(is_array($prods)){
+                                foreach($prods as $prod){
+                                    $product_name = $prod->item_name;
+                                }
+                            }
                             }
                         ?>
                         <input type="text" value="<?php echo $product_name?>" readonly>

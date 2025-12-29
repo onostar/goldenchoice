@@ -10,17 +10,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="keywords" content="microfinance software, loan management system, microfinance web app, client onboarding platform, wallet management, microloan software, digital lending solution, accounting-based loan system, microfinance dashboard, financial tracking tool, Laravel microfinance system, online loan disbursement software Dorthpro microfinance">
-    <meta name="description" content="A powerful microfinance web application designed for seamless loan management, client onboarding, wallet tracking, and real-time financial reporting. Built with an accounting model for transparency and growth.">
+<meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="keywords" content="Inventory system, point of sales, inventory and sales management, retail, supermarket software, sales application">
+    <meta name="description" content="An online/offline inventory and sales management software for retail and wholesale stores and pharmacies, stock register, etc">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Microfinance & Loan Management System | Change Password</title>
-    <link rel="icon" type="image/png" size="32x32" href="../images/icon.png">
+    <title>Sales & Inventory Management | Change password</title>
+    <link rel="icon" type="image/png" size="32x32" href="../images/logo.png">
     <link rel="stylesheet" href="../fontawesome-free-6.0.0-web/css/all.css">
     <link rel="stylesheet" href="../fontawesome-free-6.0.0-web/css/all.min.css">
-    <link rel="stylesheet" href="../fontawesome-free-5.15.1-web/css/all.min.css">
     <link rel="stylesheet" href="../style.css">
-    <link rel="stylesheet" href="../select2.min.css">
 
 </head>
 <body>
@@ -48,7 +47,7 @@
                 </div>
                 <!-- <h2>Welcome User!</h2> -->
                 <p style="#222"><?php echo $row->company?></p>
-                <h2 style="font-size:.9rem; margin-bottom:5px">Change your password</h2>
+                <h2>Change your password</h2>
                 <p></p>
                 <?php
                     if(isset($_SESSION['success'])){

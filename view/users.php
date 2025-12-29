@@ -143,11 +143,16 @@ date_default_timezone_set("Africa/Lagos");
                 <div id="quickLinks">
                     <div class="quick_links">
                         <?php if($role == "Admin" || $role == "Accountant" || $role == "Loan Officer"){?>
-                        <div class="links page_navs" onclick="showPage('loan_repayment.php')" title="Create a new invoice">
+                        <div class="links page_navs" onclick="showPage('wholesale.php')" title="Make a sale">
                             <i class="fas fa-pen-alt"></i>
                             <!-- <p>Direct sales</p> -->
                         </div>
-                        
+                        <div class="links page_navs" onclick="showPage('loan_repayment.php')" title="post customer payment">
+                            <i class="fas fa-hand-holding-dollar" style="color:var(--otherColor)"></i>
+                            <!-- <p>Direct sales</p> -->
+                        </div>
+                        <?php }
+                        if($role == "Admin" || $role == "Accountant"){?>
                         <div class="links page_navs" onclick="showPage('pending_applications.php')" title="Pending Applications">
                             <i class="fas fa-download" style="color:green"></i>
                             <p>
@@ -158,7 +163,7 @@ date_default_timezone_set("Africa/Lagos");
                             </p>
                         </div>
                         <div class="links page_navs" onclick="showPage('pending_disbursement.php')" title="Loans awaiting disbursement">
-                            <i class="fas fa-hand-holding-dollar" style="color:brown"></i>
+                            <i class="fas fa-piggy-bank" style="color:brown"></i>
                             <p style="color:brown">
                                 <?php
                                     $disburse = $fetch_comp->fetch_count_cond('loan_applications', 'loan_status', 1);
@@ -176,15 +181,15 @@ date_default_timezone_set("Africa/Lagos");
                                 ?>
                             </p>
                         </div>
-                        <div class="links page_navs" onclick="showPage('verify_kyc.php')" title="Pending KYC Verification">
+                        <!-- <div class="links page_navs" onclick="showPage('verify_kyc.php')" title="Pending KYC Verification">
                             <i class="fas fa-user-shield" style="color:var(--otherColor)"></i>
                             <p style="color:var(--otherColor)">
                                 <?php
-                                     $kyc = $fetch_comp->fetch_count_cond('kyc', 'verification', 0);
-                                    echo $kyc;
+                                    /*  $kyc = $fetch_comp->fetch_count_cond('kyc', 'verification', 0);
+                                    echo $kyc; */
                                 ?>
                             </p>
-                        </div>
+                        </div> -->
                         <?php }else{?>
                         <div class="links page_navs" id="notifs" onclick="showPage('notifications.php')" title="Notifications">
                             <i class="fas fa-bell" style="color:var(--tertiaryColor)"></i>
@@ -269,7 +274,7 @@ date_default_timezone_set("Africa/Lagos");
                 $(".error").hide();
             }, 4000);
 
-             var ctx = document.getElementById("chartjs_bar2").getContext('2d');
+              var ctx = document.getElementById("chartjs_bar2").getContext('2d');
             // Function to generate random colors
             function generateColors(numColors) {
                 var colors = [];
@@ -282,18 +287,19 @@ date_default_timezone_set("Africa/Lagos");
             }
 
             // Get the number of months (or data points)
-            var numMonths = <?php echo count($months); ?>; // Assuming $month is an array of months
+            var numMonths = <?php echo count($month); ?>; // Assuming $month is an array of months
+
             // Generate an array of colors based on the number of months
             var backgroundColors = generateColors(numMonths);
 
             var myChart = new Chart(ctx, {
                 type: 'doughnut',
                 data: {
-                    labels: <?php echo json_encode($months); ?>,
+                    labels: <?php echo json_encode($month); ?>,
                     datasets: [{
-                        label: 'Amount',
+                        label: 'Revenue',
                         backgroundColor: backgroundColors, // Use the dynamic color array
-                        data: <?php echo json_encode($disbursed); ?>,
+                        data: <?php echo json_encode($revenue); ?>,
                     }]
                 },
                 options: {
