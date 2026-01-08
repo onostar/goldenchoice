@@ -684,6 +684,12 @@ date_default_timezone_set("Africa/Lagos");
                     $add_debt = new add_data('debtors', $debt_data);
                     $add_debt->create_data();
                 }
+                if($payment_type == "Wallet"){
+                    //update customerwallet balance if there was remainder
+                    $amount_paid = floatval($inv_amount) - floatval($discount);
+                    $balance = floatval($wallet) - floatval($amount_paid);
+                    $update_wallet = $update_invoice->update('customers',       'wallet_balance', 'customer_id', $balance, $customer);
+                }
                 
 ?>
 <div id="printBtn">

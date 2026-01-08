@@ -6,7 +6,8 @@
     $customer = htmlspecialchars(stripslashes($_POST['customer']));
     $store = htmlspecialchars(stripslashes($_POST['store']));
     $mode = htmlspecialchars(stripslashes($_POST['payment_mode']));
-    $amount = htmlspecialchars(stripslashes($_POST['amount']));
+    $amount = floatval($_POST['amount']);
+
     $schedule = htmlspecialchars(stripslashes($_POST['schedule']));
     $bank = htmlspecialchars(stripslashes($_POST['bank']));
     $trans_date = htmlspecialchars(stripslashes($_POST['trans_date']));

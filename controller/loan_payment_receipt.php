@@ -171,6 +171,7 @@ if(isset($_GET['receipt'])){
 </div>
 
 <?php
-    echo "<script>window.print(); </script>";
+    echo "<script>window.print();
+    window.close();</script>";
 }
 ?>

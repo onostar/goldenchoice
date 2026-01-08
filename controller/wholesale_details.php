@@ -131,19 +131,12 @@
                 <div class="data" id="account_balance">
                     <?php
                         //get customer account 
-                        $acns = $get_items->fetch_details_group('customers', 'acn', 'customer_id', $customer);
-                        //get wallet balance
-                        $bal = $get_items->fetch_account_balance($acns->acn);
-                        if(gettype($bal) == 'array'){
-                            foreach($bal as $ba){
-                                $wallet = $ba->balance;
-
+                        $acns = $get_items->fetch_details_cond('customers', 'customer_id', $customer);
+                        if(is_array($acns)){
+                            foreach($acns as $acn){
+                                $wallet = $acn->wallet_balance;
                             }
-                        }
-                        if(gettype($acns) == 'string'){
-                            $wallet = 0;
-                        }
-                        if($wallet <= 0){
+                        }else{
                             $wallet = 0;
                         }
                     ?>

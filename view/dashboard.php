@@ -430,8 +430,8 @@
     <hr>
     <div class="daily_monthly">
         <!-- daily revenue summary -->
-       <!--  <div class="daily_report allResults">
-            <h3 style="background:var(--otherColor)">Daily Encounters</h3>
+        <div class="daily_report allResults">
+            <h3 style="background:brown">Daily Collections</h3>
             <table style="box-shadow:none">
                 <thead>
                     <tr>
@@ -442,11 +442,11 @@
                     </tr>
                 </thead>
                 <?php
-                   /*  $n = 1;
+                    $n = 1;
                     $get_daily = new selects();
                     $dailys = $get_daily->fetch_daily_invoice($store_id);
                     if(gettype($dailys) == "array"){
-                    foreach($dailys as $daily): */
+                    foreach($dailys as $daily):
 
                 ?>
                 <tbody>
@@ -457,7 +457,7 @@
                         <td style="color:green;"><?php echo "₦".number_format($daily->revenue, 2)?></td>
                     </tr>
                 </tbody>
-                <?php /* $n++; endforeach; } */?>
+                <?php $n++; endforeach; }?>
 
                 
             </table>
@@ -466,7 +466,7 @@
                     echo "<p class='no_result'>'$dailys'</p>";
                 }
             ?>
-        </div> -->
+        </div>
         <div class="daily_report allResults">
             <h3 style="background:var(--otherColor)">Daily Sales Record</h3>
             <table>

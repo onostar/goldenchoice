@@ -105,7 +105,7 @@ include "../classes/select.php";
         if($debt > 0){
             echo "<p class='total_amount' style='color:red; margin:0'>Debt Balance: ₦".number_format($debt, 2)."</p>";
         }
-        /*  echo "<p class='total_amount' style='color:green'>Amount due: ₦".number_format($debt, 2)."</p>"; */
+        echo "<p class='total_amount' style='color:green'>Wallet balance: ₦".number_format($wallet, 2)."</p>";
         //sold by
         $get_seller = new selects();
         $row = $get_seller->fetch_details_group('users', 'full_name', 'user_id', $user);

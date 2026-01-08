@@ -126,19 +126,19 @@ session_start();
     <h2>Client List</h2>
     <hr>
     <div class="search">
-        <input type="search" id="searchRoom" placeholder="Enter keyword" onkeyup="searchItems(this.value, 'search_patients.php')">
+        <input type="search" id="searchRoom" placeholder="Enter keyword" onkeyup="searchData(this.value)">
         <a class="download_excel" href="javascript:void(0)" onclick="convertToExcel('item_list_table', 'List of Clients')"title="Download to excel"><i class="fas fa-file-excel"></i></a>
     </div>
-    <table id="item_list_table" class="searchTable">
+    <table id="data_table" class="searchTable">
         <thead>
             <tr style="background:var(--moreColor)">
                 <td>S/N</td>
                 <td>Client name</td>
-                <td>Ledger No.</td>
+                <!-- <td>Ledger No.</td> -->
                 <td>Phone number</td>
                 <td>Address</td>
-                <td>Email</td>
-                <!-- <td>Balance</td> -->
+                <td>Account Balance</td>
+                <td>CSO</td>
                 <td>Date reg</td>
                 <td></td>
             </tr>
@@ -154,15 +154,14 @@ session_start();
             <tr>
                 <td style="text-align:center; color:red;"><?php echo $n?></td>
                 <td><?php echo $detail->customer?></td>
-                <td><?php echo $detail->acn?></td>
+                <!-- <td><?php echo $detail->acn?></td> -->
                 <td><?php echo $detail->phone_numbers?></td>
                 <td><?php echo $detail->customer_address?></td>
-                <td><?php echo $detail->customer_email?></td>
-                <?php /* if($detail->wallet_balance >= 0){ */ ?>
-                <!-- <td style="color:green"><?php echo "₦".number_format($detail->wallet_balance, 2);?>
-                </td> -->
-                <?php /* }else{ */?>
-                <!-- <td style="color:red"><?php echo "₦".number_format($detail->wallet_balance * (-1), 2);?> -->
+                <!-- <td><?php echo $detail->customer_email?></td> -->
+                
+                <td style="color:green"><?php echo "₦".number_format($detail->wallet_balance, 2);?>
+                </td>
+                
                 <!-- <td style="color:red">
                     <?php 
                         /* $fetch_bal = new selects();
@@ -174,10 +173,24 @@ session_start();
                     ?>
                 <?php /* } */?>
                 </td> -->
+                <td>
+                    <?php 
+                        
+                        $csos = $get_items->fetch_details_cond('users', 'user_id', $detail->cso);
+                        if(is_array($csos)){
+                            foreach($csos as $csoss){
+                                echo $csoss ->full_name;
+                            }
+                        }else{
+                            echo "Admin";
+                        }
+                    ?>
+                    <a href="javascript:void(0)" onclick="getForm('<?php echo $detail->customer_id?>', 'get_cso.php');"><i class='fas fa-edit'></i></a>
+                </td>
                 <td><?php echo date("d-m-Y", strtotime($detail->reg_date))?></td>
                 
                 <td>
-                    <a style="padding:5px; border-radius:15px;background:var(--tertiaryColor);color:#fff;"href="javascript:void(0)" onclick="showPage('view_customer_details.php?customer=<?php echo $detail->customer_id?>')" title="view patient details">view <i class="fas fa-eye"></i></a>
+                    <a style="padding:5px; border-radius:15px;background:var(--tertiaryColor);color:#fff;"href="javascript:void(0)" onclick="showPage('view_customer_details.php?customer=<?php echo $detail->customer_id?>')" title="view patient details"><i class="fas fa-eye"></i></a>
                 </td>
             </tr>
             

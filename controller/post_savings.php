@@ -8,9 +8,10 @@
     $mode = htmlspecialchars(stripslashes($_POST['payment_mode']));
     $amount = floatval($_POST['amount']);
     $bank = htmlspecialchars(stripslashes(($_POST['bank'])));
+    // $balance = htmlspecialchars(stripslashes(($_POST['balance'])));
     $trans_date = htmlspecialchars(stripslashes(($_POST['trans_date'])));
     $details = ucwords(htmlspecialchars(stripslashes(($_POST['details']))));
-    $trans_type = "Outstanding Debt Payment";
+    $trans_type = "Savings Deposit";
     // $type = "Deposit";
     $date = date("Y-m-d H:i:s");
      //generate transaction number
@@ -58,16 +59,6 @@
         );
         $add_trail = new add_data('customer_trail', $cust_trail);
         $add_trail->create_data();
-        //add to outstanding table
-        $outstanding = array(
-            'customer' => $customer,
-            'amount' => $amount,
-            'trx_number' => $trx_num,
-            'posted_by' => $user,
-            'post_date' => $date
-        );
-        $add_out = new add_data('outstanding', $outstanding);
-        $add_out->create_data();
        
         //get customer details
         $get_balance = new selects();
@@ -75,7 +66,12 @@
         foreach($bals as $bal){
             $old_debt = $bal->debt_balance;
             $ledger = $bal->acn;
+            $wallet = $bal->wallet_balance;
         };
+        //update customer wallet balance
+        $new_balance = $wallet + $amount;
+        $update_wallet = new Update_table();
+        $update_wallet->update('customers', 'wallet_balance', 'customer_id',$new_balance,  $customer);
         //get customer account type
         $get_type = new selects();
         $types = $get_type->fetch_details_cond('ledgers', 'acn', $ledger);
@@ -85,21 +81,8 @@
             $ledger_class = $type->class;
 
         }
-        $new_debt = $old_debt - $amount;
-        if($new_debt < 0){
-            $new_debt = 0;
-            //add excess to wallet
-            $excess = $amount - $old_debt;
-            $update_wallet = new Update_table();
-            $update_wallet->update_double('customers', 'debt_balance', $new_debt, 'wallet_balance', $excess,'customer_id',$customer);
-        }else{
-            //update customer debt balance
-            $update_debt = new Update_table();
-            $update_debt->update('customers', 'debt_balance', 'customer_id',$new_debt,  $customer);
-        }
-        
                 
-       /*  if($mode == "Cash"){
+        if($mode == "Cash"){
             $ledger_name = "CASH ACCOUNT";
         }else{
             //get bank
@@ -164,7 +147,7 @@
             'store' => $store
         );
         $add_flow = new add_data('cash_flows', $flow_data);
-        $add_flow->create_data(); */
+        $add_flow->create_data();
 ?>
     <div id="printBtn">
         <button onclick="printDepositReceipt('<?php echo $receipt?>')">Print Receipt <i class="fas fa-print"></i></button>

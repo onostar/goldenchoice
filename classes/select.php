@@ -262,6 +262,19 @@
                 return $rows;
             }
         }
+         // fetch details like 3 option
+         public function fetch_details_like3cond($table, $column1, $column2, $column3, $value, $con, $con_val2){
+            $get_user = $this->connectdb()->prepare("SELECT * FROM $table WHERE $con = :condition AND ($column1 LIKE '%$value%' OR $column2 LIKE '%$value%' OR $column3 LIKE '%$value%')");
+            $get_user->bindValue("condition", $con_val2);
+            $get_user->execute();
+            if($get_user->rowCount() > 0){
+                $rows = $get_user->fetchAll();
+                return $rows;
+            }else{
+                $rows = "No records found";
+                return $rows;
+            }
+        }
         //fetch details with like or close to with a condition
         public function fetch_details_likeCond($table, $column, $value){
             $get_user = $this->connectdb()->prepare("SELECT * FROM $table WHERE $column LIKE '%$value%'");
@@ -339,6 +352,30 @@
             $get_user = $this->connectdb()->prepare("SELECT * FROM $table WHERE $column1 = :$column1 AND $column2 = :$column2");
             $get_user->bindValue("$column1", $condition1);
             $get_user->bindValue("$column2", $condition2);
+            $get_user->execute();
+            if($get_user->rowCount() > 0){
+                return $get_user->rowCount();
+            }else{
+                return "0";
+            }
+        }
+        //fetch details count with 2 condition
+        public function fetch_count_2negCond($table, $column1, $condition1, $column2, $condition2, $column3, $condition3){
+            $get_user = $this->connectdb()->prepare("SELECT * FROM $table WHERE $column1 != :$column1 AND $column2 != :$column2 AND $column3 = :$column3");
+            $get_user->bindValue("$column1", $condition1);
+            $get_user->bindValue("$column2", $condition2);
+            $get_user->bindValue("$column3", $condition3);
+            $get_user->execute();
+            if($get_user->rowCount() > 0){
+                return $get_user->rowCount();
+            }else{
+                return "0";
+            }
+        }
+        //fetch loan
+        public function fetch_active_loan($customer){
+            $get_user = $this->connectdb()->prepare("SELECT * FROM loan_applications WHERE customer = :customer AND loan_status != -1 AND loan_status != 3");
+            $get_user->bindValue("customer", $customer);
             $get_user->execute();
             if($get_user->rowCount() > 0){
                 return $get_user->rowCount();
@@ -1943,6 +1980,21 @@
             $get_user = $this->connectdb()->prepare("SELECT * FROM $table WHERE $column1 != :$column1 AND $column2 = :$column2");
             $get_user->bindValue("$column1", $value1);
             $get_user->bindValue("$column2", $value2);
+            $get_user->execute();
+            if($get_user->rowCount() > 0){
+                $rows = $get_user->fetchAll();
+                return $rows;
+            }else{
+                $rows = "No records found";
+                return $rows;
+            }
+        }
+        //fetch details with 2 negative condition and a positive
+        public function fetch_details_2negCond($table, $column1, $value1, $column2, $value2, $con3, $val3){
+            $get_user = $this->connectdb()->prepare("SELECT * FROM $table WHERE $column1 != :$column1 AND $column2 != :$column2 AND $con3 = :$con3");
+            $get_user->bindValue("$column1", $value1);
+            $get_user->bindValue("$column2", $value2);
+            $get_user->bindValue("$con3", $val3);
             $get_user->execute();
             if($get_user->rowCount() > 0){
                 $rows = $get_user->fetchAll();

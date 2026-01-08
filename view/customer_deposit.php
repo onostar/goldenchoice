@@ -9,16 +9,16 @@
         $store = $_SESSION['store_id'];
         // echo $user_id;
     
-    if(isset($_GET['customer']) && isset($_GET['schedule'])){
+    if(isset($_GET['customer'])){
         $customer_id = $_GET['customer'];
-        $schedule = $_GET['schedule'];
+        // $schedule = $_GET['schedule'];
         //get customer details;
         $get_details = new selects();
         $rows = $get_details->fetch_details_cond('customers', 'customer_id', $customer_id);
         foreach($rows as $row){
             $customer = $row->customer;
             $acn = $row->acn;
-            $wallet = $row->wallet_balance;
+            $balance = $row->wallet_balance;
         }
         //generate deposit receipt
         //get current date
@@ -28,52 +28,20 @@
             $random_num = random_int(0, 3);
             $ran_num .= $random_num;
         }
-        $receipt_id = "LP".$todays_date.$ran_num.$user_id.$schedule;
+        $receipt_id = "SAV".$todays_date.$ran_num.$user_id;
         //get balance from transactions
-        $bals = $get_details->fetch_account_balance($acn);
-        if(gettype($bals) == 'array'){
-            foreach($bals as $bal){
-                $balance = $bal->balance;
-            }
-        }
-        //get loan details
-        $lns = $get_details->fetch_details_cond('repayment_schedule', 'repayment_id', $schedule);
-        foreach($lns as $lns){
-            $loan = $lns->loan;
-            $amount_due = $lns->amount_due;
-            $payment_status = $lns->payment_status;
-        }
-       //get total paid
-       $ttls = $get_details->fetch_sum_single('repayment_schedule', 'amount_paid', 'loan', $loan);
-       if(gettype($ttls) == 'array'){
-            foreach($ttls as $ttl){
-                $total_paid = $ttl->total;
-            }
-        }else{
-            $total_paid = 0;
-        }
-       //get total due
-       $ttlx = $get_details->fetch_sum_single('repayment_schedule', 'amount_due', 'loan', $loan);
-       if(gettype($ttlx) == 'array'){
-            foreach($ttlx as $ttx){
-                $total_due = $ttx->total;
-            }
-        }else{
-            $total_due = 0;
-        }
-        //
-        $debt = $total_due - $total_paid;
+      
 
 ?>
 <div class="back_invoice">
-    <button class="page_navs" id="back" onclick="showPage('customer_repayment.php?customer=<?php echo $customer_id?>')"><i class="fas fa-angle-double-left"></i> Back</button>
+    <button class="page_navs" id="back" onclick="showPage('loan_repayment.php?customer=<?php echo $customer_id?>')"><i class="fas fa-angle-double-left"></i> Back</button>
 
-    <!-- <a href="javascript:void(0)" onclick="showPage('debt_payment.php?customer=<?php echo $customer_id?>') "title="view customer invoices" style="background:green; color:#fff; padding:10px; border-radius:10px; box-shadow:1px 1px 1px #222">View Invoices <i class="fas fa-receipt"></i></a> -->
+    
 </div>
 <div id="deposit" class="displays">
     <div class="info" style="width:70%; margin:5px 0;"></div>
     <div class="fund_account" style="width:80%; margin:5px 0;">
-        <h3 style="background:var(--labColor); text-align:left">Post customer payments</h3>
+        <h3 style="background:var(--labColor); text-align:left">Post customer savings</h3>
         <!-- <form method="POST" id="addUserForm"> -->
         <div class="details_forms">
             <section class="addUserForm">
@@ -81,9 +49,9 @@
                     <input type="hidden" name="invoice" id="invoice" value="<?php echo $receipt_id?>">
                     <input type="hidden" name="posted" id="posted" value="<?php echo $user_id?>">
                     <input type="hidden" name="customer" id="customer" value="<?php echo $customer_id?>">
-                    <input type="hidden" name="balance" id="balance" value="<?php echo $debt?>">
+                    <input type="hidden" name="balance" id="balance" value="<?php echo $balance?>">
                     <input type="hidden" name="store" id="store" value="<?php echo $store?>">
-                    <input type="hidden" name="schedule" id="schedule" value="<?php echo $schedule?>">
+                   
                     
                     <div class="data" style="width:100%; margin:5px 0">
                         <label for="amount"> Transaction Date</label>
@@ -116,10 +84,10 @@
                     </div>
                     <div class="data" style="width:100%; margin:5px 0">
                         <label for="details"> Description</label>
-                        <textarea name="details" id="details" cols="30" rows="5" placeholder="Enter a detailed description of the transaction">Loan payment</textarea>
+                        <textarea name="details" id="details" cols="30" rows="5">Customer Savings</textarea>
                     </div>
                     <div class="data" style="width:50%; margin:5px 0">
-                        <button type="submit" id="post_exp" name="post_exp" onclick="payLoan()">Post payment <i class="fas fa-cash-register"></i></button>
+                        <button type="submit" id="post_exp" name="post_exp" onclick="savings()">Post payment <i class="fas fa-cash-register"></i></button>
                     </div>
                 </div>
             </section>
@@ -133,20 +101,10 @@
                         <label for="customer_name"><span class="ledger" style="color:#fff">Cr. Ledger</span> (Client):</label>
                         <input type="text" value="<?php echo $customer?>">
                     </div>
-                    <?php /* if($balance >= 0){ */?>
-                    <!-- <div class="data">
-                        <label for="balance">Account balance:</label>
-                        <input type="text" value="<?php echo "₦".number_format(0, 2)?>" style="color:red;">
-                    </div> -->
-                    <?php /* }else{ */?>
+                    
                     <div class="data">
-                        <label for="balance">Account balance:</label>
-                        <input type="text" value="<?php echo "₦".number_format($wallet, 2)?>" style="color:green;">
-                    </div>
-                    <?php /* } */?>
-                    <div class="data">
-                        <label for="balance">Loan Due:</label>
-                        <input type="text" value="<?php echo "₦".number_format($debt, 2)?>" style="color:red;">
+                        <label for="balance">Account Balance:</label>
+                        <input type="text" value="<?php echo "₦".number_format($balance, 2)?>" style="color:red;">
                     </div>
                 </div>
             </section> 

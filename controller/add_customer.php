@@ -57,6 +57,7 @@
         'reg_status' => 0, // 0 for not verified
         'reg_date' => $date,
         'created_by' => $user,
+        'cso' => $user,
     );
     $ledger_data = array(
         'account_group' => 1,
