@@ -8,7 +8,7 @@
     //get store details
    
     $get_customer = new selects();
-    $rows = $get_customer->fetch_details_like3('customers', 'customer', 'customer_email','phone_numbers', $input);
+    $rows = $get_customer->fetch_details_like2Cond('customers', 'customer', 'phone_numbers', $input);
      if(gettype($rows) == 'array'){
         foreach($rows as $row):
         

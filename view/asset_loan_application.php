@@ -5,18 +5,26 @@
     if (isset($_GET['product']) && isset($_GET['customer'])) {
         $id = $_GET['product'];
         $customer = $_GET['customer'];
-        $asset = $_GET['asset'];
+        $invoice = $_GET['invoice'];
 
     // instantiate class
     include "../classes/dbh.php";
     include "../classes/select.php";
 
     $get_item = new selects();
+    //get sales details sales table
+    $itms = $get_item->fetch_details_cond('sales', 'invoice', $invoice);
+    foreach($itms as $itm){
+        $asset = $itm->item;
+        $price = $itm->total_amount;
+
+    }
+    
     //get asset details
     $details = $get_item->fetch_details_cond('items','item_id', $asset);
     foreach($details as $detail){
         $item_name = $detail->item_name;
-        $price = $detail->sales_price;
+        // $price = $detail->sales_price;
     }
     $rows = $get_item->fetch_details_cond('loan_products', 'product_id', $id);
      if(gettype($rows) == 'array'){
@@ -55,8 +63,17 @@
                     <input type="hidden" name="customer" id="customer" value="<?php echo $customer?>">
                     <input type="hidden" id="asset" name="asset" value="<?php echo $asset?>">
                     <div class="data" style="width:32%;">
-                        <label for="amount" style="text-align:left!important;">Asset Value (₦)</label>
-                        <input type="text" name="amount" id="amount" value="<?php echo $price?>"onkeyup="calculateInterest()" onblur="calculateInterest()" required>
+                        <label for="amount" style="text-align:left!important;">Total Asset Value (₦)</label>
+                        <input type="text" value="<?php echo number_format($price, 2)?>" required readonly>
+                        <input type="hidden" name="total_amount" id="total_amount" value="<?php echo $price?>" required>
+                    </div>
+                    <div class="data" style="width:32%;">
+                        <label for="amount" style="text-align:left!important;">Deposit (₦)</label>
+                        <input type="text" name="deposit" id="deposit" value="0"onkeyup="calculateLoanAmount()" onblur="calculateLoanAmount()" required>
+                    </div>
+                    <div class="data" style="width:32%;">
+                        <label for="amount" style="text-align:left!important;">Loan Amount (₦)</label>
+                        <input type="text" name="amount" id="amount" value="0" required readonly>
                     </div>
                     <!-- <div class="data" style="width:32%;">
                         <label for="purpose" style="text-align:left!important;">Loan Purpose</label>

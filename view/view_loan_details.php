@@ -105,7 +105,18 @@
                             ?>
                             <input type="text" value="<?php echo $product_name?>" readonly>
                        </div>
-                       <?php if($row->asset != 0){?>
+                       <?php if($row->asset != 0){
+                        //get details from sales
+                        $itms = $get_details->fetch_details_cond('sales', 'loan', $loan);
+                            if(is_array($itms)){
+                                foreach($itms as $itm){
+                                    $quantity = $itm->quantity;
+                                    $asset_value = $itm->total_amount;
+                                    $price = $itm->price;
+                                }
+                            }
+                            $deposit = $asset_value - $row->amount;
+                        ?>
                         <div class="data" style="width:32%;">
                             <label for="loan_name">Asset Product:</label>
                             <?php
@@ -117,6 +128,26 @@
                                 }
                             ?>
                             <input type="text" value="<?php echo $asset_name?>" readonly>
+                       </div>
+                        <div class="data" style="width:32%;">
+                            <label for="loan_name">Quantity:</label>
+                            
+                            <input type="text" value="<?php echo $quantity?>" readonly>
+                       </div>
+                        <div class="data" style="width:32%;">
+                            <label for="loan_name">Unit Price:</label>
+                            
+                            <input type="text" value="<?php echo '₦'.number_format($price, 2)?>" readonly>
+                       </div>
+                        <div class="data" style="width:32%;">
+                            <label for="loan_name">Total amount:</label>
+                            
+                            <input type="text" value="<?php echo '₦'.number_format($asset_value, 2)?>" readonly>
+                       </div>
+                        <div class="data" style="width:32%;">
+                            <label for="loan_name">Deposit (NGN):</label>
+                            
+                            <input type="text" value="<?php echo '₦'.number_format($deposit, 2)?>" readonly>
                        </div>
                        <?php }?>
                         <div class="data" style="width:32%;">

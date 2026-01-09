@@ -2023,15 +2023,18 @@ function vendorHistory(){
 function addSales(item_id){
      let item = item_id;
      let invoice = document.getElementById("invoice").value;
+     // let loan = document.getElementById("loan").value;
+     let customer = document.getElementById("customer").value;
      $.ajax({
           type : "GET",
-          url : "../controller/add_sales.php?sales_item="+item+"&invoice="+invoice,
+          url : "../controller/add_sales.php?sales_item="+item+"&invoice="+invoice+"&customer="+customer,
           success : function(response){
                $(".sales_order").html(response);
           }
      })
      $("#sales_item").html("");
      $("#item").val('');
+     $("#item").attr("type", "hidden");
 
      return false;
 }
@@ -2095,6 +2098,8 @@ function deleteSales(sales, item){
                url : "../controller/delete_sales.php?sales_id="+sales+"&item_id="+item,
                success : function(response){
                     $(".sales_order").html(response);
+                    $("#item").attr("type", "text");
+
                }
                
           })
@@ -3842,7 +3847,7 @@ function getCustomersName(input, link){
      $("#search_results").show();
      if(input.length >= 3){
           $.ajax({
-               type : "POST",
+               type : "GET",
                url : "../controller/"+link+"?input="+input,
                success : function(response){
                     $("#search_results").html(response);
@@ -7030,6 +7035,15 @@ function calculateInterest(){
      $("#processing_amount").val("₦"+total_processing.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
      $("#total_fee").val("₦"+total_due.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }));  
 }
+//calculate loan amount for asset loan
+function calculateLoanAmount(){
+     let total_amount = parseFloat(document.getElementById("total_amount").value);
+     let deposit = parseFloat(document.getElementById("deposit").value);
+     let loan_amount = total_amount - deposit;
+     $("#amount").val(loan_amount.toFixed(2));
+     calculateInterest();
+}
+
 
 //submit loan application
 function completeApplication(){

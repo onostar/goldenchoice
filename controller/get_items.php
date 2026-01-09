@@ -16,8 +16,11 @@
         
     ?>
     
-    <div class="results">
+    <!-- <div class="results">
         <a href="javascript:void(0)" onclick="showPage('asset_loan_application.php?asset=<?php echo $row->item_id?>&product=<?php echo $loan?>&customer=<?php echo $customer?>')"><?php echo $row->item_name." (Price => ₦".$row->sales_price.", Qty => ".$row->quantity.")"?></a>
+    </div> -->
+    <div class="results">
+        <a href="javascript:void(0)" onclick="addSales('<?php echo $row->item_id?>')"><?php echo $row->item_name." (Price => ₦".$row->sales_price.", Quantity => ".$row->quantity.")"?></a>
     </div>
 <?php
     endforeach;

@@ -1,5 +1,7 @@
 <?php
-
+    session_start();
+     $store = $_SESSION['store_id'];
+     $user_id = $_SESSION['user_id'];
     if (isset($_GET['product']) && isset($_GET['customer'])) {
         $id = $_GET['product'];
         $customer = $_GET['customer'];
@@ -43,7 +45,20 @@
         <section style="text-align:left">
             <div class="inputs" style="align-items:flex-end; justify-content:left; gap:.5rem">
                 <?php if($row->product == "ASSET LOAN"){?>
+                <?php
+                    //generate receipt invoice
+                    //get current date
+                    $todays_date = date("dmyh");
+                    $ran_num ="";
+                    for($i = 0; $i < 5; $i++){
+                        $random_num = random_int(0, 9);
+                        $ran_num .= $random_num;
+                    }
+                    $invoice = "RT".$store.$todays_date.$ran_num.$user_id;
+                    // $_SESSION['invoice'] = $invoice;
+                ?>
                 <div class="data" style="width:100%!important;">
+                    <input type="hidden" name="invoice" id="invoice" value="<?php echo $invoice?>">
                     <input type="hidden" name="customer" id="customer" value="<?php echo $customer?>">
                     <input type="hidden" name="loan" id="loan" value="<?php echo $id?>">
                     <label for="asset"> Select Product</label>
@@ -51,7 +66,10 @@
                     <div id="sales_item">
                         
                     </div>
+
                 </div>
+                <div class="show_more"></div>
+                <div class="sales_order" style="width:100%"></div>
                 <?php }else{?>
                 <div class="data" style="width:100%!important;">
                     <label for="description"> Description</label>
