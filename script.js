@@ -2023,11 +2023,11 @@ function vendorHistory(){
 function addSales(item_id){
      let item = item_id;
      let invoice = document.getElementById("invoice").value;
-     // let loan = document.getElementById("loan").value;
+     let loan = document.getElementById("loan").value;
      let customer = document.getElementById("customer").value;
      $.ajax({
           type : "GET",
-          url : "../controller/add_sales.php?sales_item="+item+"&invoice="+invoice+"&customer="+customer,
+          url : "../controller/add_sales.php?sales_item="+item+"&invoice="+invoice+"&customer="+customer+"&loan="+loan,
           success : function(response){
                $(".sales_order").html(response);
           }
@@ -7047,6 +7047,7 @@ function calculateLoanAmount(){
 
 //submit loan application
 function completeApplication(){
+     let invoice = document.getElementById("invoice").value;
      let customer = document.getElementById("customer").value;
      let product = document.getElementById("product").value;
      let amount = document.getElementById("amount").value;
@@ -7112,7 +7113,7 @@ function completeApplication(){
           $.ajax({
                type : "POST",
                url : "../controller/submit_loan_application.php",
-               data : {customer:customer, product:product, amount:amount, interest:interest, interest_rate:interest_rate, processing_fee:processing_fee, processing:processing, total_payable:total_payable, installment:installment,  frequency:frequency,loan_term:loan_term, purpose:purpose, collateral:collateral, asset:asset},
+               data : {customer:customer, product:product, amount:amount, interest:interest, interest_rate:interest_rate, processing_fee:processing_fee, processing:processing, total_payable:total_payable, installment:installment,  frequency:frequency,loan_term:loan_term, purpose:purpose, collateral:collateral, asset:asset,invoice:invoice},
                beforeSend : function(){
                     $("#loan_application").html("<div class='processing'><div class='loader'></div></div>");
                },
@@ -7164,6 +7165,48 @@ function approveLoan(loan){
      }else{
           return;
      }
+}
+//approve asset loan application
+function approveAssetLoan(loan){
+     let deposit = document.getElementById("deposit").value;
+     let payment_type = document.getElementById("payment_type").value;
+     let wallet= document.getElementById("wallet").value;
+     let bank = document.getElementById("bank").value;
+     if(payment_type == "Wallet"){
+          if(parseFloat(deposit) > parseFloat(wallet)){
+               alert("Insufficient wallet balance");
+               return;
+          }
+     }
+     if(payment_type == "Transfer" || payment_type == "POS"){
+          if(bank.length == 0 || bank.replace(/^\s+|\s+$/g, "").length == 0){
+               alert("Please select bank for payment");
+               $("#bank").focus();
+               return;
+          }
+     }
+     if(payment_type.length == 0 || payment_type.replace(/^\s+|\s+$/g, "").length == 0){
+          alert("Please select payment type for deposit");
+          $("#payment_type").focus();
+          return;
+     }else{
+          let approve = confirm("Do you want to approve this loan application", "");
+          if(approve){
+               $.ajax({
+                    type : "GET",
+                    url : "../controller/approve_loan.php?loan="+loan+"&payment_type="+payment_type+"&wallet="+wallet+"&deposit="+deposit+"&bank="+bank,
+                    beforeSend : function(){
+                         $("#loan_applications").html("<div class='processing'><div class='loader'></div></div>");
+                    },
+                    success : function(response){
+                         $("#loan_applications").html(response);
+                    }
+               })
+          }else{
+               return;
+          }
+     }
+     
 }
 
 //toggle request moreinfo

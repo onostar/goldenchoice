@@ -107,7 +107,7 @@
                        </div>
                        <?php if($row->asset != 0){
                         //get details from sales
-                        $itms = $get_details->fetch_details_cond('sales', 'loan', $loan);
+                        $itms = $get_details->fetch_details_cond('sales', 'invoice', $row->invoice);
                             if(is_array($itms)){
                                 foreach($itms as $itm){
                                     $quantity = $itm->quantity;
@@ -151,7 +151,7 @@
                        </div>
                        <?php }?>
                         <div class="data" style="width:32%;">
-                            <label for="amount" style="text-align:left!important;">Amount (₦)</label>
+                            <label for="amount" style="text-align:left!important;">Loan Amount (₦)</label>
                             <input type="text" value="<?php echo '₦'.number_format($row->amount, 2)?>" readonly style="color:green">
                         </div>
                         <div class="data" style="width:32%;">
@@ -416,12 +416,87 @@
         <section id="requestBox">
             
         </section>
+        <?php if($row->asset == 0){?>
         <div class="nomenclature">
             <a style="border-radius:15px; background:var(--tertiaryColor);color:#fff; padding:5px; box-shadow:1px 1px 1px #222; border:1px solid #fff" href="javascript:void(0)" onclick="approveLoan('<?php echo $loan?>')" title="Approve loan application">Approve Loan <i class="fas fa-check-circle"></i></a>
             <a style="border-radius:15px; background:var(--primaryColor);color:#fff; padding:5px; box-shadow:1px 1px 1px #222; border:1px solid #fff" href="javascript:void(0)" onclick="requestMoreInfo('<?php echo $loan?>', '<?php echo $row->customer?>')" title="Request moreinformation">Request More Info <i class="fas fa-question-circle"></i></a>
             <a style="border-radius:15px; background:brown;color:#fff; padding:5px; box-shadow:1px 1px 1px #222; border:1px solid #fff" href="javascript:void(0)" onclick="declineLoan('<?php echo $loan?>')" title="Reject Loan application">Decline Loan <i class="fas fa-close"></i></a>
                         
         </div>
+        <?php }else{?>
+            <div class="close_stockin add_user_form" style="width:50%; margin:0;">
+            <section class="addUserForm">
+                <div class="inputs" style="display:flex;flex-wrap:wrap">
+                    <input type="hidden" name="deposit" id="deposit" value="<?php echo $deposit?>">
+                    <div class="data">
+                        <label for="payment_type">Payment options</label>
+                        <select name="payment_type" id="payment_type" onchange="checkRepMode(this.value)">
+                            <option value="" selected>Select payment type</option>
+                            <option value="Cash">CASH</option>
+                            <option value="POS">POS</option>
+                            <option value="Transfer">TRANSFER</option>
+                            <!-- <option value="Credit">CREDIT</option> -->
+                            <!-- <option value="Multiple">MULTIPLE PAYMENT</option> -->
+                            <option value="Wallet">WALLET</option>
+                            <!-- <option value="Deposit">DEPOSIT</option> -->
+                        </select>
+                    </div>
+                    <div class="inputs" id="multiples">
+                        <div class="data">
+                            <label for="">Cash paid</label>
+                            <input type="text" name="multi_cash" id="multi_cash" value="0">
+                        </div>
+                        <div class="data">
+                            <label for="">POS</label>
+                            <input type="text" name="multi_pos" id="multi_pos" value="0">
+                        </div>
+                        <div class="data">
+                            <label for="">Transfer</label>
+                            <input type="text" name="multi_transfer" id="multi_transfer" value="0">
+                        </div>
+                    </div>
+                    <div class="data" id="selectBank">
+                        <select name="bank" id="bank">
+                            <option value=""selected>Select Bank</option>
+                            <?php
+                                $bnks = $get_details->fetch_details('banks');
+                                foreach($bnks as $bnk):
+                            ?>
+                            <option value="<?php echo $bnk->bank_id?>"><?php echo $bnk->bank?>(<?php echo $bnk->account_number?>)</option>
+                            <?php endforeach?>
+                        </select>
+                    </div>
+                    <div class="data" id="account_balance">
+                        <?php
+                            //get customer account 
+                            $acns = $get_details->fetch_details_cond('customers', 'customer_id', $row->customer);
+                            if(is_array($acns)){
+                                foreach($acns as $acn){
+                                    $wallet = $acn->wallet_balance;
+                                }
+                            }else{
+                                $wallet = 0;
+                            }
+                        ?>
+                        <label for="wallet">Wallet balance</label>
+                        <input type="hidden" name="wallet" id="wallet" value="<?php echo $wallet?>" readonly>
+                        <input type="text" value="<?php echo "₦".number_format($wallet, 2)?>" readonly>
+
+                    </div>
+                    
+                    <div class="data">
+                        <button style="border-radius:15px; background:var(--tertiaryColor);color:#fff; padding:5px; box-shadow:1px 1px 1px #222; border:1px solid #fff" type="button" onclick="approveAssetLoan('<?php echo $loan?>')" title="Approve loan application">Approve Loan <i class="fas fa-check-circle"></i></button>
+                    </div>
+                </div>
+            </section>
+        </div>
+            <div class="nomenclature">
+            
+            <a style="border-radius:15px; background:var(--primaryColor);color:#fff; padding:5px; box-shadow:1px 1px 1px #222; border:1px solid #fff" href="javascript:void(0)" onclick="requestMoreInfo('<?php echo $loan?>', '<?php echo $row->customer?>')" title="Request moreinformation">Request More Info <i class="fas fa-question-circle"></i></a>
+            <a style="border-radius:15px; background:brown;color:#fff; padding:5px; box-shadow:1px 1px 1px #222; border:1px solid #fff" href="javascript:void(0)" onclick="declineLoan('<?php echo $loan?>')" title="Reject Loan application">Decline Loan <i class="fas fa-close"></i></a>
+                        
+        </div>
+        <?php }?>
     </div>
 
 <?php

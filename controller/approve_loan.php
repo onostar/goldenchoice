@@ -6,7 +6,11 @@
     $store = $_SESSION['store_id'];
     $loan = $_GET['loan'];
     $disburse_date = date("jS F, Y", strtotime($date));
-
+    if(isset($_GET['payment_type'])){
+        $payment_type = $_GET['payment_type'];
+        $wallet = $_GET['wallet'];
+        $bank = $_GET['bank'];
+    }
     $company = $_SESSION['company'];
     require "../PHPMailer/PHPMailerAutoload.php";
     require "../PHPMailer/class.phpmailer.php";
@@ -32,6 +36,7 @@
         $frequency = $row->frequency;
         $asset = $row->asset;
         $amount = $row->amount;
+        $invoice = $row->invoice;
     }
     //get loan officer dertails
     $officer = $get_details->fetch_details_group('users', 'full_name', 'user_id', $user);
@@ -73,6 +78,7 @@
         $prods = $get_details->fetch_details_cond('items', 'item_id', $asset);
         foreach($prods as $prod){
             $product_name = $prod->item_name;
+            
         }
         $todays_date = date("dmyhis");
         $ran_num ="";
@@ -81,6 +87,74 @@
             $ran_num .= $random_num;
         }
         $trx_num = "TR".$ran_num.$todays_date;
+        //post item from inventory to sales
+        $sales = $get_details->fetch_details_cond('sales', 'invoice', $invoice);
+        if(is_array($sales)){
+            foreach($sales as $sale){
+                $quantity = $sale->quantity;
+                $total_amount = $sale->total_amount;
+                $price = $sale->price;
+            }
+        }
+        //check previous quantity;
+        //get quantity from inventory
+        $qtyss = $get_details->fetch_details_2cond('inventory', 'store', 'item', $store, $asset);
+        if(is_array($qtyss)){
+            foreach($qtyss as $qtys){
+                $qty = $qtys->quantity;
+            }
+        }else{
+            $qty = 0;
+        }
+        if($qty == 0){
+            echo "<div class='success'><p style='background:brown'><span>$item_name</span> has zero quantity! Cannot proceed</p>";
+            echo "<script>
+                alert('$item_name has zero quantity! Cannot proceed');
+            </script>";
+            exit();
+        }else{
+            $update_invoice = new Update_table();
+            $update_invoice->update('sales', 'sales_status',  'invoice', 2, $invoice);
+            $amount_paid = $total_amount - $amount;
+            $payable = $total;
+            //add to audit trail
+            $audit_data = array(
+                'item' => $asset,
+                'transaction' => 'sales',
+                'previous_qty' => $qty,
+                'quantity' => $quantity,
+                'posted_by' => $user,
+                'store' => $store,
+                'post_date' => $date
+            );
+            $insert_trail = new add_data('audit_trail', $audit_data);
+            $insert_trail->create_data();
+            //update inventory quantity;
+            $update_invoice->update_inv_qty($quantity, $asset, $store);
+
+            //insert into payment table
+            $pay_data = array(
+                'amount_due' => $payable + $amount_paid,
+                'amount_paid' => $amount_paid,
+                // 'discount' => $discount,
+                'bank' => $bank,
+                'payment_mode' => $payment_type,
+                'posted_by' => $user,
+                'invoice' => $invoice,
+                'store' => $store,
+                'sales_type' => 'Loan Sales',
+                'customer' => $customer,
+                'post_date' => $date,
+                'trx_number' => $trx_num
+            );
+            $add_payment = new add_data('payments', $pay_data);
+            $add_payment->create_data();
+            if($payment_type == "Wallet"){
+                //deduct from wallet
+                $new_wallet = $wallet - $amount_paid;
+                $update_wallet = new Update_table();
+                $update_wallet->update('customers', 'wallet_balance', 'customer_id', $new_wallet, $customer);
+            }
         //calculate repayment dates
         //first get total installments
         if($frequency == "Weekly"){
@@ -201,6 +275,7 @@
             $add_data = new add_data('notifications', $notif_data);
             $add_data->create_data();
         }
+    }
     }
         /* send mails to customer */
         function smtpmailer($to, $from, $from_name, $subject, $body){

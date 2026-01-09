@@ -63,7 +63,7 @@
         } */
         //get all tables
         $get_tables = new selects();
-        $tables = $get_tables->fetch_tables('jevi');
+        $tables = $get_tables->fetch_tables('dortwguq_goldenchoice');
         foreach($tables as $table){
             //check for transaction number column exist in each table and delete it when thenumber is seen
             $check_column = new selects();

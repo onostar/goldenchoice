@@ -40,6 +40,7 @@ session_start();
                 <td>Loan Product</td>
                 <td>Amount</td>
                 <td>Loan Term</td>
+                <td>Posted By</td>
                 <td>Date</td>
                 <td></td>
             </tr>
@@ -94,6 +95,12 @@ session_start();
                     ?>
                 </td>
                 <td><?php echo $detail->loan_term;?> Months</td>
+                <td>
+                    <?php
+                        $pstd = $get_items->fetch_details_group('users', 'full_name', 'user_id', $detail->posted_by);
+                        echo $pstd->full_name;
+                    ?>
+                </td>
                 <td><?php echo date("d-m-Y, h:ia", strtotime($detail->application_date))?></td>
                 <td>
                     <a style="padding:5px; border-radius:15px;background:var(--tertiaryColor);color:#fff;"href="javascript:void(0)" onclick="showPage('view_loan_details.php?loan=<?php echo $detail->loan_id?>')" title="view Loan details">view <i class="fas fa-eye"></i></a>

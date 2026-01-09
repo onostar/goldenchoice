@@ -2,6 +2,7 @@
 <?php
     session_start();
     $role = $_SESSION['role'];
+    $user_id = $_SESSION['user_i'];
     if (isset($_GET['product']) && isset($_GET['customer'])) {
         $id = $_GET['product'];
         $customer = $_GET['customer'];
@@ -40,7 +41,19 @@
         <div class="add_user_form" style="margin:0!important">
             <h3 style="background:var(--tertiaryColor);text-align:left">Complete Application for <?php echo $row->product?></h3>
             <section style="text-align:left">
+                <?php
+                    //generate receipt invoice
+                    //get current date
+                    $todays_date = date("dmyh");
+                    $ran_num ="";
+                    for($i = 0; $i < 5; $i++){
+                        $random_num = random_int(0, 9);
+                        $ran_num .= $random_num;
+                    }
+                    $invoice = "LN".$store.$todays_date.$ran_num.$user_id;
+                ?>
                 <div class="inputs" style="align-items:flex-end; justify-content:left; gap:.5rem">
+                    <input type="hidden" name="invoice" id="invoice" value="<?php echo $invoice?>">
                     <input type="hidden" name="minimum" id="minimum" value="<?php echo $row->minimum?>">
                     <input type="hidden" name="maximum" id="maximum" value="<?php echo $row->maximum?>">
                     <input type="hidden" name="product" id="product" value="<?php echo $id?>">

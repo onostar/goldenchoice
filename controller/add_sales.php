@@ -16,7 +16,7 @@ include "../classes/inserts.php";
         if(isset($_GET['sales_item'])){
             $item = $_GET['sales_item'];
             $customer = $_GET['customer'];
-            // $loan = $_GET['loan'];
+            $loan = $_GET['loan'];
         }
 
     $quantity = 1;
@@ -56,7 +56,7 @@ include "../classes/inserts.php";
             }else{
                  //insert into sales order
                 $data = array(
-                    // 'loan' => $loan,
+                    'loan' => $loan,
                     'item' => $item,
                     'invoice' => $invoice,
                     'quantity' => $quantity,

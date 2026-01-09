@@ -54,7 +54,7 @@
                         $random_num = random_int(0, 9);
                         $ran_num .= $random_num;
                     }
-                    $invoice = "RT".$store.$todays_date.$ran_num.$user_id;
+                    $invoice = "LN".$store.$todays_date.$ran_num.$user_id;
                     // $_SESSION['invoice'] = $invoice;
                 ?>
                 <div class="data" style="width:100%!important;">

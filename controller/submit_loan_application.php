@@ -4,6 +4,7 @@
     $user = $_SESSION['user_id'];
     $store = $_SESSION['store_id'];
     $date = date("Y-m-d H:i:s");
+    $invoice = htmlspecialchars(stripslashes($_POST['invoice']));
     $customer = htmlspecialchars(stripslashes($_POST['customer']));
     $product = htmlspecialchars(stripslashes($_POST['product']));
     $asset = htmlspecialchars(stripslashes($_POST['asset']));
@@ -52,6 +53,7 @@
         'total_payable' => $total,
         'loan_term' => $loan_term,
         'asset' => $asset,
+        'invoice' => $invoice,
         'store' => $store,
         'posted_by' => $user,
         'application_date' => $date
@@ -87,7 +89,7 @@
         
     if($add_loan){
         /* send mails to customer */
-        function smtpmailer($to, $from, $from_name, $subject, $body){
+       /*  function smtpmailer($to, $from, $from_name, $subject, $body){
             $mail = new PHPMailer();
             $mail->IsSMTP();
             $mail->SMTPAuth = true; 
@@ -118,11 +120,11 @@
             else 
             {
                 
-                /* success message */
+                
                 
                 $error = "Message Sent Successfully";
                 
-                // header("Location: index.html");
+                
                 return $error;
             }
         }
@@ -134,7 +136,7 @@
         $subj = 'New Loan Application Submitted';
         $msg = "<div>$message</div>";
         
-        $error=smtpmailer($to, $from, $name ,$subj, $msg);
+        $error=smtpmailer($to, $from, $name ,$subj, $msg); */
         echo "<div class='not_available'>
         <p><strong><i class='fas fa-check-circle' style='color: #28a745;'></i> Loan Application Submitted</strong><br>Your loan application has been submitted successfully. Kindly await approval and disbursement.</p></div>";
     }
