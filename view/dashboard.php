@@ -563,7 +563,7 @@
                 ?>
             </div>
         </div> -->
-        <div class="monthly_report allResults">
+        <div class="daily_report allResults">
             <div class="chart">
                 <!-- chart for technical group -->
                 <?php
@@ -579,48 +579,48 @@
                 <h3 style="background:var(--moreColor)">Monthly statistics</h3>
                 <canvas id="chartjs_bar2"></canvas>
             </div>
-            <div class="monthly_encounter">
-                <h3>Monthly Sales Record</h3>
-                <table>
-                    <thead>
-                        <tr>
-                            <td>S/N</td>
-                            <td>Month</td>
-                            <td>Customers</td>
-                            <td>Amount</td>
-                            <td>Daily Average</td>
-                        </tr>
-                    </thead>
-                    <?php
-                        $n =1;
-                        $get_monthly = new selects();
-                        $monthlys = $get_monthly->fetch_monthly_sales($store_id);
-                        if(gettype($monthlys) == "array"){
-                        foreach($monthlys as $monthly):
+        </div>
+        <div class="daily_report allResults">
+            <h3>Monthly Sales Record</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <td>S/N</td>
+                        <td>Month</td>
+                        <td>Customers</td>
+                        <td>Amount</td>
+                        <td>Daily Average</td>
+                    </tr>
+                </thead>
+                <?php
+                    $n =1;
+                    $get_monthly = new selects();
+                    $monthlys = $get_monthly->fetch_monthly_sales($store_id);
+                    if(gettype($monthlys) == "array"){
+                    foreach($monthlys as $monthly):
 
-                    ?>
-                    <tbody>
-                        <tr>
-                            <td><?php echo $n?></td>
-                            <td><?php echo date("M, Y", strtotime($monthly->post_date))?></td>
-                            <td style="text-align:center; color:var(--otherColor"><?php echo $monthly->customers?></td>
-                            <td style="text-align:center; color:green"><?php echo "₦".number_format($monthly->revenue)?></td>
-                            <td style="text-align:center; color:red"><?php
-                                $average = $monthly->revenue/$monthly->daily_average;
-                                echo "₦".number_format($average, 2);
-                            ?></td>
-                        </tr>
-                    </tbody>
-                    <?php $n++; endforeach; }?>
-
-                    
-                </table>
-                <?php 
-                    if(gettype($monthlys) == "string"){
-                        echo "<p class='no_result'>'$monthlys'</p>";
-                    }
                 ?>
-            </div>
+                <tbody>
+                    <tr>
+                        <td><?php echo $n?></td>
+                        <td><?php echo date("M, Y", strtotime($monthly->post_date))?></td>
+                        <td style="text-align:center; color:var(--otherColor"><?php echo $monthly->customers?></td>
+                        <td style="text-align:center; color:green"><?php echo "₦".number_format($monthly->revenue)?></td>
+                        <td style="text-align:center; color:red"><?php
+                            $average = $monthly->revenue/$monthly->daily_average;
+                            echo "₦".number_format($average, 2);
+                        ?></td>
+                    </tr>
+                </tbody>
+                <?php $n++; endforeach; }?>
+
+                
+            </table>
+            <?php 
+                if(gettype($monthlys) == "string"){
+                    echo "<p class='no_result'>'$monthlys'</p>";
+                }
+            ?>
         </div>
         
     </div>

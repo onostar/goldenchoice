@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 29, 2025 at 11:24 AM
+-- Generation Time: Jan 10, 2026 at 09:10 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -218,7 +218,9 @@ INSERT INTO `audit_trail` (`audit_id`, `store`, `item`, `transaction`, `previous
 (2432, 1, 320, 'purchase', 0, 10, 1, '2025-12-28 15:12:57'),
 (2433, 1, 320, 'sales', 10, 1, 1, '2025-12-28 15:13:08'),
 (2434, 1, 320, 'sales', 9, 1, 1, '2025-12-28 15:16:35'),
-(2435, 1, 320, 'sales', 8, 1, 1, '2025-12-28 17:42:57');
+(2435, 1, 320, 'sales', 8, 1, 1, '2025-12-28 17:42:57'),
+(2436, 1, 320, 'sales', 7, 1, 1, '2026-01-08 14:13:36'),
+(2437, 1, 320, 'sales', 6, 2, 1, '2026-01-09 11:56:45');
 
 -- --------------------------------------------------------
 
@@ -300,7 +302,12 @@ INSERT INTO `cash_flows` (`flow_id`, `account`, `destination`, `details`, `trx_n
 (189, 1010150, 0, 'Loan Repayment', 'TR457281225010248', 20000.00, 'inflow', 'operating', 0, '2025-12-28 13:02:48', 1),
 (190, 1010228, 0, 'Loan Repayment', 'TR455281225014701', 26649.96, 'inflow', 'operating', 0, '2025-12-28 13:47:01', 1),
 (191, 10101119, 10104135, 'Net Income', 'TR729281225054257', 60000.00, 'inflow', 'operating', 1, '2025-12-28 17:42:57', 1),
-(192, 1010228, 0, 'Net Income', 'TR275291225110141', 200000.00, 'inflow', 'operating', 1, '2025-12-29 11:01:41', 1);
+(192, 1010228, 0, 'Net Income', 'TR275291225110141', 200000.00, 'inflow', 'operating', 1, '2025-12-29 11:01:41', 1),
+(193, 1010228, 0, 'loan disbursement', 'TR119060126103433', 600000.00, 'outflow', 'financing', 1, '2026-01-06 10:34:33', 1),
+(194, 1010228, 0, 'Loan Repayment', 'TR122060126103857', 3000.00, 'inflow', 'operating', 0, '2026-01-06 10:38:57', 1),
+(195, 1010228, 0, 'Loan Repayment', 'TR856080126012611', 189000.00, 'inflow', 'operating', 0, '2026-01-08 13:26:11', 1),
+(196, 1010228, 0, 'Loan Repayment', 'TR647080126012930', 0.04, 'inflow', 'operating', 0, '2026-01-08 13:29:30', 1),
+(197, 1010228, 0, 'Net Income', 'TR020080126014632', 100000.00, 'inflow', 'operating', 1, '2026-01-08 13:46:32', 1);
 
 -- --------------------------------------------------------
 
@@ -373,7 +380,8 @@ INSERT INTO `cost_of_sales` (`cost_of_sales_id`, `amount`, `details`, `trx_numbe
 (83, 30000.00, 'cost of sales', 'TR647281225031056', 1, '2025-12-28', '2025-12-28 15:10:56', 1),
 (84, 30000.00, 'cost of sales', 'TR069281225031308', 1, '2025-12-28', '2025-12-28 15:13:08', 1),
 (85, 30000.00, 'cost of sales', 'TR768281225031635', 1, '2025-12-28', '2025-12-28 15:16:35', 1),
-(86, 30000.00, 'cost of sales', 'TR729281225054257', 1, '2025-12-28', '2025-12-28 17:42:57', 1);
+(86, 30000.00, 'cost of sales', 'TR729281225054257', 1, '2025-12-28', '2025-12-28 17:42:57', 1),
+(87, 30000.00, 'cost of sales', 'TR604080126021336', 1, '2026-01-08', '2026-01-08 14:13:36', 1);
 
 -- --------------------------------------------------------
 
@@ -413,6 +421,7 @@ CREATE TABLE `customers` (
   `reg_status` int(11) NOT NULL,
   `wallet_balance` int(11) NOT NULL,
   `debt_balance` decimal(12,2) NOT NULL,
+  `cso` int(11) NOT NULL,
   `created_by` int(11) NOT NULL,
   `reg_date` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -421,12 +430,13 @@ CREATE TABLE `customers` (
 -- Dumping data for table `customers`
 --
 
-INSERT INTO `customers` (`customer_id`, `customer`, `user_id`, `ledger_id`, `acn`, `customer_type`, `phone_numbers`, `customer_address`, `customer_email`, `state_region`, `lga`, `landmark`, `gender`, `dob`, `religion`, `marital_status`, `occupation`, `business`, `business_address`, `income`, `nok`, `nok_address`, `nok_phone`, `nok_relation`, `bank`, `account_number`, `account_name`, `photo`, `reg_status`, `wallet_balance`, `debt_balance`, `created_by`, `reg_date`) VALUES
-(38, 'IKPEFUA KELLY', 8, 122, 10104122, '', '07068897068', '1b Ogidan Street Off Atican Beachview Estate, Okun-ajah Community', 'onostarkels@gmail.com', 'LAGOS', 'ETI-OSA', 'Abraham Adesanya Estate', 'Male', '1989-05-15', 'Christian', 'Married', 'Business Person', 'onostar media', 'Ogidan, Lagos state', '1,000,000', 'PAUL IKPEFUA', 'Abraka, Delta State', '091565677', 'BROTHER', 'Access Bank', '30596252', 'IKPEFUA KELLY ONOLUNOSE', '686beefaf3415.png', 1, 242500, 0.00, 1, '2025-06-09 14:21:04'),
-(44, 'AKPABIA GOODLUCK', 14, 128, 10104128, '', '09012345678', '2 Akpabioway', 'akpabio@mail.com', 'AKWA-IBOM', 'AKWA', '', 'Male', '1986-04-03', 'Christian', 'Married', 'Trader', 'akjkh', 'akwa dress', '250,000', 'JKHJK', 'Jkh', 'jkh', 'JKH', 'Jaiz Bank', '0012345678', 'MOSHUD', 'user.png', 1, -400000, 100000.00, 1, '2025-07-05 10:22:29'),
-(45, 'DORCAS IKPEFUA', 16, 131, 10104131, '', '08100653703', '1b Ogidan Street Off Atican Beachview Estate, Okun-ajah', 'oluwatoyi13@gmail.com', 'LAGOS', 'SANGOTEDO, LAGOS ISLAND', 'Abraham Adesanya Estate', 'Female', '1994-07-06', 'Christian', 'Married', 'Banker', 'Tad waves', 'victoria island', '500,000', 'MATTHEW AYODEJI', 'Badagry, Lagos', '00', 'BROTHER', 'Access Bank', '0012345678', 'DORCAS OLUWATOYIN FANIRAN', 'user.png', 1, 0, 0.00, 1, '2025-07-16 11:42:25'),
-(46, 'DENNIS ZAKARIA', 17, 132, 10104132, '', '08012344321', '23 Sapeleroad', 'kellyikpefua@gmail.com', 'ADAMAWA', 'WARRI', 'Mountain', 'Male', '1998-09-09', 'Christian', 'Single', 'Engineer', 'kels enterpris', 'hjh', '300000', 'PAUL', 'Jkhj', '09087654321', 'BRO', 'Access Bank', '0030596252', 'KELLZ', '6901b0a46ff6f.png', 1, 0, 50000.00, 1, '2025-10-29 07:13:40'),
-(47, 'EBUKA MICHAEL', 18, 135, 10104135, '', '09098987676', '43 Benin Road', 'ebuka@Mail.com', 'ADAMAWA', 'NIL', '', 'Male', '1986-08-28', 'Christian', 'Married', 'Banker', 'ejiro and sons', '24 ebi road', '300000', 'PAUL', 'Oooo', '09012345678', 'BRO', 'Access Bank', '897656546', 'JKHGFH', 'user.png', 1, 0, 20000.00, 1, '2025-12-28 07:14:14');
+INSERT INTO `customers` (`customer_id`, `customer`, `user_id`, `ledger_id`, `acn`, `customer_type`, `phone_numbers`, `customer_address`, `customer_email`, `state_region`, `lga`, `landmark`, `gender`, `dob`, `religion`, `marital_status`, `occupation`, `business`, `business_address`, `income`, `nok`, `nok_address`, `nok_phone`, `nok_relation`, `bank`, `account_number`, `account_name`, `photo`, `reg_status`, `wallet_balance`, `debt_balance`, `cso`, `created_by`, `reg_date`) VALUES
+(38, 'IKPEFUA KELLY', 8, 122, 10104122, '', '07068897068', '1b Ogidan Street Off Atican Beachview Estate, Okun-ajah Community', 'onostarkels@gmail.com', 'LAGOS', 'ETI-OSA', 'Abraham Adesanya Estate', 'Male', '1989-05-15', 'Christian', 'Married', 'Business Person', 'onostar media', 'Ogidan, Lagos state', '1,000,000', 'PAUL IKPEFUA', 'Abraka, Delta State', '091565677', 'BROTHER', 'Access Bank', '30596252', 'IKPEFUA KELLY ONOLUNOSE', '686beefaf3415.png', 1, 342500, 0.00, 0, 1, '2025-06-09 14:21:04'),
+(44, 'AKPABIA GOODLUCK', 14, 128, 10104128, '', '09012345678', '2 Akpabioway', 'akpabio@mail.com', 'AKWA-IBOM', 'AKWA', '', 'Male', '1986-04-03', 'Christian', 'Married', 'Trader', 'akjkh', 'akwa dress', '250,000', 'JKHJK', 'Jkh', 'jkh', 'JKH', 'Jaiz Bank', '0012345678', 'MOSHUD', 'user.png', 1, -400000, 100000.00, 15, 1, '2025-07-05 10:22:29'),
+(45, 'DORCAS IKPEFUA', 16, 131, 10104131, '', '08100653703', '1b Ogidan Street Off Atican Beachview Estate, Okun-ajah', 'oluwatoyi13@gmail.com', 'LAGOS', 'SANGOTEDO, LAGOS ISLAND', 'Abraham Adesanya Estate', 'Female', '1994-07-06', 'Christian', 'Married', 'Banker', 'Tad waves', 'victoria island', '500,000', 'MATTHEW AYODEJI', 'Badagry, Lagos', '00', 'BROTHER', 'Access Bank', '0012345678', 'DORCAS OLUWATOYIN FANIRAN', 'user.png', 1, 45000, 0.00, 0, 1, '2025-07-16 11:42:25'),
+(46, 'DENNIS ZAKARIA', 17, 132, 10104132, '', '08012344321', '23 Sapeleroad', 'kellyikpefua@gmail.com', 'ADAMAWA', 'WARRI', 'Mountain', 'Male', '1998-09-09', 'Christian', 'Single', 'Engineer', 'kels enterpris', 'hjh', '300000', 'PAUL', 'Jkhj', '09087654321', 'BRO', 'Access Bank', '0030596252', 'KELLZ', '6901b0a46ff6f.png', 1, 0, 50000.00, 15, 1, '2025-10-29 07:13:40'),
+(47, 'EBUKA MICHAEL', 18, 135, 10104135, '', '09098987676', '43 Benin Road', 'ebuka@Mail.com', 'ADAMAWA', 'NIL', '', 'Male', '1986-08-28', 'Christian', 'Married', 'Banker', 'ejiro and sons', '24 ebi road', '300000', 'PAUL', 'Oooo', '09012345678', 'BRO', 'Access Bank', '897656546', 'JKHGFH', 'user.png', 1, 0, 20000.00, 0, 1, '2025-12-28 07:14:14'),
+(48, 'JAMES JACKSON', 19, 136, 10104136, '', '09123456789', '12 Sakponba Road', 'james@mail.com', 'EDO', 'BENIN', 'Oka Market', 'Male', '1997-06-06', 'Muslim', 'Single', 'Business Person', 'James &amp; john ltd', '1 osato street, benin', '300000', 'AKPAN JOHN', '2 Ugbuyoko', '07012345678', 'BROTHER', 'Fidelity Bank', '0099234556', 'JAMES JOHN', '695cd0ac2ed5a.png', 1, 0, 0.00, 0, 1, '2026-01-06 10:05:56');
 
 -- --------------------------------------------------------
 
@@ -472,7 +482,13 @@ INSERT INTO `customer_trail` (`id`, `customer`, `description`, `amount`, `store`
 (165, 47, 'Loan Repayment', 10000.00, 1, 'TR752281225115648', 1, '2025-12-28 11:56:48'),
 (166, 47, 'Loan Repayment', 20000.00, 1, 'TR457281225010248', 1, '2025-12-28 13:02:48'),
 (167, 47, 'Loan Repayment', 26649.96, 1, 'TR455281225014701', 1, '2025-12-28 13:47:01'),
-(168, 44, 'Previous Debt payment', 200000.00, 1, 'TR275291225110141', 1, '2025-12-29 11:01:41');
+(168, 44, 'Previous Debt payment', 200000.00, 1, 'TR275291225110141', 1, '2025-12-29 11:01:41'),
+(169, 48, 'Loan Repayment', 3000.00, 1, 'TR122060126103857', 1, '2026-01-06 10:38:57'),
+(170, 38, 'Loan Repayment', 189000.00, 1, 'TR856080126012611', 1, '2026-01-08 13:26:11'),
+(171, 38, 'Loan Repayment', 0.04, 1, 'TR647080126012930', 1, '2026-01-08 13:29:30'),
+(172, 38, 'Savings Deposit', 100000.00, 1, 'TR020080126014632', 1, '2026-01-08 13:46:32'),
+(173, 45, 'Outstanding Debt Payment', 200000.00, 1, 'TR620080126020055', 1, '2026-01-08 14:00:55'),
+(174, 45, 'Outstanding Debt Payment', 400000.00, 1, 'TR940080126020139', 1, '2026-01-08 14:01:39');
 
 -- --------------------------------------------------------
 
@@ -559,7 +575,13 @@ INSERT INTO `deposits` (`deposit_id`, `store`, `customer`, `amount`, `payment_mo
 (76, 1, 47, 10000.00, 'Cash', 0, 'LP2812251156133111121', 'Loan Repayment', 'TR752281225115648', 'Loan Payment', '2025-12-28', '2025-12-28 11:56:48', 1),
 (77, 1, 47, 20000.00, 'Transfer', 6, 'LP2812250102022001123', 'Loan Repayment', 'TR457281225010248', 'Loan Payment', '2025-12-28', '2025-12-28 13:02:48', 1),
 (78, 1, 47, 26649.96, 'Cash', 0, 'LP2812250146003331127', 'Loan Repayment', 'TR455281225014701', 'Loan Payment', '2025-12-28', '2025-12-28 13:47:01', 1),
-(79, 1, 44, 200000.00, 'Cash', 0, 'BL2912251101230131', 'Outstanding Debt Payment', 'TR275291225110141', 'Outstanding Debt Payment', '2025-12-29', '2025-12-29 11:01:41', 1);
+(79, 1, 44, 200000.00, 'Cash', 0, 'BL2912251101230131', 'Outstanding Debt Payment', 'TR275291225110141', 'Outstanding Debt Payment', '2025-12-29', '2025-12-29 11:01:41', 1),
+(80, 1, 48, 3000.00, 'Cash', 0, 'LP0601261038223111133', 'Loan Repayment', 'TR122060126103857', 'Loan Payment', '2026-01-06', '2026-01-06 10:38:57', 1),
+(81, 1, 38, 189000.00, 'Cash', 0, 'LP0801260126003001105', 'Loan Repayment', 'TR856080126012611', 'Loan Payment', '2026-01-08', '2026-01-08 13:26:11', 1),
+(82, 1, 38, 0.04, 'Cash', 0, 'LP0801260129122001108', 'Loan Repayment', 'TR647080126012930', 'Loan Payment', '2026-01-08', '2026-01-08 13:29:30', 1),
+(83, 1, 38, 100000.00, 'Cash', 0, 'SAV0801260145031131', 'Savings Deposit', 'TR020080126014632', 'Customer Savings', '2026-01-08', '2026-01-08 13:46:32', 1),
+(84, 1, 45, 200000.00, 'Cash', 0, 'BL0801260150033001', 'Outstanding Debt Payment', 'TR620080126020055', 'Outstanding Balance Payment', '2026-01-08', '2026-01-08 14:00:55', 1),
+(85, 1, 45, 400000.00, 'Cash', 0, 'BL0801260201220221', 'Outstanding Debt Payment', 'TR940080126020139', 'Outstanding Balance Payment', '2026-01-08', '2026-01-08 14:01:39', 1);
 
 -- --------------------------------------------------------
 
@@ -581,6 +603,7 @@ CREATE TABLE `depreciation` (
   `accum_dep` decimal(12,2) NOT NULL,
   `book_value` decimal(12,2) NOT NULL,
   `details` varchar(1024) NOT NULL,
+  `store` int(11) NOT NULL,
   `trx_date` date NOT NULL,
   `post_date` datetime DEFAULT NULL,
   `posted_by` int(11) NOT NULL
@@ -635,7 +658,9 @@ INSERT INTO `disbursal` (`disbursal_id`, `loan`, `customer`, `amount`, `mode`, `
 (25, 34, 44, 300000, 'Transfer', 11, 'TR331100725083729', '2025-07-10', 1, 1, '2025-07-10 08:37:29'),
 (26, 37, 38, 700000, 'Cash', 0, 'TR500110725021645', '2025-07-11', 1, 1, '2025-07-11 14:16:45'),
 (27, 38, 45, 150000, 'Transfer', 11, 'TR938160725122658', '2025-07-16', 1, 1, '2025-07-16 12:26:58'),
-(28, 40, 47, 55000, '', 0, 'TR169281225112349', '2025-12-28', 1, 1, '2025-12-28 11:23:49');
+(28, 40, 47, 55000, '', 0, 'TR169281225112349', '2025-12-28', 1, 1, '2025-12-28 11:23:49'),
+(29, 42, 48, 600000, 'Cash', 0, 'TR119060126103433', '2026-01-06', 1, 1, '2026-01-06 10:34:33'),
+(30, 44, 38, 60000, '', 0, 'TR957090126115645', '2026-01-09', 1, 1, '2026-01-09 11:56:45');
 
 -- --------------------------------------------------------
 
@@ -811,7 +836,7 @@ CREATE TABLE `inventory` (
 --
 
 INSERT INTO `inventory` (`inventory_id`, `item`, `details`, `item_type`, `store`, `cost_price`, `quantity`, `batch_number`, `expiration_date`, `reorder_level`, `post_date`) VALUES
-(84, 320, '', NULL, 1, 30000, 7, 0, NULL, 10, NULL),
+(84, 320, '', NULL, 1, 30000, 4, 0, NULL, 10, NULL),
 (85, 321, '', NULL, 1, 950000, 3, 0, NULL, 10, NULL);
 
 -- --------------------------------------------------------
@@ -938,7 +963,8 @@ INSERT INTO `kyc` (`kyc_id`, `customer`, `id_type`, `id_number`, `id_card`, `bvn
 (8, 38, 'NIN', '0099889000', '57012_38.jpg', 2147483647, 1, 1, '2025-07-11 13:53:18', '2025-07-11 13:48:58', 1),
 (9, 45, 'INTERNATIONAL PASSPORT', '098jjuhhhh', '10296_45.jpg', 2147483647, 1, 1, '2025-07-16 11:44:11', '2025-07-16 11:43:52', 1),
 (10, 46, 'VOTER&#039;S CARD', '22194140490', '30248_46.jpg', 2147483647, 1, 1, '2025-10-29 07:19:15', '2025-10-29 07:18:36', 1),
-(11, 47, 'NIN', '9877967', '17658_47.jpg', 2147483647, 1, 1, '2025-12-28 07:23:22', '2025-12-28 07:22:54', 1);
+(11, 47, 'NIN', '9877967', '17658_47.jpg', 2147483647, 1, 1, '2025-12-28 07:23:22', '2025-12-28 07:22:54', 1),
+(12, 48, 'NIN', '7867875746rytrr56', '41649_48.png', 2147483647, 1, 1, '2026-01-06 10:10:25', '2026-01-06 10:08:28', 1);
 
 -- --------------------------------------------------------
 
@@ -1006,7 +1032,8 @@ INSERT INTO `ledgers` (`ledger_id`, `account_group`, `sub_group`, `class`, `ledg
 (132, 1, 1, 4, 'DENNIS ZAKARIA', 10104132),
 (133, 2, 3, 7, 'ABC LTD', 20307133),
 (134, 4, 7, 14, 'COST OF SALES', 407014134),
-(135, 1, 1, 4, 'EBUKA MICHAEL', 10104135);
+(135, 1, 1, 4, 'EBUKA MICHAEL', 10104135),
+(136, 1, 1, 4, 'JAMES JACKSON', 10104136);
 
 -- --------------------------------------------------------
 
@@ -1055,6 +1082,7 @@ CREATE TABLE `loan_applications` (
   `store` int(11) NOT NULL,
   `asset` int(11) NOT NULL,
   `asset_status` int(11) NOT NULL,
+  `invoice` varchar(50) NOT NULL,
   `application_date` datetime DEFAULT NULL,
   `loan_status` int(11) NOT NULL,
   `approved_by` int(11) NOT NULL,
@@ -1067,17 +1095,19 @@ CREATE TABLE `loan_applications` (
 -- Dumping data for table `loan_applications`
 --
 
-INSERT INTO `loan_applications` (`loan_id`, `customer`, `product`, `amount`, `purpose`, `frequency`, `installment`, `interest_rate`, `interest`, `processing_rate`, `processing_fee`, `total_payable`, `penalty`, `loan_term`, `collateral`, `posted_by`, `store`, `asset`, `asset_status`, `application_date`, `loan_status`, `approved_by`, `approve_date`, `disbursed_date`, `due_date`) VALUES
-(31, 38, 3, 200000.00, 'Salary Advance', 'Monthly', 70000.00, 4, 8000.00, 1, 2000.00, 210000.00, 0, 3, '', 8, 1, 0, 0, '2025-07-08 21:34:17', 3, 1, '2025-07-08 22:02:21', '2025-07-08 22:54:17', '2025-10-08 00:00:00'),
-(32, 38, 1, 70000.00, 'Business', 'Weekly', 6066.67, 3, 2100.00, 1, 700.00, 72800.00, 0, 3, 'my shop', 8, 1, 0, 0, '2025-07-09 10:05:08', 3, 1, '2025-07-09 10:06:33', '2025-07-09 10:06:57', '2025-10-01 00:00:00'),
-(33, 38, 3, 250000.00, 'Business', 'Monthly', 87500.00, 4, 10000.00, 1, 2500.00, 262500.00, 0, 3, '', 1, 1, 0, 0, '2025-07-10 08:11:14', 3, 1, '2025-07-10 08:11:29', '2025-07-10 08:11:56', '2025-10-10 00:00:00'),
-(34, 44, 3, 300000.00, 'Business', 'Monthly', 105000.00, 4, 12000.00, 1, 3000.00, 315000.00, 0, 3, '', 1, 1, 0, 0, '2025-07-10 08:33:29', 2, 1, '2025-07-10 08:34:53', '2025-07-10 08:37:29', '2025-10-10 00:00:00'),
-(35, 38, 3, 100000.00, 'Business', 'Monthly', 35000.00, 4, 4000.00, 1, 1000.00, 105000.00, 0, 3, '', 8, 1, 0, 0, '2025-07-11 12:42:33', -1, 0, NULL, NULL, NULL),
-(36, 38, 1, 200000.00, 'Business', 'Weekly', 17333.33, 3, 6000.00, 1, 2000.00, 208000.00, 0, 3, 'non', 8, 1, 0, 0, '2025-07-11 13:03:36', -1, 1, '2025-07-11 13:05:02', NULL, NULL),
-(37, 38, 4, 700000.00, 'Business', 'Weekly', 62416.67, 5, 35000.00, 2, 14000.00, 749000.00, 0, 3, '', 8, 1, 0, 0, '2025-07-11 14:15:42', 2, 15, '2025-07-11 14:16:01', '2025-07-11 14:16:45', '2025-10-03 00:00:00'),
-(38, 45, 1, 150000.00, 'Business', 'Weekly', 13000.00, 3, 4500.00, 1, 1500.00, 156000.00, 0, 3, 'My house', 1, 1, 0, 0, '2025-07-16 11:46:40', 2, 1, '2025-07-16 11:47:01', '2025-07-16 12:26:58', '2025-10-08 00:00:00'),
-(39, 46, 3, 300000.00, 'House Rent', 'Monthly', 52500.00, 4, 12000.00, 1, 3000.00, 315000.00, 0, 6, '', 1, 1, 0, 0, '2025-10-29 07:21:04', 1, 1, '2025-10-29 07:36:39', NULL, NULL),
-(40, 47, 5, 55000.00, 'Asset Purchase', 'Weekly', 4720.83, 3, 1650.00, 0, 0.00, 56650.00, 0, 3, '', 1, 1, 320, 1, '2025-12-28 09:12:02', 3, 1, '2025-12-28 11:23:49', '2025-12-28 11:23:49', '2026-03-22 00:00:00');
+INSERT INTO `loan_applications` (`loan_id`, `customer`, `product`, `amount`, `purpose`, `frequency`, `installment`, `interest_rate`, `interest`, `processing_rate`, `processing_fee`, `total_payable`, `penalty`, `loan_term`, `collateral`, `posted_by`, `store`, `asset`, `asset_status`, `invoice`, `application_date`, `loan_status`, `approved_by`, `approve_date`, `disbursed_date`, `due_date`) VALUES
+(31, 38, 3, 200000.00, 'Salary Advance', 'Monthly', 70000.00, 4, 8000.00, 1, 2000.00, 210000.00, 0, 3, '', 8, 1, 0, 0, '', '2025-07-08 21:34:17', 3, 1, '2025-07-08 22:02:21', '2025-07-08 22:54:17', '2025-10-08 00:00:00'),
+(32, 38, 1, 70000.00, 'Business', 'Weekly', 6066.67, 3, 2100.00, 1, 700.00, 72800.00, 0, 3, 'my shop', 8, 1, 0, 0, '', '2025-07-09 10:05:08', 3, 1, '2025-07-09 10:06:33', '2025-07-09 10:06:57', '2025-10-01 00:00:00'),
+(33, 38, 3, 250000.00, 'Business', 'Monthly', 87500.00, 4, 10000.00, 1, 2500.00, 262500.00, 0, 3, '', 1, 1, 0, 0, '', '2025-07-10 08:11:14', 3, 1, '2025-07-10 08:11:29', '2025-07-10 08:11:56', '2025-10-10 00:00:00'),
+(34, 44, 3, 300000.00, 'Business', 'Monthly', 105000.00, 4, 12000.00, 1, 3000.00, 315000.00, 0, 3, '', 1, 1, 0, 0, '', '2025-07-10 08:33:29', 2, 1, '2025-07-10 08:34:53', '2025-07-10 08:37:29', '2025-10-10 00:00:00'),
+(35, 38, 3, 100000.00, 'Business', 'Monthly', 35000.00, 4, 4000.00, 1, 1000.00, 105000.00, 0, 3, '', 8, 1, 0, 0, '', '2025-07-11 12:42:33', -1, 0, NULL, NULL, NULL),
+(36, 38, 1, 200000.00, 'Business', 'Weekly', 17333.33, 3, 6000.00, 1, 2000.00, 208000.00, 0, 3, 'non', 8, 1, 0, 0, '', '2025-07-11 13:03:36', -1, 1, '2025-07-11 13:05:02', NULL, NULL),
+(37, 38, 4, 700000.00, 'Business', 'Weekly', 62416.67, 5, 35000.00, 2, 14000.00, 749000.00, 0, 3, '', 8, 1, 0, 0, '', '2025-07-11 14:15:42', 3, 15, '2025-07-11 14:16:01', '2025-07-11 14:16:45', '2025-10-03 00:00:00'),
+(38, 45, 1, 150000.00, 'Business', 'Weekly', 13000.00, 3, 4500.00, 1, 1500.00, 156000.00, 0, 3, 'My house', 1, 1, 0, 0, '', '2025-07-16 11:46:40', 2, 1, '2025-07-16 11:47:01', '2025-07-16 12:26:58', '2025-10-08 00:00:00'),
+(39, 46, 3, 300000.00, 'House Rent', 'Monthly', 52500.00, 4, 12000.00, 1, 3000.00, 315000.00, 0, 6, '', 1, 1, 0, 0, '', '2025-10-29 07:21:04', 1, 1, '2025-10-29 07:36:39', NULL, NULL),
+(40, 47, 5, 55000.00, 'Asset Purchase', 'Weekly', 4720.83, 3, 1650.00, 0, 0.00, 56650.00, 0, 3, '', 1, 1, 320, 1, '', '2025-12-28 09:12:02', 3, 1, '2025-12-28 11:23:49', '2025-12-28 11:23:49', '2026-03-22 00:00:00'),
+(42, 48, 4, 600000.00, 'Medical Expenses', 'Weekly', 13375.00, 5, 30000.00, 2, 12000.00, 642000.00, 0, 12, '', 1, 1, 0, 0, '', '2026-01-06 10:27:49', 2, 1, '2026-01-06 10:31:04', '2026-01-06 10:34:33', '2026-12-08 00:00:00'),
+(44, 38, 5, 60000.00, 'Asset Purchase', 'Weekly', 2575.00, 3, 1800.00, 0, 0.00, 61800.00, 0, 6, '', 1, 1, 320, 0, 'LN109012610775841', '2026-01-09 10:46:50', 2, 1, '2026-01-09 11:56:45', '2026-01-09 11:56:45', '2026-06-26 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -1248,6 +1278,14 @@ INSERT INTO `notifications` (`notification_id`, `client`, `subject`, `message`, 
 (88, 47, 'Loan Payment Confirmation', 'Dear EBUKA MICHAEL,\r\n            We confirm the receipt of your payment of ₦10,000.00 on 28th December 2025, 11:56am towards your loan repayment.\r\n            Transaction ID: LP2812251156133111121\r\n            Your account has been updated accordingly. Thank you for your commitment.\r\n            \r\n            If you have any questions or need a receipt, feel free to contact us\r\n\r\n            Warm regards,\r\n            Demo Microfinance Ltd\r\n            Customer Support', 0, '2025-12-28 11:56:48'),
 (89, 47, 'Loan Payment Confirmation', 'Dear EBUKA MICHAEL,\r\n            We confirm the receipt of your payment of ₦20,000.00 on 28th December 2025, 01:02pm towards your loan repayment.\r\n            Transaction ID: LP2812250102022001123\r\n            Your account has been updated accordingly. Thank you for your commitment.\r\n            \r\n            If you have any questions or need a receipt, feel free to contact us\r\n\r\n            Warm regards,\r\n            Demo Microfinance Ltd\r\n            Customer Support', 0, '2025-12-28 13:02:48'),
 (90, 47, 'Loan Payment Confirmation', 'Dear EBUKA MICHAEL,\r\n            We confirm the receipt of your payment of ₦26,649.96 on 28th December 2025, 01:47pm towards your loan repayment.\r\n            Transaction ID: LP2812250146003331127\r\n            Your account has been updated accordingly. Thank you for your commitment.\r\n            \r\n            If you have any questions or need a receipt, feel free to contact us\r\n\r\n            Warm regards,\r\n            Demo Microfinance Ltd\r\n            Customer Support', 0, '2025-12-28 13:47:01');
+INSERT INTO `notifications` (`notification_id`, `client`, `subject`, `message`, `not_status`, `post_date`) VALUES
+(91, 48, 'KYC Verification Approved', 'Dear JAMES JACKSON, \r\n\r\n            We’re happy to inform you that your KYC verification has been successfully completed. 🎉\r\n            \r\n            Your account is now fully verified, and you can enjoy uninterrupted access to all features and services.\r\n\r\n            Thank you for completing the verification process. If you have any questions or need assistance, feel free to reach out to our support team.\r\n            \r\n            Best regards,Demo Microfinance Ltd', 0, '2026-01-06 10:10:25'),
+(92, 48, 'Your Loan Has Been Approved', 'Dear JAMES JACKSON, \r\n\r\n            We’re pleased to inform you that your loan application has been approved ✅.\r\n            \r\n            Your loan is now awaiting disbursement, and you will receive a notification once the funds have been released to your account.\r\n            \r\n            Thank you for choosing us. We’re excited to support your financial journey!\r\n            \r\n            Best regards,\r\n            Demo Microfinance Ltd', 0, '2026-01-06 10:31:04'),
+(93, 48, 'Your Loan Has Been Disbursed', 'Dear JAMES JACKSON,\r\n            We are pleased to inform you that your loan of ₦600,000.00 under the COOPERATIVE LOAN has been successfully disbursed on 6th January, 2026\r\n            LOAN DETAILS:\r\n            * Loan Amount: NGN600,000.00\r\n            * Interest: NGN30,000.00\r\n            * Processing Fee: NGN12,000.00\r\n            * Total Payable: NGN642,000.00\r\n            * Repayment Term: 12 Months\r\n            * Repayment Frequency: Weekly\r\n            * First Repayment Date: 2026-01-13\r\n\r\n            Please ensure that your repayments are made as scheduled to maintain a good credit standing.\r\n\r\n            You can click on loan status to view your status and repayment schedule.\r\n            If you have any questions or need assistance, feel free to reach out to us.\r\n\r\n            Thank you for choosing Demo Microfinance Ltd\r\n            Warm regards,\r\n            **Administrator**Demo Microfinance Ltd', 0, '2026-01-06 10:34:33'),
+(94, 48, 'Loan Payment Confirmation', 'Dear JAMES JACKSON,\r\n            We confirm the receipt of your payment of ₦3,000.00 on 6th January 2026, 10:38am towards your loan repayment.\r\n            Transaction ID: LP0601261038223111133\r\n            Your account has been updated accordingly. Thank you for your commitment.\r\n            \r\n            If you have any questions or need a receipt, feel free to contact us\r\n\r\n            Warm regards,\r\n            Demo Microfinance Ltd\r\n            Customer Support', 0, '2026-01-06 10:38:57'),
+(95, 38, 'Loan Payment Confirmation', 'Dear IKPEFUA KELLY,\r\n            We confirm the receipt of your payment of ₦189,000.00 on 8th January 2026, 01:26pm towards your loan repayment.\r\n            Transaction ID: LP0801260126003001105\r\n            Your account has been updated accordingly. Thank you for your commitment.\r\n            \r\n            If you have any questions or need a receipt, feel free to contact us\r\n\r\n            Warm regards,\r\n            Demo Microfinance Ltd\r\n            Customer Support', 0, '2026-01-08 13:26:11'),
+(96, 38, 'Loan Payment Confirmation', 'Dear IKPEFUA KELLY,\r\n            We confirm the receipt of your payment of ₦0.04 on 8th January 2026, 01:29pm towards your loan repayment.\r\n            Transaction ID: LP0801260129122001108\r\n            Your account has been updated accordingly. Thank you for your commitment.\r\n            \r\n            If you have any questions or need a receipt, feel free to contact us\r\n\r\n            Warm regards,\r\n            Demo Microfinance Ltd\r\n            Customer Support', 0, '2026-01-08 13:29:30'),
+(97, 38, 'Your Asset Loan Has Been Approved', 'Dear IKPEFUA KELLY,\r\n                We are pleased to inform you that your loan of ₦60,000.00 for QASA SOLAR FAN 32INCHES has been successfully approved on 9th January, 2026\r\n                LOAN DETAILS:\r\n                * Asset Product: QASA SOLAR FAN 32INCHES\r\n                * Loan Amount: NGN60,000.00\r\n                * Interest: NGN1,800.00\r\n                * Processing Fee: NGN0.00\r\n                * Total Payable: NGN61,800.00\r\n                * Repayment Term: 6 Months\r\n                * Repayment Frequency: Weekly\r\n                * First Repayment Date: 2026-01-16\r\n\r\n                Please ensure that your repayments are made as scheduled to maintain a good credit standing.\r\n\r\n                You can click on loan status to view your status and repayment schedule.\r\n                If you have any questions or need assistance, feel free to reach out to us.\r\n\r\n                Thank you for choosing Demo Microfinance Ltd\r\n                Warm regards,\r\n                **Administrator**Demo Microfinance Ltd', 0, '2026-01-09 11:56:45');
 
 -- --------------------------------------------------------
 
@@ -1323,6 +1361,7 @@ CREATE TABLE `outstanding` (
   `id` int(11) NOT NULL,
   `customer` int(11) NOT NULL,
   `amount` int(11) NOT NULL,
+  `trx_number` varchar(50) NOT NULL,
   `post_date` datetime DEFAULT NULL,
   `posted_by` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -1331,8 +1370,10 @@ CREATE TABLE `outstanding` (
 -- Dumping data for table `outstanding`
 --
 
-INSERT INTO `outstanding` (`id`, `customer`, `amount`, `post_date`, `posted_by`) VALUES
-(4, 44, 400000, '2025-12-11 15:09:29', 1);
+INSERT INTO `outstanding` (`id`, `customer`, `amount`, `trx_number`, `post_date`, `posted_by`) VALUES
+(4, 44, 400000, '', '2025-12-11 15:09:29', 1),
+(5, 45, 200000, 'TR620080126020055', '2026-01-08 14:00:55', 1),
+(6, 45, 400000, 'TR940080126020139', '2026-01-08 14:01:39', 1);
 
 -- --------------------------------------------------------
 
@@ -1366,7 +1407,9 @@ INSERT INTO `payments` (`payment_id`, `sales_type`, `customer`, `amount_due`, `s
 (156, 'Retail', 47, 56650.00, 1, 56650.00, -1650, 'Credit', 0, 'TR647281225031056', '2025-12-28 15:10:56', 1, 'GC128122503101647'),
 (157, 'Retail', 47, 56650.00, 1, 56650.00, -1650, 'Credit', 0, 'TR069281225031308', '2025-12-28 15:13:08', 1, 'GC128122503131069'),
 (158, 'Retail', 47, 56650.00, 1, 56650.00, -1650, 'Credit', 0, 'TR768281225031635', '2025-12-28 15:16:35', 1, 'GC128122503161768'),
-(159, 'Wholesale', 47, 60000.00, 1, 60000.00, 0, 'Transfer', 11, 'TR729281225054257', '2025-12-28 17:42:57', 1, 'GC128122505421264');
+(159, 'Wholesale', 47, 60000.00, 1, 60000.00, 0, 'Transfer', 11, 'TR729281225054257', '2025-12-28 17:42:57', 1, 'GC128122505421264'),
+(160, 'Wholesale', 45, 55000.00, 1, 55000.00, 0, 'Wallet', 0, 'TR604080126021336', '2026-01-08 14:13:36', 1, 'GC108012602021612'),
+(161, 'Loan Sales', 38, 61800.00, 1, 50000.00, 0, 'Transfer', 11, 'TR957090126115645', '2026-01-09 11:56:45', 1, 'LN109012610775841');
 
 -- --------------------------------------------------------
 
@@ -1568,7 +1611,13 @@ INSERT INTO `repayments` (`payment_id`, `customer`, `store`, `loan`, `schedule`,
 (138, 47, 1, 40, 129, 4721, 137, 0, 0.00, 'Cash', 'Excess from previous', 'LP2812250146003331127', 0, 1, '2025-12-28 00:00:00', '2025-12-28 13:47:01', 'TR455281225014701'),
 (139, 47, 1, 40, 130, 4721, 137, 0, 0.00, 'Cash', 'Excess from previous', 'LP2812250146003331127', 0, 1, '2025-12-28 00:00:00', '2025-12-28 13:47:01', 'TR455281225014701'),
 (140, 47, 1, 40, 131, 4721, 137, 0, 0.00, 'Cash', 'Excess from previous', 'LP2812250146003331127', 0, 1, '2025-12-28 00:00:00', '2025-12-28 13:47:01', 'TR455281225014701'),
-(141, 47, 1, 40, 132, 4721, 137, 0, 0.00, 'Cash', 'Excess from previous', 'LP2812250146003331127', 0, 1, '2025-12-28 00:00:00', '2025-12-28 13:47:01', 'TR455281225014701');
+(141, 47, 1, 40, 132, 4721, 137, 0, 0.00, 'Cash', 'Excess from previous', 'LP2812250146003331127', 0, 1, '2025-12-28 00:00:00', '2025-12-28 13:47:01', 'TR455281225014701'),
+(142, 48, 1, 42, 133, 3000, 140, 56, 0.00, 'Cash', 'Loan Payment', 'LP0601261038223111133', 0, 1, '2026-01-06 00:00:00', '2026-01-06 10:38:57', 'TR122060126103857'),
+(143, 38, 1, 37, 105, 1750, 82, 33, 0.00, 'Cash', 'Loan Payment', 'LP0801260126003001105', 0, 1, '2026-01-08 00:00:00', '2026-01-08 13:26:11', 'TR856080126012611'),
+(144, 38, 1, 37, 106, 62417, 2917, 1167, 0.00, 'Cash', 'Excess from previous', 'LP0801260126003001105', 0, 1, '2026-01-08 00:00:00', '2026-01-08 13:26:11', 'TR856080126012611'),
+(145, 38, 1, 37, 107, 62417, 2917, 1167, 0.00, 'Cash', 'Excess from previous', 'LP0801260126003001105', 0, 1, '2026-01-08 00:00:00', '2026-01-08 13:26:11', 'TR856080126012611'),
+(146, 38, 1, 37, 108, 62417, 2917, 1167, 0.00, 'Cash', 'Excess from previous', 'LP0801260126003001105', 0, 1, '2026-01-08 00:00:00', '2026-01-08 13:26:11', 'TR856080126012611'),
+(147, 38, 1, 37, 108, 0, 0, 0, 0.00, 'Cash', 'Loan Payment', 'LP0801260129122001108', 0, 1, '2026-01-08 00:00:00', '2026-01-08 13:29:30', 'TR647080126012930');
 
 -- --------------------------------------------------------
 
@@ -1624,10 +1673,10 @@ INSERT INTO `repayment_schedule` (`repayment_id`, `loan`, `customer`, `amount_du
 (102, 37, 38, 62416.67, 62416.67, 0.00, 1, '2025-08-22', 1, '2025-07-11 14:16:45', 1),
 (103, 37, 38, 62416.67, 62416.67, 0.00, 1, '2025-08-29', 1, '2025-07-11 14:16:45', 1),
 (104, 37, 38, 62416.67, 62416.67, 0.00, 1, '2025-09-05', 1, '2025-07-11 14:16:45', 1),
-(105, 37, 38, 62416.67, 60666.64, 0.00, 1, '2025-09-12', 0, '2025-07-11 14:16:45', 1),
-(106, 37, 38, 62416.67, 0.00, 0.00, 1, '2025-09-19', 0, '2025-07-11 14:16:45', 1),
-(107, 37, 38, 62416.67, 0.00, 0.00, 1, '2025-09-26', 0, '2025-07-11 14:16:45', 1),
-(108, 37, 38, 62416.67, 0.00, 0.00, 1, '2025-10-03', 0, '2025-07-11 14:16:45', 1),
+(105, 37, 38, 62416.67, 62416.67, 0.00, 1, '2025-09-12', 1, '2025-07-11 14:16:45', 1),
+(106, 37, 38, 62416.67, 62416.67, 0.00, 1, '2025-09-19', 1, '2025-07-11 14:16:45', 1),
+(107, 37, 38, 62416.67, 62416.67, 0.00, 1, '2025-09-26', 1, '2025-07-11 14:16:45', 1),
+(108, 37, 38, 62416.67, 62416.67, 0.00, 1, '2025-10-03', 0, '2025-07-11 14:16:45', 1),
 (109, 38, 45, 13000.00, 13000.00, 0.00, 1, '2025-07-23', 1, '2025-07-16 12:26:58', 1),
 (110, 38, 45, 13000.00, 0.00, 0.00, 1, '2025-07-30', 0, '2025-07-16 12:26:58', 1),
 (111, 38, 45, 13000.00, 0.00, 0.00, 1, '2025-08-06', 0, '2025-07-16 12:26:58', 1),
@@ -1651,7 +1700,79 @@ INSERT INTO `repayment_schedule` (`repayment_id`, `loan`, `customer`, `amount_du
 (129, 40, 47, 4720.83, 4720.83, 0.00, 1, '2026-03-01', 1, '2025-12-28 11:23:49', 1),
 (130, 40, 47, 4720.83, 4720.83, 0.00, 1, '2026-03-08', 1, '2025-12-28 11:23:49', 1),
 (131, 40, 47, 4720.83, 4720.83, 0.00, 1, '2026-03-15', 1, '2025-12-28 11:23:49', 1),
-(132, 40, 47, 4720.83, 4720.83, 0.00, 1, '2026-03-22', 1, '2025-12-28 11:23:49', 1);
+(132, 40, 47, 4720.83, 4720.83, 0.00, 1, '2026-03-22', 1, '2025-12-28 11:23:49', 1),
+(133, 42, 48, 13375.00, 3000.00, 0.00, 1, '2026-01-13', 0, '2026-01-06 10:34:33', 1),
+(134, 42, 48, 13375.00, 0.00, 0.00, 1, '2026-01-20', 0, '2026-01-06 10:34:33', 1),
+(135, 42, 48, 13375.00, 0.00, 0.00, 1, '2026-01-27', 0, '2026-01-06 10:34:33', 1),
+(136, 42, 48, 13375.00, 0.00, 0.00, 1, '2026-02-03', 0, '2026-01-06 10:34:33', 1),
+(137, 42, 48, 13375.00, 0.00, 0.00, 1, '2026-02-10', 0, '2026-01-06 10:34:33', 1),
+(138, 42, 48, 13375.00, 0.00, 0.00, 1, '2026-02-17', 0, '2026-01-06 10:34:33', 1),
+(139, 42, 48, 13375.00, 0.00, 0.00, 1, '2026-02-24', 0, '2026-01-06 10:34:33', 1),
+(140, 42, 48, 13375.00, 0.00, 0.00, 1, '2026-03-03', 0, '2026-01-06 10:34:33', 1),
+(141, 42, 48, 13375.00, 0.00, 0.00, 1, '2026-03-10', 0, '2026-01-06 10:34:33', 1),
+(142, 42, 48, 13375.00, 0.00, 0.00, 1, '2026-03-17', 0, '2026-01-06 10:34:33', 1),
+(143, 42, 48, 13375.00, 0.00, 0.00, 1, '2026-03-24', 0, '2026-01-06 10:34:33', 1),
+(144, 42, 48, 13375.00, 0.00, 0.00, 1, '2026-03-31', 0, '2026-01-06 10:34:33', 1),
+(145, 42, 48, 13375.00, 0.00, 0.00, 1, '2026-04-07', 0, '2026-01-06 10:34:33', 1),
+(146, 42, 48, 13375.00, 0.00, 0.00, 1, '2026-04-14', 0, '2026-01-06 10:34:33', 1),
+(147, 42, 48, 13375.00, 0.00, 0.00, 1, '2026-04-21', 0, '2026-01-06 10:34:33', 1),
+(148, 42, 48, 13375.00, 0.00, 0.00, 1, '2026-04-28', 0, '2026-01-06 10:34:33', 1),
+(149, 42, 48, 13375.00, 0.00, 0.00, 1, '2026-05-05', 0, '2026-01-06 10:34:33', 1),
+(150, 42, 48, 13375.00, 0.00, 0.00, 1, '2026-05-12', 0, '2026-01-06 10:34:33', 1),
+(151, 42, 48, 13375.00, 0.00, 0.00, 1, '2026-05-19', 0, '2026-01-06 10:34:33', 1),
+(152, 42, 48, 13375.00, 0.00, 0.00, 1, '2026-05-26', 0, '2026-01-06 10:34:33', 1),
+(153, 42, 48, 13375.00, 0.00, 0.00, 1, '2026-06-02', 0, '2026-01-06 10:34:33', 1),
+(154, 42, 48, 13375.00, 0.00, 0.00, 1, '2026-06-09', 0, '2026-01-06 10:34:33', 1),
+(155, 42, 48, 13375.00, 0.00, 0.00, 1, '2026-06-16', 0, '2026-01-06 10:34:33', 1),
+(156, 42, 48, 13375.00, 0.00, 0.00, 1, '2026-06-23', 0, '2026-01-06 10:34:33', 1),
+(157, 42, 48, 13375.00, 0.00, 0.00, 1, '2026-06-30', 0, '2026-01-06 10:34:33', 1),
+(158, 42, 48, 13375.00, 0.00, 0.00, 1, '2026-07-07', 0, '2026-01-06 10:34:33', 1),
+(159, 42, 48, 13375.00, 0.00, 0.00, 1, '2026-07-14', 0, '2026-01-06 10:34:33', 1),
+(160, 42, 48, 13375.00, 0.00, 0.00, 1, '2026-07-21', 0, '2026-01-06 10:34:33', 1),
+(161, 42, 48, 13375.00, 0.00, 0.00, 1, '2026-07-28', 0, '2026-01-06 10:34:33', 1),
+(162, 42, 48, 13375.00, 0.00, 0.00, 1, '2026-08-04', 0, '2026-01-06 10:34:33', 1),
+(163, 42, 48, 13375.00, 0.00, 0.00, 1, '2026-08-11', 0, '2026-01-06 10:34:33', 1),
+(164, 42, 48, 13375.00, 0.00, 0.00, 1, '2026-08-18', 0, '2026-01-06 10:34:33', 1),
+(165, 42, 48, 13375.00, 0.00, 0.00, 1, '2026-08-25', 0, '2026-01-06 10:34:33', 1),
+(166, 42, 48, 13375.00, 0.00, 0.00, 1, '2026-09-01', 0, '2026-01-06 10:34:33', 1),
+(167, 42, 48, 13375.00, 0.00, 0.00, 1, '2026-09-08', 0, '2026-01-06 10:34:33', 1),
+(168, 42, 48, 13375.00, 0.00, 0.00, 1, '2026-09-15', 0, '2026-01-06 10:34:33', 1),
+(169, 42, 48, 13375.00, 0.00, 0.00, 1, '2026-09-22', 0, '2026-01-06 10:34:33', 1),
+(170, 42, 48, 13375.00, 0.00, 0.00, 1, '2026-09-29', 0, '2026-01-06 10:34:33', 1),
+(171, 42, 48, 13375.00, 0.00, 0.00, 1, '2026-10-06', 0, '2026-01-06 10:34:33', 1),
+(172, 42, 48, 13375.00, 0.00, 0.00, 1, '2026-10-13', 0, '2026-01-06 10:34:33', 1),
+(173, 42, 48, 13375.00, 0.00, 0.00, 1, '2026-10-20', 0, '2026-01-06 10:34:33', 1),
+(174, 42, 48, 13375.00, 0.00, 0.00, 1, '2026-10-27', 0, '2026-01-06 10:34:33', 1),
+(175, 42, 48, 13375.00, 0.00, 0.00, 1, '2026-11-03', 0, '2026-01-06 10:34:33', 1),
+(176, 42, 48, 13375.00, 0.00, 0.00, 1, '2026-11-10', 0, '2026-01-06 10:34:33', 1),
+(177, 42, 48, 13375.00, 0.00, 0.00, 1, '2026-11-17', 0, '2026-01-06 10:34:33', 1),
+(178, 42, 48, 13375.00, 0.00, 0.00, 1, '2026-11-24', 0, '2026-01-06 10:34:33', 1),
+(179, 42, 48, 13375.00, 0.00, 0.00, 1, '2026-12-01', 0, '2026-01-06 10:34:33', 1),
+(180, 42, 48, 13375.00, 0.00, 0.00, 1, '2026-12-08', 0, '2026-01-06 10:34:33', 1),
+(181, 44, 38, 2575.00, 0.00, 0.00, 1, '2026-01-16', 0, '2026-01-09 11:56:45', 1),
+(182, 44, 38, 2575.00, 0.00, 0.00, 1, '2026-01-23', 0, '2026-01-09 11:56:45', 1),
+(183, 44, 38, 2575.00, 0.00, 0.00, 1, '2026-01-30', 0, '2026-01-09 11:56:45', 1),
+(184, 44, 38, 2575.00, 0.00, 0.00, 1, '2026-02-06', 0, '2026-01-09 11:56:45', 1),
+(185, 44, 38, 2575.00, 0.00, 0.00, 1, '2026-02-13', 0, '2026-01-09 11:56:45', 1),
+(186, 44, 38, 2575.00, 0.00, 0.00, 1, '2026-02-20', 0, '2026-01-09 11:56:45', 1),
+(187, 44, 38, 2575.00, 0.00, 0.00, 1, '2026-02-27', 0, '2026-01-09 11:56:45', 1),
+(188, 44, 38, 2575.00, 0.00, 0.00, 1, '2026-03-06', 0, '2026-01-09 11:56:45', 1),
+(189, 44, 38, 2575.00, 0.00, 0.00, 1, '2026-03-13', 0, '2026-01-09 11:56:45', 1),
+(190, 44, 38, 2575.00, 0.00, 0.00, 1, '2026-03-20', 0, '2026-01-09 11:56:45', 1),
+(191, 44, 38, 2575.00, 0.00, 0.00, 1, '2026-03-27', 0, '2026-01-09 11:56:45', 1),
+(192, 44, 38, 2575.00, 0.00, 0.00, 1, '2026-04-03', 0, '2026-01-09 11:56:45', 1),
+(193, 44, 38, 2575.00, 0.00, 0.00, 1, '2026-04-10', 0, '2026-01-09 11:56:45', 1),
+(194, 44, 38, 2575.00, 0.00, 0.00, 1, '2026-04-17', 0, '2026-01-09 11:56:45', 1),
+(195, 44, 38, 2575.00, 0.00, 0.00, 1, '2026-04-24', 0, '2026-01-09 11:56:45', 1),
+(196, 44, 38, 2575.00, 0.00, 0.00, 1, '2026-05-01', 0, '2026-01-09 11:56:45', 1),
+(197, 44, 38, 2575.00, 0.00, 0.00, 1, '2026-05-08', 0, '2026-01-09 11:56:45', 1),
+(198, 44, 38, 2575.00, 0.00, 0.00, 1, '2026-05-15', 0, '2026-01-09 11:56:45', 1),
+(199, 44, 38, 2575.00, 0.00, 0.00, 1, '2026-05-22', 0, '2026-01-09 11:56:45', 1),
+(200, 44, 38, 2575.00, 0.00, 0.00, 1, '2026-05-29', 0, '2026-01-09 11:56:45', 1),
+(201, 44, 38, 2575.00, 0.00, 0.00, 1, '2026-06-05', 0, '2026-01-09 11:56:45', 1),
+(202, 44, 38, 2575.00, 0.00, 0.00, 1, '2026-06-12', 0, '2026-01-09 11:56:45', 1),
+(203, 44, 38, 2575.00, 0.00, 0.00, 1, '2026-06-19', 0, '2026-01-09 11:56:45', 1),
+(204, 44, 38, 2575.00, 0.00, 0.00, 1, '2026-06-26', 0, '2026-01-09 11:56:45', 1);
 
 -- --------------------------------------------------------
 
@@ -1684,6 +1805,7 @@ CREATE TABLE `sales` (
   `discount` int(11) NOT NULL,
   `total_amount` int(11) NOT NULL,
   `cost` int(11) NOT NULL,
+  `loan` int(11) NOT NULL,
   `trx_number` varchar(50) NOT NULL,
   `posted_by` int(11) NOT NULL,
   `sales_status` int(11) NOT NULL,
@@ -1694,17 +1816,26 @@ CREATE TABLE `sales` (
 -- Dumping data for table `sales`
 --
 
-INSERT INTO `sales` (`sales_id`, `item`, `store`, `sales_type`, `customer`, `invoice`, `quantity`, `price`, `discount`, `total_amount`, `cost`, `trx_number`, `posted_by`, `sales_status`, `post_date`) VALUES
-(1166, 320, 1, 'Retail', 38, 'GC127122506291533', 1, 55000, 0, 55000, 30000, '', 1, 2, '2025-12-27 18:31:02'),
-(1167, 320, 1, 'Retail', 38, 'GC127122506321894', 1, 55000, 0, 55000, 30000, '', 1, 2, '2025-12-27 18:33:00'),
-(1168, 321, 1, 'Retail', 38, 'GC127122506351689', 1, 1450000, 0, 1450000, 950000, '', 1, 2, '2025-12-27 18:35:25'),
-(1169, 321, 1, 'Retail', 38, 'GC127122506371965', 1, 1450000, 0, 1450000, 950000, '', 1, 2, '2025-12-27 18:37:38'),
-(1170, 320, 1, 'Retail', 38, 'GC127122506401491', 1, 55000, 0, 55000, 30000, 'TR020271225064038', 1, 2, '2025-12-27 18:40:38'),
-(1171, 320, 1, 'Retail', 47, 'GC12812250310805', 1, 56650, -1650, 56650, 30000, 'TR805281225031023', 1, 2, '2025-12-28 15:10:23'),
-(1172, 320, 1, 'Retail', 47, 'GC128122503101647', 1, 56650, -1650, 56650, 30000, 'TR647281225031056', 1, 2, '2025-12-28 15:10:56'),
-(1173, 320, 1, 'Retail', 47, 'GC128122503131069', 1, 56650, -1650, 56650, 30000, 'TR069281225031308', 1, 2, '2025-12-28 15:13:08'),
-(1174, 320, 1, 'Retail', 47, 'GC128122503161768', 1, 56650, -1650, 56650, 30000, 'TR768281225031635', 1, 2, '2025-12-28 15:16:35'),
-(1175, 320, 1, 'Retail', 47, 'GC128122505421264', 1, 60000, -5000, 60000, 30000, 'TR729281225054257', 1, 2, '2025-12-28 17:42:57');
+INSERT INTO `sales` (`sales_id`, `item`, `store`, `sales_type`, `customer`, `invoice`, `quantity`, `price`, `discount`, `total_amount`, `cost`, `loan`, `trx_number`, `posted_by`, `sales_status`, `post_date`) VALUES
+(1166, 320, 1, 'Retail', 38, 'GC127122506291533', 1, 55000, 0, 55000, 30000, 0, '', 1, 2, '2025-12-27 18:31:02'),
+(1167, 320, 1, 'Retail', 38, 'GC127122506321894', 1, 55000, 0, 55000, 30000, 0, '', 1, 2, '2025-12-27 18:33:00'),
+(1168, 321, 1, 'Retail', 38, 'GC127122506351689', 1, 1450000, 0, 1450000, 950000, 0, '', 1, 2, '2025-12-27 18:35:25'),
+(1169, 321, 1, 'Retail', 38, 'GC127122506371965', 1, 1450000, 0, 1450000, 950000, 0, '', 1, 2, '2025-12-27 18:37:38'),
+(1170, 320, 1, 'Retail', 38, 'GC127122506401491', 1, 55000, 0, 55000, 30000, 0, 'TR020271225064038', 1, 2, '2025-12-27 18:40:38'),
+(1171, 320, 1, 'Retail', 47, 'GC12812250310805', 1, 56650, -1650, 56650, 30000, 0, 'TR805281225031023', 1, 2, '2025-12-28 15:10:23'),
+(1172, 320, 1, 'Retail', 47, 'GC128122503101647', 1, 56650, -1650, 56650, 30000, 0, 'TR647281225031056', 1, 2, '2025-12-28 15:10:56'),
+(1173, 320, 1, 'Retail', 47, 'GC128122503131069', 1, 56650, -1650, 56650, 30000, 0, 'TR069281225031308', 1, 2, '2025-12-28 15:13:08'),
+(1174, 320, 1, 'Retail', 47, 'GC128122503161768', 1, 56650, -1650, 56650, 30000, 0, 'TR768281225031635', 1, 2, '2025-12-28 15:16:35'),
+(1175, 320, 1, 'Retail', 47, 'GC128122505421264', 1, 60000, -5000, 60000, 30000, 0, 'TR729281225054257', 1, 2, '2025-12-28 17:42:57'),
+(1177, 320, 1, 'Retail', 45, 'GC108012602021612', 1, 55000, 0, 55000, 30000, 0, 'TR604080126021336', 1, 2, '2026-01-08 14:13:36'),
+(1187, 320, 1, 'Loan sales', 38, 'RT109012607464951', 1, 60000, -5000, 60000, 30000, 5, '', 1, 0, '2026-01-09 07:51:54'),
+(1188, 320, 1, 'Loan sales', 38, 'RT109012607132941', 2, 60000, -5000, 120000, 60000, 5, '', 1, 0, '2026-01-09 07:53:09'),
+(1189, 320, 1, 'Loan sales', 38, 'RT109012607646171', 2, 55000, 0, 110000, 60000, 5, '', 1, 0, '2026-01-09 07:54:51'),
+(1190, 320, 1, 'Loan sales', 38, 'RT109012608829941', 1, 55000, 0, 55000, 30000, 5, '', 1, 0, '2026-01-09 08:04:57'),
+(1191, 320, 1, 'Loan sales', 38, 'RT109012608985091', 1, 55000, 0, 55000, 30000, 5, '', 1, 0, '2026-01-09 08:10:14'),
+(1192, 320, 1, 'Loan sales', 38, 'RT109012608898771', 2, 55000, 0, 110000, 60000, 5, '', 1, 0, '2026-01-09 08:16:47'),
+(1194, 320, 1, 'Loan sales', 38, 'LN109012610767871', 1, 55000, 0, 55000, 30000, 5, '', 1, 0, '2026-01-09 10:45:40'),
+(1195, 320, 1, 'Loan sales', 38, 'LN109012610775841', 2, 55000, 0, 110000, 60000, 5, '', 1, 2, '2026-01-09 10:46:19');
 
 -- --------------------------------------------------------
 
@@ -1944,7 +2075,9 @@ INSERT INTO `sub_menus` (`sub_menu_id`, `menu`, `sub_menu`, `url`, `status`) VAL
 (175, 6, 'Loan Summary', 'loan_summary', 0),
 (177, 13, 'Dispense Asset', 'dispense_asset', 0),
 (178, 1, 'Change Role', 'change_role', 0),
-(179, 6, 'My Sales Report', 'my_sales_report', 0);
+(179, 6, 'My Sales Report', 'my_sales_report', 0),
+(180, 11, 'My Customers', 'cso_customers', 0),
+(181, 13, 'Post Savings', 'post_savings', 0);
 
 -- --------------------------------------------------------
 
@@ -2110,7 +2243,28 @@ INSERT INTO `transactions` (`transaction_id`, `account_type`, `sub_group`, `clas
 (1628, 1, 1, 1, 10101119, 60000.00, 0.00, 'TR729281225054257', 'Payment for goods sold', 0, 1, '2025-12-28', '2025-12-28 17:42:57', 1),
 (1629, 1, 1, 4, 10104135, 0.00, 60000.00, 'TR729281225054257', 'Goods purchased', 0, 1, '2025-12-28', '2025-12-28 17:42:57', 1),
 (1630, 1, 1, 2, 1010228, 200000.00, 0.00, 'TR275291225110141', 'Outstanding Balance Payment', 0, 1, '2025-12-29', '2025-12-29 11:01:41', 1),
-(1631, 1, 1, 4, 10104128, 0.00, 200000.00, 'TR275291225110141', 'Outstanding Balance Payment', 0, 1, '2025-12-29', '2025-12-29 11:01:41', 1);
+(1631, 1, 1, 4, 10104128, 0.00, 200000.00, 'TR275291225110141', 'Outstanding Balance Payment', 0, 1, '2025-12-29', '2025-12-29 11:01:41', 1),
+(1632, 1, 1, 4, 10104136, 600000.00, 0.00, 'TR119060126103433', 'Loan Disbursement to JAMES JACKSON', 0, 0, '2026-01-06', '2026-01-06 10:34:33', 1),
+(1633, 1, 1, 2, 1010228, 0.00, 600000.00, 'TR119060126103433', 'Loan Disbursement to JAMES JACKSON', 0, 0, '2026-01-06', '2026-01-06 10:34:33', 1),
+(1634, 1, 1, 2, 1010228, 3000.00, 0.00, 'TR122060126103857', 'Loan Repayment', 0, 0, '2026-01-06', '2026-01-06 10:38:57', 1),
+(1635, 1, 1, 4, 10104136, 0.00, 2803.74, 'TR122060126103857', 'Loan Repayment', 0, 0, '2026-01-06', '2026-01-06 10:38:57', 1),
+(1636, 3, 5, 11, 305019129, 0.00, 140.19, 'TR122060126103857', 'Interest from Loan Repayment', 0, 0, '2026-01-06', '2026-01-06 10:38:57', 1),
+(1637, 3, 5, 11, 305019130, 0.00, 56.07, 'TR122060126103857', 'Processing fee from Loan Repayment', 0, 0, '2026-01-06', '2026-01-06 10:38:57', 1),
+(1638, 1, 1, 2, 1010228, 189000.00, 0.00, 'TR856080126012611', 'Loan Repayment', 0, 0, '2026-01-08', '2026-01-08 13:26:11', 1),
+(1639, 1, 1, 4, 10104122, 0.00, 176635.51, 'TR856080126012611', 'Loan Repayment', 0, 0, '2026-01-08', '2026-01-08 13:26:11', 1),
+(1640, 3, 5, 11, 305019129, 0.00, 8831.78, 'TR856080126012611', 'Interest from Loan Repayment', 0, 0, '2026-01-08', '2026-01-08 13:26:11', 1),
+(1641, 3, 5, 11, 305019130, 0.00, 3532.71, 'TR856080126012611', 'Processing fee from Loan Repayment', 0, 0, '2026-01-08', '2026-01-08 13:26:11', 1),
+(1642, 1, 1, 2, 1010228, 0.04, 0.00, 'TR647080126012930', 'Loan Repayment', 0, 0, '2026-01-08', '2026-01-08 13:29:30', 1),
+(1643, 1, 1, 4, 10104122, 0.00, 0.04, 'TR647080126012930', 'Loan Repayment', 0, 0, '2026-01-08', '2026-01-08 13:29:30', 1),
+(1644, 3, 5, 11, 305019129, 0.00, 0.00, 'TR647080126012930', 'Interest from Loan Repayment', 0, 0, '2026-01-08', '2026-01-08 13:29:30', 1),
+(1645, 3, 5, 11, 305019130, 0.00, 0.00, 'TR647080126012930', 'Processing fee from Loan Repayment', 0, 0, '2026-01-08', '2026-01-08 13:29:30', 1),
+(1646, 1, 1, 2, 1010228, 100000.00, 0.00, 'TR020080126014632', 'Customer Savings', 0, 1, '2026-01-08', '2026-01-08 13:46:32', 1),
+(1647, 1, 1, 4, 10104122, 0.00, 100000.00, 'TR020080126014632', 'Customer Savings', 0, 1, '2026-01-08', '2026-01-08 13:46:32', 1),
+(1648, 3, 5, 11, 30501130, 0.00, 55000.00, 'TR604080126021336', 'Sales of product', 0, 1, '2026-01-08', '2026-01-08 14:13:36', 1),
+(1649, 4, 7, 14, 407014134, 30000.00, 0.00, 'TR604080126021336', 'Cost of sales', 0, 1, '2026-01-08', '2026-01-08 14:13:36', 1),
+(1650, 1, 1, 3, 1010329, 0.00, 30000.00, 'TR604080126021336', 'Cost of sales', 0, 1, '2026-01-08', '2026-01-08 14:13:36', 1),
+(1651, 1, 1, 4, 10104131, 55000.00, 0.00, 'TR604080126021336', 'Goods purchased', 0, 1, '2026-01-08', '2026-01-08 14:13:36', 1),
+(1652, 1, 1, 4, 10104131, 0.00, 55000.00, 'TR604080126021336', 'Goods purchased', 0, 1, '2026-01-08', '2026-01-08 14:13:36', 1);
 
 -- --------------------------------------------------------
 
@@ -2162,7 +2316,8 @@ INSERT INTO `users` (`user_id`, `full_name`, `username`, `user_role`, `user_pass
 (15, 'ONOSTAR SENPAI', 'Onostar', 'Loan Officer', '$2y$10$VbNGx1cPZwlD2EgoVhLZYugQ7clziWf3QnsmMGyH8f.3haOPy3tRu', 0, 1, '2025-07-10 09:20:38'),
 (16, 'DORCAS IKPEFUA', '08100653703', 'Client', '123', 0, 1, '2025-07-16 11:42:25'),
 (17, 'DENNIS ZAKARIA', '08012344321', 'Client', '123', 0, 1, '2025-10-29 07:13:40'),
-(18, 'EBUKA MICHAEL', '09098987676', 'Client', '123', 0, 1, '2025-12-28 07:14:14');
+(18, 'EBUKA MICHAEL', '09098987676', 'Client', '123', 0, 1, '2025-12-28 07:14:14'),
+(19, 'JAMES JACKSON', '09123456789', 'Client', '123', 0, 1, '2026-01-06 10:05:56');
 
 -- --------------------------------------------------------
 
@@ -2633,7 +2788,7 @@ ALTER TABLE `asset_postings`
 -- AUTO_INCREMENT for table `audit_trail`
 --
 ALTER TABLE `audit_trail`
-  MODIFY `audit_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2436;
+  MODIFY `audit_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2438;
 
 --
 -- AUTO_INCREMENT for table `banks`
@@ -2645,7 +2800,7 @@ ALTER TABLE `banks`
 -- AUTO_INCREMENT for table `cash_flows`
 --
 ALTER TABLE `cash_flows`
-  MODIFY `flow_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=193;
+  MODIFY `flow_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=198;
 
 --
 -- AUTO_INCREMENT for table `categories`
@@ -2663,19 +2818,19 @@ ALTER TABLE `companies`
 -- AUTO_INCREMENT for table `cost_of_sales`
 --
 ALTER TABLE `cost_of_sales`
-  MODIFY `cost_of_sales_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=87;
+  MODIFY `cost_of_sales_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=88;
 
 --
 -- AUTO_INCREMENT for table `customers`
 --
 ALTER TABLE `customers`
-  MODIFY `customer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
+  MODIFY `customer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
 -- AUTO_INCREMENT for table `customer_trail`
 --
 ALTER TABLE `customer_trail`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=169;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=175;
 
 --
 -- AUTO_INCREMENT for table `debtors`
@@ -2693,7 +2848,7 @@ ALTER TABLE `departments`
 -- AUTO_INCREMENT for table `deposits`
 --
 ALTER TABLE `deposits`
-  MODIFY `deposit_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=80;
+  MODIFY `deposit_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=86;
 
 --
 -- AUTO_INCREMENT for table `depreciation`
@@ -2711,7 +2866,7 @@ ALTER TABLE `director_posting`
 -- AUTO_INCREMENT for table `disbursal`
 --
 ALTER TABLE `disbursal`
-  MODIFY `disbursal_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `disbursal_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT for table `disposed_assets`
@@ -2789,13 +2944,13 @@ ALTER TABLE `item_transfers`
 -- AUTO_INCREMENT for table `kyc`
 --
 ALTER TABLE `kyc`
-  MODIFY `kyc_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `kyc_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `ledgers`
 --
 ALTER TABLE `ledgers`
-  MODIFY `ledger_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=136;
+  MODIFY `ledger_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=137;
 
 --
 -- AUTO_INCREMENT for table `loans`
@@ -2807,7 +2962,7 @@ ALTER TABLE `loans`
 -- AUTO_INCREMENT for table `loan_applications`
 --
 ALTER TABLE `loan_applications`
-  MODIFY `loan_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `loan_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
 -- AUTO_INCREMENT for table `loan_products`
@@ -2831,7 +2986,7 @@ ALTER TABLE `multiple_payments`
 -- AUTO_INCREMENT for table `notifications`
 --
 ALTER TABLE `notifications`
-  MODIFY `notification_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=91;
+  MODIFY `notification_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=98;
 
 --
 -- AUTO_INCREMENT for table `opening_balance`
@@ -2855,13 +3010,13 @@ ALTER TABLE `other_transactions`
 -- AUTO_INCREMENT for table `outstanding`
 --
 ALTER TABLE `outstanding`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `payments`
 --
 ALTER TABLE `payments`
-  MODIFY `payment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=160;
+  MODIFY `payment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=162;
 
 --
 -- AUTO_INCREMENT for table `production`
@@ -2897,13 +3052,13 @@ ALTER TABLE `remove_reasons`
 -- AUTO_INCREMENT for table `repayments`
 --
 ALTER TABLE `repayments`
-  MODIFY `payment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=142;
+  MODIFY `payment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=148;
 
 --
 -- AUTO_INCREMENT for table `repayment_schedule`
 --
 ALTER TABLE `repayment_schedule`
-  MODIFY `repayment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=133;
+  MODIFY `repayment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=205;
 
 --
 -- AUTO_INCREMENT for table `rights`
@@ -2915,7 +3070,7 @@ ALTER TABLE `rights`
 -- AUTO_INCREMENT for table `sales`
 --
 ALTER TABLE `sales`
-  MODIFY `sales_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1176;
+  MODIFY `sales_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1196;
 
 --
 -- AUTO_INCREMENT for table `sales_returns`
@@ -2939,13 +3094,13 @@ ALTER TABLE `stores`
 -- AUTO_INCREMENT for table `sub_menus`
 --
 ALTER TABLE `sub_menus`
-  MODIFY `sub_menu_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=180;
+  MODIFY `sub_menu_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=182;
 
 --
 -- AUTO_INCREMENT for table `transactions`
 --
 ALTER TABLE `transactions`
-  MODIFY `transaction_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1632;
+  MODIFY `transaction_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1653;
 
 --
 -- AUTO_INCREMENT for table `transfers`
@@ -2957,7 +3112,7 @@ ALTER TABLE `transfers`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `vendors`
