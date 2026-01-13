@@ -7,18 +7,22 @@ session_start();
     //get user
     if(isset($_SESSION['user'])){
         $username = $_SESSION['user'];
-        $cso = $_SESSION['user_id'];
-        //get user role
-        $get_role = new selects();
-        $roles = $get_role->fetch_details_group('users', 'user_role', 'username', $username);
-        $role = $roles->user_role;
+        if(isset($_GET['cso'])){
+            $cso = $_GET['cso'];
+        //get cso name
+        $get_cso = new selects();
+        $cso_details = $get_cso->fetch_details_cond('users', 'user_id', $cso);
+        foreach($cso_details as $csod){
+            $cso_name = $csod->full_name;
+        }
+
 
 ?>
    
     <div class="info"></div>
 <div class="displays allResults" id="bar_items">
     
-    <h2>My Client List</h2>
+    <h2>Customer List for <?php echo $cso_name?> <a href="javascript:void(0)" onclick="showPage('cso_customer_list.php')" style="background:brown;color:#fff; padding:5px; border-radius:15px; box-shadow:1px 1px 1px #222; border:1px solid #fff; font-size:.8rem" title="Back to cso lists"><i class="fas fa-angle-double-left"></i> Back to CSO List</a></h2>
     <hr>
     <div class="search">
         <input type="search" id="searchRoom" placeholder="Enter keyword" onkeyup="searchData(this.value)">
@@ -36,7 +40,7 @@ session_start();
                 <td>Loan</td>
                 <td>Prev. Debt</td>
                 <td>Date reg</td>
-                <td></td>
+                <!-- <td></td> -->
             </tr>
         </thead>
         <tbody id="result">
@@ -76,7 +80,7 @@ session_start();
                 <td style="color:red"><?php echo number_format($detail->debt_balance, 2)?></td>
 
                 <td><?php echo date("d-M-Y", strtotime($detail->reg_date))?></td>
-                <td>
+                <!-- <td>
                     <a style="padding:5px; border-radius:15px;background:var(--otherColor);color:#fff;"href="javascript:void(0)" onclick="showPage('pay_outstanding.php?customer=<?php echo $detail->customer_id?>')" title="Post Savings">Savings <i class="fas fa-hand-holding-dollar"></i></a>
                     <?php if($detail->debt_balance > 0){?>
                     <a style="padding:5px; border-radius:15px;background:var(--otherColor);color:#fff;"href="javascript:void(0)" onclick="showPage('pay_outstanding.php?customer=<?php echo $detail->customer_id?>')" title="Pay outstanding debt">Pay loan <i class="fas fa-hand-holding-dollar"></i></a>
@@ -84,7 +88,7 @@ session_start();
                     <a style="padding:5px; border-radius:15px;background:var(--otherColor);color:#fff;"href="javascript:void(0)" onclick="showPage('customer_repayment.php?customer=<?php echo $detail->customer_id?>')"title="post loan payment">Pay loan <i class="fas fa-hand-holding-dollar"></i></a>
                     <?php } ?>
                     <a style="padding:5px; border-radius:15px;background:var(--tertiaryColor);color:#fff;"href="javascript:void(0)" onclick="showPage('view_customer_details.php?customer=<?php echo $detail->customer_id?>')" title="view patient details">view <i class="fas fa-eye"></i></a>
-                </td>
+                </td> -->
             </tr>
             
             <?php $n++; endforeach;}?>
@@ -99,4 +103,4 @@ session_start();
     
     ?>
 </div>
-<?php }?>
+<?php }}?>

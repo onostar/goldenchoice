@@ -75,7 +75,7 @@ session_start();
         <?php
                 $n = 1;
                 $get_items = new selects();
-                $details = $get_items->fetch_details_pageOrder('customers', $limit, $offset, 'customer');
+                $details = $get_items->fetch_details_Order('customers', 'customer');
                 if(gettype($details) === 'array'){
                 foreach($details as $detail):
             ?>
@@ -130,7 +130,7 @@ session_start();
             if(gettype($details) == "array"){
                 echo "<p><strong>Pages ".$page_number." of ".$total_pages."</strong></p>";
         ?>
-        <ul class="pages">
+        <!-- <ul class="pages">
             <?php
                 if($page_number > 1){
             ?>
@@ -144,7 +144,7 @@ session_start();
                 <li><a href="javascript:void(0)" onclick="showPage('customer_list.php?page=<?php echo $next_page?>')" title="Go to next page">Next ></a></li>
                 <li><a href="javascript:void(0)" onclick="showPage('customer_list.php?page=<?php echo $total_pages?>')" title="Go to last page">Last Page >></a></li>
                 <?php }?>
-        </ul>
+        </ul> -->
         <?php }?>
     </div>
     <?php
