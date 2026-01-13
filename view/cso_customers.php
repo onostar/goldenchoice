@@ -29,10 +29,12 @@ session_start();
             <tr style="background:var(--moreColor)">
                 <td>S/N</td>
                 <td>Client name</td>
-                <td>Ledger No.</td>
+                <!-- <td>Ledger No.</td> -->
                 <td>Phone number</td>
                 <td>Address</td>
-                <td>Account Balance</td>
+                <td>Savings</td>
+                <td>Loan</td>
+                <td>Prev. Debt</td>
                 <td>Date reg</td>
                 <td></td>
             </tr>
@@ -48,17 +50,38 @@ session_start();
             <tr>
                 <td style="text-align:center; color:red;"><?php echo $n?></td>
                 <td><?php echo $detail->customer?></td>
-                <td><?php echo $detail->acn?></td>
+                <!-- <td><?php echo $detail->acn?></td> -->
                 <td><?php echo $detail->phone_numbers?></td>
                 <td><?php echo $detail->customer_address?></td>
                 <!-- <td><?php echo $detail->customer_email?></td> -->
                 <td style="color:green"><?php echo number_format($detail->wallet_balance, 2)?></td>
+                <td>
+                    <?php
+                        //get total loan due
+                       //get total due
+                    $tls = $get_items->fetch_sum_single('repayment_schedule', 'amount_due', 'customer', $detail->customer);
+                    foreach($tls as $tl){
+                        $total_due = $tl->total;
+                    }
+                    //get total paid
+                    $paids = $get_items->fetch_sum_single('repayment_schedule', 'amount_paid', 'customer', $detail->customer);
+                    foreach($paids as $paid){
+                        $total_paid = $paid->total;
+                    }
+                    $balance = $total_due - $total_paid;
+                    echo number_format($balance, 2);
+                    ?>
+                    
+                </td>
+                <td style="color:red"><?php echo number_format($detail->debt_balance, 2)?></td>
+
                 <td><?php echo date("d-M-Y", strtotime($detail->reg_date))?></td>
                 <td>
+                    <a style="padding:5px; border-radius:15px;background:var(--otherColor);color:#fff;"href="javascript:void(0)" onclick="showPage('pay_outstanding.php?customer=<?php echo $detail->customer_id?>')" title="Post Savings">Savings <i class="fas fa-hand-holding-dollar"></i></a>
                     <?php if($detail->debt_balance > 0){?>
-                    <a style="padding:5px; border-radius:15px;background:var(--otherColor);color:#fff;"href="javascript:void(0)" onclick="showPage('pay_outstanding.php?customer=<?php echo $detail->customer_id?>')" title="Pay outstanding debt">Post <i class="fas fa-hand-holding-dollar"></i></a>
+                    <a style="padding:5px; border-radius:15px;background:var(--otherColor);color:#fff;"href="javascript:void(0)" onclick="showPage('pay_outstanding.php?customer=<?php echo $detail->customer_id?>')" title="Pay outstanding debt">Pay loan <i class="fas fa-hand-holding-dollar"></i></a>
                     <?php }else{?>
-                    <a style="padding:5px; border-radius:15px;background:var(--otherColor);color:#fff;"href="javascript:void(0)" onclick="showPage('customer_repayment.php?customer=<?php echo $detail->customer_id?>')"title="post loan payment">Post <i class="fas fa-hand-holding-dollar"></i></a>
+                    <a style="padding:5px; border-radius:15px;background:var(--otherColor);color:#fff;"href="javascript:void(0)" onclick="showPage('customer_repayment.php?customer=<?php echo $detail->customer_id?>')"title="post loan payment">Pay loan <i class="fas fa-hand-holding-dollar"></i></a>
                     <?php } ?>
                     <a style="padding:5px; border-radius:15px;background:var(--tertiaryColor);color:#fff;"href="javascript:void(0)" onclick="showPage('view_customer_details.php?customer=<?php echo $detail->customer_id?>')" title="view patient details">view <i class="fas fa-eye"></i></a>
                 </td>
