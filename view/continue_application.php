@@ -2,10 +2,11 @@
 <?php
     session_start();
     $role = $_SESSION['role'];
-    $user_id = $_SESSION['user_i'];
+    $user_id = $_SESSION['user_id'];
     if (isset($_GET['product']) && isset($_GET['customer'])) {
         $id = $_GET['product'];
         $customer = $_GET['customer'];
+        $store = $_SESSION['store_id'];
 
     // instantiate class
     include "../classes/dbh.php";
