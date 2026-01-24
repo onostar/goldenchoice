@@ -16,7 +16,6 @@
     $rows = $get_item->fetch_details_cond('loan_products', 'product_id', $id);
      if(gettype($rows) == 'array'){
         foreach($rows as $row):
-            
     ?>
     <style>
         @media screen and (max-width: 800px){
