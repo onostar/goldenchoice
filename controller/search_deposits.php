@@ -24,6 +24,7 @@
                 <td>S/N</td>
                 <td>Customer</td>
                 <td>Trx. No.</td>
+                <td>Trx. Type</td>
                 <td>Amount</td>
                 <td>Payment Mode</td>
                 <td>Trans. Date</td>
@@ -48,6 +49,7 @@
                     ?>
                 </td>
                 <td style="color:green"><?php echo $detail->invoice?></td>
+                <td><?php echo $detail->trx_type?></td>
                 <td>
                     <?php echo "₦".number_format($detail->amount, 2);?>
                 </td>
