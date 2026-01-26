@@ -27,7 +27,7 @@
             <?php
                 $n = 1;
                 $get_details = new selects();
-                $details = $get_details->fetch_details_negCond('users', 'username', 'Sysadmin', 'status', 0);
+                $details = $get_details->fetch_details_2negCond('users', 'username', 'Sysadmin', 'user_role', 'Client', 'status', 0);
                 if(gettype($details) === 'array'){
                 foreach($details as $detail):
             ?>
