@@ -3724,6 +3724,7 @@ x
         left:0;
     } */
     .logo{
+        display:none;
         width:30vw;
         height:4vh;
     }

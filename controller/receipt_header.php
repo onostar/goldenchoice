@@ -1,5 +1,5 @@
 
-<div class='receipt_logo'><img src="../images/icon.png" title="logo"></div>
+<div class='receipt_logo'><img src="../images/<?php echo $_SESSION['company_logo']?>" title="logo"></div>
     <!-- <h2><?php echo $_SESSION['company'];?></h2> -->
     <h2><?php echo $store_name;?></h2>
     <p><?php echo $address?></p>

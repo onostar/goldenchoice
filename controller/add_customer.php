@@ -135,10 +135,10 @@
     }
     @media screen and (max-width: 800px) {
         .add_user_form .data{
-            width:100%;
+            width:100%!important;
         }
         .add_user_form .inputs{
-            flex-direction: column;
+            flex-direction: column!important;
         }
     }
 </style>
@@ -146,7 +146,7 @@
      <div class="info"></div>
     <div class="add_user_form" style="width:60%; margin:10px auto; box-shadow:none;background:transparent">
         <h3 style="background:var(--tertiaryColor)!important">KYC / Identity Verification</h3>
-        <div class="inputs" style="margin-top:10px; gap:1rem; display:flex; flex-wrap:wrap;">
+        <div class="inputs" style="margin-top:10px; gap:.5rem; display:flex; flex-wrap:wrap; justify-content:space-between">
              <div class="data">
                 <figure>
                     <img src="../photos/user.png" alt="user photo" id="photo" style="width:100%; height:150px; object-fit:cover; border-radius:10px; box-shadow:1px 1px 1px #222">

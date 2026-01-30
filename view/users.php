@@ -147,10 +147,10 @@ date_default_timezone_set("Africa/Lagos");
                             <i class="fas fa-pen-alt"></i>
                             <!-- <p>Direct sales</p> -->
                         </div>
-                        <div class="links page_navs" onclick="showPage('loan_repayment.php')" title="post customer payment">
+                        <!-- <div class="links page_navs" onclick="showPage('loan_repayment.php')" title="post customer payment">
                             <i class="fas fa-hand-holding-dollar" style="color:var(--otherColor)"></i>
-                            <!-- <p>Direct sales</p> -->
-                        </div>
+                            <p>Direct sales</p>
+                        </div> -->
                         <?php }
                         if($role == "Admin" || $role == "Accountant"){?>
                         <div class="links page_navs" onclick="showPage('pending_applications.php')" title="Pending Applications">
@@ -171,7 +171,7 @@ date_default_timezone_set("Africa/Lagos");
                                 ?>
                             </p>
                         </div>
-                        <div class="links page_navs" onclick="showPage('active_loans.php')" title="Active Loans">
+                       <!--  <div class="links page_navs" onclick="showPage('active_loans.php')" title="Active Loans">
                             <i class="fas fa-chart-line"></i>
                             <p>
                                 <?php
@@ -180,16 +180,27 @@ date_default_timezone_set("Africa/Lagos");
                                 
                                 ?>
                             </p>
-                        </div>
-                        <!-- <div class="links page_navs" onclick="showPage('verify_kyc.php')" title="Pending KYC Verification">
-                            <i class="fas fa-user-shield" style="color:var(--otherColor)"></i>
-                            <p style="color:var(--otherColor)">
+                        </div> -->
+                        <div class="links page_navs" onclick="showPage('reached_reorder.php')" title="Reached reorder level">
+                            <i class="fas fa-sort-amount-down"></i>
+                            <p>
                                 <?php
-                                    /*  $kyc = $fetch_comp->fetch_count_cond('kyc', 'verification', 0);
-                                    echo $kyc; */
+                                    $get_level = new selects();
+                                    $levels = $get_level->fetch_count_reorderlevel( $store_id);
+                                    echo $levels;
                                 ?>
                             </p>
-                        </div> -->
+                        </div>
+                        <div class="links page_navs" onclick="showPage('out_of_stock.php')" title="Out of stock">
+                            <i class="fas fa-drum" style="color:red"></i>
+                            <p style="color:red">
+                                <?php
+                                    $out_stock = new selects();
+                                    $stock = $out_stock->fetch_out_of_stock($store_id);
+                                    echo $stock;
+                                ?>
+                            </p>
+                        </div>
                         <?php }else{?>
                         <div class="links page_navs" id="notifs" onclick="showPage('notifications.php')" title="Notifications">
                             <i class="fas fa-bell" style="color:var(--tertiaryColor)"></i>

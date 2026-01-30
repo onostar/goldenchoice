@@ -36,7 +36,7 @@
     include "../classes/inserts.php";
 
     if(in_array($file_ext, $allowed_ext)){
-        if($photo_size <= 500000){
+        if($photo_size <= 2000000){
             //compress image
             function compressImage($source, $destination, $quality){
                 //get image info

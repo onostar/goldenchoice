@@ -3849,6 +3849,9 @@ function getCustomersName(input, link){
           $.ajax({
                type : "GET",
                url : "../controller/"+link+"?input="+input,
+               beforeSend : function(){
+                    $("#search_results").html("<p>Searching...</p>");
+               },
                success : function(response){
                     $("#search_results").html(response);
                }

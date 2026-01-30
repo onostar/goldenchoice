@@ -64,10 +64,9 @@
                 </td>
                 <td>
                     <?php
-                        /* $get_guest = new selects();
+                        $get_guest = new selects();
                         $rows = $get_guest->fetch_details_group('items', 'item_name', 'item_id', $detail->item);
-                        echo $rows->item_name; */
-                        echo $detail->details;
+                        echo $rows->item_name;
                     ?>
                 </td>
                 <td style="text-align:center; color:green;"><?php echo $detail->quantity;?></td>

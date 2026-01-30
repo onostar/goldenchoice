@@ -1266,6 +1266,66 @@
                 return $rows;
             }
         }
+         public function fetch_out_of_stock($store) {
+            $query = $this->connectdb()->prepare("SELECT COUNT(*) as total_out
+                FROM (
+                    SELECT i.item_id, COALESCE(SUM(inv.quantity), 0) as total_qty
+                    FROM items i
+                    LEFT JOIN inventory inv ON i.item_id = inv.item AND inv.store = :store
+                    GROUP BY i.item_id
+                    HAVING total_qty = 0
+                ) as sub");
+            $query->bindValue("store", $store);
+            $query->execute();
+            
+            $result = $query->fetch(PDO::FETCH_ASSOC);
+            return $result['total_out'];
+        }
+        public function fetch_out_of_stock_det($store) {
+            $get_user = $this->connectdb()->prepare("SELECT 
+                    i.item_id, i.department, i.item_name,
+                    i.cost_price, 
+                    COALESCE(SUM(inv.quantity), 0) as total
+                FROM items i
+                LEFT JOIN inventory inv 
+                    ON i.item_id = inv.item AND inv.store = :store
+                GROUP BY i.item_id, i.cost_price
+                HAVING total = 0
+            ");
+            $get_user->bindValue("store", $store);
+            $get_user->execute();
+        
+            if ($get_user->rowCount() > 0) {
+                $rows = $get_user->fetchAll();
+                return $rows;
+            } else {
+                return "No records found";
+            }
+        }
+        //fetch reorderlevel count
+        public function fetch_count_reorderlevel($store){
+            $get_user = $this->connectdb()->prepare("SELECT * FROM inventory WHERE store = :store GROUP BY item, reorder_level HAVING SUM(quantity) <= reorder_level AND SUM(quantity) > 0");
+            $get_user->bindValue("store", $store);
+            $get_user->execute();
+            if($get_user->rowCount() > 0){
+                return $get_user->rowCount();
+            }else{
+                return "0";
+            }
+        }
+         //fetch items that have reached reorder level
+        function fetch_reorder_level($store){
+            $get_item = $this->connectdb()->prepare("SELECT SUM(quantity) as total_quantity, reorder_level, item, cost_price FROM inventory WHERE store = :store GROUP BY item, reorder_level HAVING SUM(quantity) <= reorder_level AND SUM(quantity) > 0");
+            $get_item->bindValue("store", $store);
+            $get_item->execute();
+            if($get_item->rowCount() > 0){
+                $rows = $get_item->fetchAll();
+                return $rows;
+            }else{
+                $rows = "No record found";
+                return $rows;
+            }
+        }
         //fetch payables
         public function fetch_payables(){
             $get_user = $this->connectdb()->prepare("SELECT SUM(credit - debit) AS total_due, account FROM transactions WHERE class = 7 GROUP BY account HAVING SUM(credit) - SUM(debit) > 0");

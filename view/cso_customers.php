@@ -77,7 +77,7 @@ session_start();
 
                 <td><?php echo date("d-M-Y", strtotime($detail->reg_date))?></td>
                 <td>
-                    <a style="padding:5px; border-radius:15px;background:var(--otherColor);color:#fff;"href="javascript:void(0)" onclick="showPage('pay_outstanding.php?customer=<?php echo $detail->customer_id?>')" title="Post Savings">Savings <i class="fas fa-hand-holding-dollar"></i></a>
+                    <a style="padding:5px; border-radius:15px;background:var(--otherColor);color:#fff;"href="javascript:void(0)" onclick="showPage('customer_deposit.php?customer=<?php echo $detail->customer_id?>')" title="Post Savings">Savings <i class="fas fa-hand-holding-dollar"></i></a>
                     <?php if($detail->debt_balance > 0){?>
                     <a style="padding:5px; border-radius:15px;background:var(--otherColor);color:#fff;"href="javascript:void(0)" onclick="showPage('pay_outstanding.php?customer=<?php echo $detail->customer_id?>')" title="Pay outstanding debt">Pay loan <i class="fas fa-hand-holding-dollar"></i></a>
                     <?php }else{?>

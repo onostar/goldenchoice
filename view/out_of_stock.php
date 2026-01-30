@@ -5,7 +5,7 @@
     include "../classes/select.php";
 ?>
     <div class="info"></div>
-<div class="displays allResults" id="out_stock" style="width:60%!important; margin:5px 50px!important;">
+<div class="displays allResults" id="out_stock" style="width:60%; margin:5px 50px;">
     <h2>Items with zero quantity</h2>
     <hr>
     <div class="search">
@@ -26,7 +26,7 @@
             <?php
                 $n = 1;
                 $get_items = new selects();
-                $details = $get_items->fetch_details_2cond('inventory', 'store', 'quantity', $store, 0);
+                $details = $get_items->fetch_out_of_stock_det($store);
                 if(gettype($details) === 'array'){
                 foreach($details as $detail):
             ?>
@@ -35,21 +35,20 @@
                 <td>
                     <?php
                         //get item category first
-                        $get_cat = new selects();
-                        $item_cat = $get_cat->fetch_details_group('items', 'department', 'item_id', $detail->item);
+                        /* $get_cat = new selects();
+                        $item_cat = $get_cat->fetch_details_group('items', 'department', 'item_id', $detail->item_id); */
                         //get department name
-                        $get_cat_name = new selects();
-                        $cat_name = $get_cat_name->fetch_details_group('departments', 'department', 'department_id', $item_cat->department);
+                        $cat_name = $get_items->fetch_details_group('departments', 'department', 'department_id', $detail->department);
                         echo $cat_name->department;
                     ?>
                 </td>
                 <td style="color:var(--otherColor)"><?php 
                     //get item name
-                    $get_name = new selects();
-                    $name = $get_name->fetch_details_group('items', 'item_name', 'item_id', $detail->item);
-                    echo $name->item_name;
+                    /* $get_name = new selects();
+                    $name = $get_name->fetch_details_group('items', 'item_name', 'item_id', $detail->item_id); */
+                    echo $detail->item_name;
                 ?></td>
-                <td style="text-align:center; color:red"><?php echo $detail->quantity?></td>
+                <td style="text-align:center; color:red"><?php echo $detail->total?></td>
                 <td>
                     <?php 
                         echo "₦".number_format($detail->cost_price, 2);

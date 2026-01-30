@@ -73,8 +73,7 @@ include "../classes/select.php";
                         echo $item_name;
                     ?>
                 </td>
-                <td style="text-align:center; color:red; font-size:.8rem"><?php echo $detail->quantity?>kg
-                </td>
+                <td style="text-align:center; color:red; font-size:.8rem"><?php echo $detail->quantity?></td>
                 <td style="font-size:.8rem">
                     <?php 
                         echo number_format($detail->price);

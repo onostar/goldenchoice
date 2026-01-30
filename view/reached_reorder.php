@@ -29,7 +29,7 @@
             <?php
                 $n = 1;
                 $get_items = new selects();
-                $details = $get_items->fetch_lesser_detailCond('inventory', 'quantity', 'reorder_level', 'store', $store);
+                $details = $get_items->fetch_reorder_level($store);
                 if(gettype($details) === 'array'){
                 foreach($details as $detail):
             ?>
@@ -52,7 +52,8 @@
                     $name = $get_name->fetch_details_group('items', 'item_name', 'item_id', $detail->item);
                     echo $name->item_name;
                 ?></td>
-                <td style="text-align:center"><?php echo $detail->quantity?></td>
+                <td style="text-align:center">
+                    <?php echo $detail->total_quantity?></td>
                 <td style="text-align:center; color:red"><?php echo $detail->reorder_level?></td>
                 <td>
                     <?php 
@@ -61,7 +62,7 @@
                 </td>
                 <td>
                     <?php 
-                        $total_cost = $detail->cost_price * $detail->quantity;
+                        $total_cost = $detail->cost_price * $detail->total_quantity;
                         echo "₦".number_format($total_cost, 2);
                     ?>
                 </td>
