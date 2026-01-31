@@ -7,6 +7,7 @@
     $store = htmlspecialchars(stripslashes($_POST['store']));
     $mode = htmlspecialchars(stripslashes($_POST['payment_mode']));
     $amount = floatval($_POST['amount']);
+    $wallet = floatval($_POST['wallet']);
     $bank = htmlspecialchars(stripslashes(($_POST['bank'])));
     $trans_date = htmlspecialchars(stripslashes(($_POST['trans_date'])));
     $details = ucwords(htmlspecialchars(stripslashes(($_POST['details']))));
@@ -97,7 +98,11 @@
             $update_debt = new Update_table();
             $update_debt->update('customers', 'debt_balance', 'customer_id',$new_debt,  $customer);
         }
-        
+        //check if pyment mode is wallet nd update customer balance
+        if($mode == "Wallet"){
+            $new_wallet = $wallet - $amount;
+            $update->update('customers', 'wallet_balance', 'customer_id', $new_wallet, $customer);
+        }
                 
        /*  if($mode == "Cash"){
             $ledger_name = "CASH ACCOUNT";

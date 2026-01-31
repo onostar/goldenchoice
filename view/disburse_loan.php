@@ -73,15 +73,42 @@
                 
                 <div class="data" style="width:30%;">
                     <label for="details"> Customer Bank Name</label>
-                    <input type="text" value="<?php echo $bank?>" readonly>
+                    <select>
+                        <option value="<?php echo $bank?>"><?php echo $bank?></option>
+                        <option>Access Bank</option>
+                        <option>Citibank Nigeria</option>
+                        <option>Ecobank Nigeria</option>
+                        <option>Fidelity Bank</option>
+                        <option>First Bank of Nigeria</option>
+                        <option>First City Monument Bank (FCMB)</option>
+                        <option>Globus Bank</option>
+                        <option>Guaranty Trust Bank (GTBank)</option>
+                        <option>Heritage Bank</option>
+                        <option>Jaiz Bank</option>
+                        <option>Keystone Bank</option>
+                        <option>Parallex Bank</option>
+                        <option>Polaris Bank</option>
+                        <option>PremiumTrust Bank</option>
+                        <option>Providus Bank</option>
+                        <option>Stanbic IBTC Bank</option>
+                        <option>Standard Chartered Bank Nigeria</option>
+                        <option>Sterling Bank</option>
+                        <option>SunTrust Bank</option>
+                        <option>Titan Trust Bank</option>
+                        <option>Union Bank of Nigeria</option>
+                        <option>United Bank for Africa (UBA)</option>
+                        <option>Unity Bank</option>
+                        <option>Wema Bank</option>
+                        <option>Zenith Bank</option>
+                    </select>
                 </div>
                 <div class="data" style="width:30%;">
                     <label for="details"> Account Number</label>
-                    <input type="text"  value="<?php echo $account_number?>" readonly>
+                    <input type="text"  value="<?php echo $account_number?>">
                 </div>
                 <div class="data" style="width:30%;">
                     <label for="details"> Account Name</label>
-                    <input type="text"  value="<?php echo $account_name?>" readonly>
+                    <input type="text"  value="<?php echo $account_name?>">
                 </div>
                 <div class="data" style="width:30%; margin:5px 0">
                     <button type="button" id="post_exp" name="post_exp" onclick="disburseLoan()">Send Funds  <i class="fas fa-money-check-dollar"></i></button>

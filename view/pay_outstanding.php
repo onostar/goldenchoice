@@ -19,6 +19,7 @@
             $customer = $row->customer;
             $acn = $row->acn;
             $debt = $row->debt_balance;
+            $wallet = $row->wallet_balance;
         }
         //generate deposit receipt
         //get current date
@@ -63,24 +64,31 @@
                     </div>
                     <div class="data" style="width:45%">
                         <label for="Payment_mode"><span class="ledger">Dr. Ledger</span> (Cash/Bank)</label>
-                        <select name="payment_mode" id="payment_mode" onchange="checkMode(this.value)">
+                        <select name="payment_mode" id="payment_mode" onchange="checkRepMode(this.value)">
                             <option value=""selected>Select payment option</option>
                             <option value="Cash">Cash</option>
                             <option value="POS">POS</option>
                             <option value="Transfer">Transfer</option>
+                            <option value="Wallet">Wallet</option>
                         </select>
                     </div>
-                    <div class="data" id="selectBank"  style="width:100%!important">
+                    <div class="data" id="selectBank">
                         <select name="bank" id="bank">
                             <option value=""selected>Select Bank</option>
                             <?php
-                                $get_bank = new selects();
-                                $rows = $get_bank->fetch_details('banks', 10, 10);
-                                foreach($rows as $row):
+                                $bnks = $get_details->fetch_details('banks');
+                                foreach($bnks as $bnk):
                             ?>
-                            <option value="<?php echo $row->bank_id?>"><?php echo $row->bank?></option>
+                            <option value="<?php echo $bnk->bank_id?>"><?php echo $bnk->bank?>(<?php echo $bnk->account_number?>)</option>
                             <?php endforeach?>
                         </select>
+                    </div>
+                    <div class="data" id="account_balance">
+                        
+                        <label for="wallet">Wallet balance</label>
+                        <input type="hidden" name="wallet" id="wallet" value="<?php echo $wallet?>" readonly>
+                        <input type="text" value="<?php echo "₦".number_format($wallet, 2)?>" readonly>
+
                     </div>
                     <div class="data" style="width:100%; margin:5px 0">
                         <label for="details"> Description</label>
@@ -105,6 +113,10 @@
                     <div class="data">
                         <label for="balance">Previous Balance Due:</label>
                         <input type="text" value="<?php echo "₦".number_format($debt, 2)?>" style="color:red;">
+                    </div>
+                    <div class="data">
+                        <label for="balance">Account balance:</label>
+                        <input type="text" value="<?php echo "₦".number_format($wallet, 2)?>" style="color:green;">
                     </div>
                 </div>
             </section> 

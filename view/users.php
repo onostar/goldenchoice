@@ -142,7 +142,7 @@ date_default_timezone_set("Africa/Lagos");
                 <!-- quick links -->
                 <div id="quickLinks">
                     <div class="quick_links">
-                        <?php if($role == "Admin" || $role == "Accountant" || $role == "Loan Officer"){?>
+                        <?php if($role != "Client"){?>
                         <div class="links page_navs" onclick="showPage('wholesale.php')" title="Make a sale">
                             <i class="fas fa-pen-alt"></i>
                             <!-- <p>Direct sales</p> -->
@@ -151,8 +151,10 @@ date_default_timezone_set("Africa/Lagos");
                             <i class="fas fa-hand-holding-dollar" style="color:var(--otherColor)"></i>
                             <p>Direct sales</p>
                         </div> -->
+                      
+                        
                         <?php }
-                        if($role == "Admin" || $role == "Accountant"){?>
+                        if($role == "Admin"){?>
                         <div class="links page_navs" onclick="showPage('pending_applications.php')" title="Pending Applications">
                             <i class="fas fa-download" style="color:green"></i>
                             <p>
@@ -171,6 +173,7 @@ date_default_timezone_set("Africa/Lagos");
                                 ?>
                             </p>
                         </div>
+                        <?php }?>
                        <!--  <div class="links page_navs" onclick="showPage('active_loans.php')" title="Active Loans">
                             <i class="fas fa-chart-line"></i>
                             <p>
@@ -181,6 +184,7 @@ date_default_timezone_set("Africa/Lagos");
                                 ?>
                             </p>
                         </div> -->
+                        <?php if($role != "Client"){?>
                         <div class="links page_navs" onclick="showPage('reached_reorder.php')" title="Reached reorder level">
                             <i class="fas fa-sort-amount-down"></i>
                             <p>

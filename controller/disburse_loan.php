@@ -221,7 +221,7 @@
         **$loan_officer**<br> 
         $company";
         //insert into notifications
-        $notif_data = array(
+        /* $notif_data = array(
             'client' => $customer,
             'subject' => 'Your Loan Has Been Disbursed',
             'message' => 'Dear '.$client.',
@@ -248,7 +248,7 @@
         );
         $add_data = new add_data('notifications', $notif_data);
         $add_data->create_data();
-        /* send mails to customer */
+        // send mails to customer
         function smtpmailer($to, $from, $from_name, $subject, $body){
             $mail = new PHPMailer();
             $mail->IsSMTP();
@@ -280,7 +280,7 @@
             else 
             {
                 
-                /* success message */
+                // success message
                 
                 $error = "Message Sent Successfully";
                 
@@ -296,7 +296,7 @@
         $subj = 'Your Loan Has Been Disbursed Successfully';
         $msg = "<div>$message</div>";
         
-        $error=smtpmailer($to, $from, $name ,$subj, $msg);
+        $error=smtpmailer($to, $from, $name ,$subj, $msg); */
         ?>
         <div class='not_available'>
         <p><i class='fas fa-check-circle' style='color: #28a745;'></i> Loan Disbursed Successfully</p><br>

@@ -87,28 +87,7 @@ session_start();
             <?php $n++; endforeach;}?>
         </tbody>
     </table>
-    <div class="page_links">
-        <?php
-            if(gettype($details) == "array"){
-                echo "<p><strong>Pages ".$page_number." of ".$total_pages."</strong></p>";
-        ?>
-        <ul class="pages">
-            <?php
-                if($page_number > 1){
-            ?>
-                <li><a href="javascript:void(0)" onclick="showPage('customer_list.php?page=1')"title="Go to first page"><< First page</a></li>
-                <li><a href="javascript:void(0)" onclick="showPage('customer_list.php?page=<?php echo $previous_page?>')"title="Go to previous page">< Previous</a></li>
-            <?php
-            }
-                if($page_number < $total_pages){
-                   
-            ?>
-                <li><a href="javascript:void(0)" onclick="showPage('customer_list.php?page=<?php echo $next_page?>')" title="Go to next page">Next ></a></li>
-                <li><a href="javascript:void(0)" onclick="showPage('customer_list.php?page=<?php echo $total_pages?>')" title="Go to last page">Last Page >></a></li>
-                <?php }?>
-        </ul>
-        <?php }?>
-    </div>
+    
     <?php
         
         if(gettype($details) == "string"){

@@ -175,7 +175,7 @@
                     <p>
                     <?php
                         //get total customers
-                       $customers =  $get_dashboard->fetch_count_condDateGro('repayments',  'posted_by', $user_id, 'post_date', 'customer');
+                       $customers =  $get_dashboard->fetch_count_condDateGro('deposits',  'posted_by', $user_id, 'post_date', 'customer');
                        echo $customers;
 
                     ?>
@@ -190,7 +190,7 @@
                     <p>
                     <?php
                        
-                       $collections = $get_dashboard->fetch_sum_curdateCon('repayments', 'amount', 'post_date', 'posted_by', $user_id);
+                       $collections = $get_dashboard->fetch_sum_curdateCon('deposits', 'amount', 'post_date', 'posted_by', $user_id);
                         if(is_array($collections)){
                             foreach($collections as $collect){
                                 $collected = $collect->total;
@@ -212,7 +212,7 @@
                 <p><i class="fas fa-coins"></i> Monthly Collections</p>
                     <p>
                         <?php
-                            $month_cols = $get_dashboard->fetch_sum_curMonthCon('repayments', 'amount', 'post_date', 'posted_by', $user_id);
+                            $month_cols = $get_dashboard->fetch_sum_curMonthCon('deposits', 'amount', 'post_date', 'posted_by', $user_id);
                             if(is_array($month_cols)){
                                 foreach($month_cols as $month_col){
                                     $monthly_col = $month_col->total;

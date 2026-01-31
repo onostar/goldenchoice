@@ -36,7 +36,7 @@
 Best regards,<br>$company</p>";
     if($update){
         //insert into notifications
-        $notif_data = array(
+        /* $notif_data = array(
             'client' => $customer,
             'subject' => 'KYC Verification Approved',
             'message' => 'Dear '.$client.', 
@@ -52,7 +52,7 @@ Best regards,<br>$company</p>";
         );
         $add_data = new add_data('notifications', $notif_data);
         $add_data->create_data();
-        /* send mails to customer */
+        // send mails to customer
         function smtpmailer($to, $from, $from_name, $subject, $body){
             $mail = new PHPMailer();
             $mail->IsSMTP();
@@ -84,7 +84,7 @@ Best regards,<br>$company</p>";
             else 
             {
                 
-                /* success message */
+                // success message
                 
                 $error = "Message Sent Successfully";
                 
@@ -100,6 +100,6 @@ Best regards,<br>$company</p>";
         $subj = 'KYC Verification Approved';
         $msg = "<div>$message</div>";
         
-        $error=smtpmailer($to, $from, $name ,$subj, $msg);
+        $error=smtpmailer($to, $from, $name ,$subj, $msg); */
         echo "<div class='success'><p><i class='fas fa-thumbs-up'></i> KYC Approved for $client successfully!</p></div>";
     }

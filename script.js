@@ -7528,6 +7528,7 @@ function payLoan(){
      let trans_date = document.getElementById("trans_date").value;
      let customer = document.getElementById("customer").value;
      let balance = document.getElementById("balance").value;
+     let wallet = document.getElementById("wallet").value;
      let store = document.getElementById("store").value;
      let schedule = document.getElementById("schedule").value;
      let amount = document.getElementById("amount").value;
@@ -7541,6 +7542,13 @@ function payLoan(){
                $("#bank").focus();
                return;
           }    
+     }
+     if(payment_mode == "Wallet"){
+          if(parseFloat(amount) > parseFloat(wallet)){
+               alert("Insufficient balance. Kindly fund customer wallet to continue the transaction or use another payment method");
+               $("#amount").focus();
+               return;
+          }
      }
      if(payment_mode.length == 0 || payment_mode.replace(/^\s+|\s+$/g, "").length == 0){
           alert("Please select payment_mode!");
@@ -7576,7 +7584,7 @@ function payLoan(){
                $.ajax({
                     type : "POST",
                     url : "../controller/pay_loan.php",
-                    data : {posted:posted, customer:customer, schedule:schedule, payment_mode:payment_mode, amount:amount, details:details, store:store, invoice:invoice, bank:bank, trans_date:trans_date},
+                    data : {posted:posted, customer:customer, schedule:schedule, payment_mode:payment_mode, amount:amount, details:details, store:store, invoice:invoice, bank:bank, trans_date:trans_date, wallet:wallet},
                     beforeSend : function(){
                          $("#fund_account").html("<div class='processing'><div class='loader'></div></div>");
                     },
@@ -7733,6 +7741,7 @@ function payOutstanding(){
      let trans_date = document.getElementById("trans_date").value;
      let customer = document.getElementById("customer").value;
      let balance = document.getElementById("balance").value;
+     let wallet = document.getElementById("wallet").value;
      let store = document.getElementById("store").value;
      let amount = document.getElementById("amount").value;
      let payment_mode = document.getElementById("payment_mode").value;
@@ -7745,6 +7754,13 @@ function payOutstanding(){
                $("#bank").focus();
                return;
           }    
+     }
+     if(payment_mode == "Wallet"){
+          if(parseFloat(amount) > parseFloat(wallet)){
+               alert("Insufficient balance. Kindly fund customer wallet to continue the transaction or use another payment method");
+               $("#amount").focus();
+               return;
+          }
      }
      if(payment_mode.length == 0 || payment_mode.replace(/^\s+|\s+$/g, "").length == 0){
           alert("Please select payment_mode!");
@@ -7780,7 +7796,7 @@ function payOutstanding(){
                $.ajax({
                     type : "POST",
                     url : "../controller/pay_previous_debt.php",
-                    data : {posted:posted, customer:customer,payment_mode:payment_mode, amount:amount, details:details, store:store, invoice:invoice, bank:bank, trans_date:trans_date},
+                    data : {posted:posted, customer:customer,payment_mode:payment_mode, amount:amount, details:details, store:store, invoice:invoice, bank:bank, trans_date:trans_date, wallet:wallet},
                     beforeSend : function(){
                          $("#fund_account").html("<div class='processing'><div class='loader'></div></div>");
                     },

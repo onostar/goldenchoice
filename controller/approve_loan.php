@@ -246,7 +246,7 @@
             **$loan_officer**<br> 
             $company";
             //insert into notifications
-            $notif_data = array(
+            /* $notif_data = array(
                 'client' => $customer,
                 'subject' => 'Your Asset Loan Has Been Approved',
                 'message' => 'Dear '.$client.',
@@ -273,12 +273,12 @@
                 'post_date' => $date,
             );
             $add_data = new add_data('notifications', $notif_data);
-            $add_data->create_data();
+            $add_data->create_data(); */
         }
     }
     }
         /* send mails to customer */
-        function smtpmailer($to, $from, $from_name, $subject, $body){
+        /* function smtpmailer($to, $from, $from_name, $subject, $body){
             $mail = new PHPMailer();
             $mail->IsSMTP();
             $mail->SMTPAuth = true; 
@@ -309,7 +309,7 @@
             else 
             {
                 
-                /* success message */
+                
                 
                 $error = "Message Sent Successfully";
                 
@@ -325,7 +325,7 @@
         $subj = 'Your Loan Has Been Approved';
         $msg = "<div>$message</div>";
         
-        $error=smtpmailer($to, $from, $name ,$subj, $msg);
+        $error=smtpmailer($to, $from, $name ,$subj, $msg); */
         ?>
         <div class='not_available'>
         <p><i class='fas fa-check-circle' style='color: #28a745;'></i> Loan Application Approved Successfully</p><br>

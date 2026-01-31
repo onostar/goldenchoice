@@ -7,6 +7,7 @@
     $store = htmlspecialchars(stripslashes($_POST['store']));
     $mode = htmlspecialchars(stripslashes($_POST['payment_mode']));
     $amount = floatval($_POST['amount']);
+    $wallet = floatval($_POST['wallet']);
 
     $schedule = htmlspecialchars(stripslashes($_POST['schedule']));
     $bank = htmlspecialchars(stripslashes($_POST['bank']));
@@ -194,7 +195,7 @@
 
         }
         //get contra ledger details
-        if($mode == "Cash"){
+        if($mode == "Cash" || $mode == "Wallet"){
             $ledger_name = "CASH ACCOUNT";
         }else{
             //get bank
@@ -305,6 +306,11 @@
         );
         $add_flow = new add_data('cash_flows', $flow_data);
         $add_flow->create_data();
+        //check if pyment mode is wallet nd update customer balance
+        if($mode == "Wallet"){
+            $new_wallet = $wallet - $amount;
+            $update->update('customers', 'wallet_balance', 'customer_id', $new_wallet, $customer);
+        }
         //add to other income table
         /* //add inerest first
         $interest_income_data = array(
@@ -355,7 +361,7 @@
         $company<br>
         Customer Support";
         //insert into notifications
-        $notif_data = array(
+        /* $notif_data = array(
             'client' => $customer,
             'subject' => 'Loan Payment Confirmation',
             'message' => 'Dear '.$client.',
@@ -372,7 +378,7 @@
         );
         $add_data = new add_data('notifications', $notif_data);
         $add_data->create_data();
-        /* send mails to customer */
+        // send mails to customer
         function smtpmailer($to, $from, $from_name, $subject, $body){
             $mail = new PHPMailer();
             $mail->IsSMTP();
@@ -404,7 +410,7 @@
             else 
             {
                 
-                /* success message */
+                // success message
                 
                 $error = "Message Sent Successfully";
                 
@@ -420,7 +426,7 @@
         $subj = 'Loan Payment Confirmation';
         $msg = "<div>$message</div>";
         
-        $error=smtpmailer($to, $from, $name ,$subj, $msg);
+        $error=smtpmailer($to, $from, $name ,$subj, $msg); */
         
 ?>
     <!-- <div id="printBtn">
