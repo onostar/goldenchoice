@@ -7904,3 +7904,126 @@ function savings(){
           }
      }
 }
+ //withdraw savings
+function withdrawSavings(){
+     let invoice = document.getElementById("invoice").value;
+     let posted = document.getElementById("posted").value;
+     let customer = document.getElementById("customer").value;
+     let normal_savings = document.getElementById("normal_savings").value;
+     let thrift = document.getElementById("thrift").value;
+     let store = document.getElementById("store").value;
+     let amount = document.getElementById("amount").value;
+     let savings_type = document.getElementById("savings_type").value;
+     
+     if(savings_type == "Normal Savings"){
+          if(parseFloat(normal_savings) < parseFloat(amount)){
+               alert("Insufficient Balance.");
+               $("#savings_type").focus();
+               return;
+          }    
+     }
+     if(savings_type == "Thrift Savings"){
+          if(parseFloat(thrift) < parseFloat(amount)){
+               alert("Insufficient Balance.");
+               $("#savings_type").focus();
+               return;
+          }    
+     }
+    if(!amount || parseFloat(amount) <= 0){
+          alert("Please input transaction amount");
+          $("#amount").focus();
+          return;
+     
+     }else if(!savings_type){
+          alert("Please select asavings withdrawal type");
+          $("#savings_type").focus();
+          return;
+     
+     }else{
+          let confirmPost = confirm("Are you sure you want to post this savvings request?", "");
+          if(confirmPost){
+               $.ajax({
+                    type : "POST",
+                    url : "../controller/withdrawals.php",
+                    data : {posted:posted, customer:customer,savings_type:savings_type, amount:amount, store:store, invoice:invoice},
+                    beforeSend : function(){
+                         $("#fund_account").html("<div class='processing'><div class='loader'></div></div>");
+                    },
+                    success : function(response){
+                         $("#fund_account").html(response);
+                         setTimeout(function(){
+                              showPage("withdraw_savings.php");
+                         }, 2000);
+                    }
+               })  
+          }else{
+               return;
+          }
+     }
+}
+
+//approve withdrawals
+function approveWithdrawal(){
+     let withdrawal = document.getElementById("withdrawal").value;
+     let posted = document.getElementById("posted").value;
+     let customer = document.getElementById("customer").value;
+     let payment_mode = document.getElementById("payment_mode").value;
+     let bank = document.getElementById("bank").value;
+     if(payment_mode == "POS" || payment_mode == "Transfer"){
+          if(bank.length == 0 || bank.replace(/^\s+|\s+$/g, "").length == 0){
+               alert("Please select bank!");
+               $("#bank").focus();
+               return;
+          }    
+     }
+     if(payment_mode.length == 0 || payment_mode.replace(/^\s+|\s+$/g, "").length == 0){
+          alert("Please select payment_mode!");
+          $("#payment_mode").focus();
+          return;
+     
+     }else{
+          let confirmPost = confirm("Are you sure you want to post this transaction?", "");
+          if(confirmPost){
+               $.ajax({
+                    type : "POST",
+                    url : "../controller/approve_withdrawal.php",
+                    data : {posted:posted, customer:customer,payment_mode:payment_mode, withdrawal:withdrawal,bank:bank},
+                    beforeSend : function(){
+                         $("#fund_account").html("<div class='processing'><div class='loader'></div></div>");
+                    },
+                    success : function(response){
+                         $("#fund_account").html(response);
+                         setTimeout(function(){
+                              showPage("approve_withdrawals.php");
+                         }, 2000);
+                    }
+               })
+               return false;   
+          }else{
+               return;
+          }
+     }
+}
+//decline withdrawals
+function declineWithdrawal(withdrawal){
+     let confirmPost = confirm("Are you sure you want to decline this request?", "");
+     if(confirmPost){
+          $.ajax({
+               type : "POST",
+               url : "../controller/decline_withdrawal.php",
+               data : {withdrawal:withdrawal},
+               beforeSend : function(){
+                    $("#loan_applications").html("<div class='processing'><div class='loader'></div></div>");
+               },
+               success : function(response){
+                    $("#loan_applications").html(response);
+                    setTimeout(function(){
+                         showPage("approve_withdrawals.php");
+                    }, 2000);
+               }
+          })
+          return false;   
+     }else{
+          return;
+     }
+}

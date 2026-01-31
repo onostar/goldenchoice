@@ -32,7 +32,8 @@
         $store = $_SESSION['store_id'];
         // echo $user_id;
     
-    if(isset($_GET['customer'])){
+    if(isset($_GET['withdrawal']) && isset($_GET['customer'])){
+        $withdraw_id = $_GET['withdrawal'];
         $customer_id = $_GET['customer'];
         // $schedule = $_GET['schedule'];
         //get customer details;
@@ -41,88 +42,69 @@
         foreach($rows as $row){
             $customer = $row->customer;
             $acn = $row->acn;
-            $debt = $row->debt_balance;
-            $wallet = $row->wallet_balance;
+            $balance = $row->wallet_balance;
+            $thrift = $row->thrift;
         }
-        //generate deposit receipt
-        //get current date
-        $todays_date = date("dmyhi");
-        $ran_num ="";
-        for($i = 0; $i < 5; $i++){
-            $random_num = random_int(0, 3);
-            $ran_num .= $random_num;
+        //withdrawal details
+        $results = $get_details->fetch_details_cond('withdrawals', 'withdrawal_id', $withdraw_id);
+        foreach($results as $result){
+            $amount = $result->amount;
+            $type = $result->savings_type;
+            $invoice = $result->invoice;
         }
-        $receipt_id = "BL".$todays_date.$ran_num.$user_id;
-        //get balance from transactions
+       
       
 
 ?>
 <div class="back_invoice">
-    <button class="page_navs" id="back" onclick="showPage('loan_repayment.php?customer=<?php echo $customer_id?>')"><i class="fas fa-angle-double-left"></i> Back</button>
+    <button class="page_navs" id="back" onclick="showPage('approve_withdrawals.php')"><i class="fas fa-angle-double-left"></i> Back</button>
 
     
 </div>
 <div id="deposit" class="displays">
     <div class="info" style="width:70%; margin:5px 0;"></div>
     <div class="fund_account" style="width:80%; margin:5px 0;">
-        <h3 style="background:var(--labColor); text-align:left">Post customer Outstanding debt payment</h3>
+        <h3 style="background:var(--labColor); text-align:left">Post customer Withdrawal</h3>
         <!-- <form method="POST" id="addUserForm"> -->
         <div class="details_forms">
             <section class="addUserForm">
                 <div class="inputs" style="flex-wrap:wrap">
-                    <input type="hidden" name="invoice" id="invoice" value="<?php echo $receipt_id?>">
+                    <input type="hidden" name="withdrawal" id="withdrawal" value="<?php echo $withdraw_id?>">
                     <input type="hidden" name="posted" id="posted" value="<?php echo $user_id?>">
                     <input type="hidden" name="customer" id="customer" value="<?php echo $customer_id?>">
-                    <input type="hidden" name="balance" id="balance" value="<?php echo $debt?>">
-                    <input type="hidden" name="store" id="store" value="<?php echo $store?>">
+                    <!-- <input type="hidden" name="balance" id="balance" value="<?php echo $balance?>"> -->
                    
-                    
-                    <div class="data" style="width:100%; margin:5px 0">
-                        <label for="amount"> Transaction Date</label>
-                        <input type="date" name="trans_date" id="trans_date" value="<?php echo date('Y-m-d')?>">
-                    </div>
                     <div class="data" style="width:50%; margin:5px 0">
-                        <label for="amount"> Amount paid</label>
-                        <input type="text" name="amount" id="amount" required placeholder="0.00">
+                        <label for="amount"> Amount</label>
+                        <input type="text" name="amount" id="amount" required value="<?php echo number_format($amount, 2)?>" readonly>
                     </div>
                     <div class="data" style="width:45%">
                         <label for="Payment_mode"><span class="ledger">Dr. Ledger</span> (Cash/Bank)</label>
-                        <select name="payment_mode" id="payment_mode" onchange="checkRepMode(this.value)">
+                        <select name="payment_mode" id="payment_mode" onchange="checkMode(this.value)">
                             <option value=""selected>Select payment option</option>
                             <option value="Cash">Cash</option>
                             <option value="POS">POS</option>
                             <option value="Transfer">Transfer</option>
-                            <option value="Wallet">Wallet</option>
                         </select>
                     </div>
-                    <div class="data" id="selectBank">
+                    <div class="data" id="selectBank"  style="width:100%!important">
                         <select name="bank" id="bank">
                             <option value=""selected>Select Bank</option>
                             <?php
-                                $bnks = $get_details->fetch_details('banks');
-                                foreach($bnks as $bnk):
+                                $get_bank = new selects();
+                                $rows = $get_bank->fetch_details('banks', 10, 10);
+                                foreach($rows as $row):
                             ?>
-                            <option value="<?php echo $bnk->bank_id?>"><?php echo $bnk->bank?>(<?php echo $bnk->account_number?>)</option>
+                            <option value="<?php echo $row->bank_id?>"><?php echo $row->bank?>(<?php echo $row->account_number?>)</option>
                             <?php endforeach?>
                         </select>
                     </div>
-                    <div class="data" id="account_balance">
-                        
-                        <label for="wallet">Wallet balance</label>
-                        <input type="hidden" name="wallet" id="wallet" value="<?php echo $wallet?>" readonly>
-                        <input type="text" value="<?php echo "₦".number_format($wallet, 2)?>" readonly>
-
-                    </div>
-                    <div class="data" style="width:100%; margin:5px 0">
-                        <label for="details"> Description</label>
-                        <textarea name="details" id="details" cols="30" rows="5">Outstanding Balance payment</textarea>
-                    </div>
                     <div class="data" style="width:50%; margin:5px 0">
-                        <button type="submit" id="post_exp" name="post_exp" onclick="payOutstanding()">Post payment <i class="fas fa-cash-register"></i></button>
+                        <button type="submit" id="post_exp" name="post_exp" onclick="approveWithdrawal()">Post payment <i class="fas fa-cash-register"></i></button>
                     </div>
                 </div>
             </section>
-            <section class="customer_details" style="height:100%;">
+            <section class="customer_details">
                 <div class="inputs">
                     <div class="data">
                         <label for="customer_id">Customer ID:</label>
@@ -134,12 +116,12 @@
                     </div>
                     
                     <div class="data">
-                        <label for="balance">Previous Balance Due:</label>
-                        <input type="text" value="<?php echo "₦".number_format($debt, 2)?>" style="color:red;">
+                        <label for="balance">Normal Savings:</label>
+                        <input type="text" value="<?php echo "₦".number_format($balance, 2)?>" style="color:green;">
                     </div>
                     <div class="data">
-                        <label for="balance">Account balance:</label>
-                        <input type="text" value="<?php echo "₦".number_format($wallet, 2)?>" style="color:green;">
+                        <label for="balance">Thrift Balance:</label>
+                        <input type="text" value="<?php echo "₦".number_format($thrift, 2)?>" style="color:var(--tertiaryColor);">
                     </div>
                 </div>
             </section> 

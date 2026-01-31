@@ -65,7 +65,8 @@ session_start();
                 <!-- <td>Ledger No.</td> -->
                 <td>Phone number</td>
                 <td>Address</td>
-                <td>Account Balance</td>
+                <td>Savings</td>
+                <td>Thrift</td>
                 <td>CSO</td>
                 <td>Date reg</td>
                 <td></td>
@@ -88,6 +89,7 @@ session_start();
                 <!-- <td><?php echo $detail->customer_email?></td> -->
                 
                 <td style="color:green"><?php echo "₦".number_format($detail->wallet_balance, 2);?>
+                <td style="color:green"><?php echo "₦".number_format($detail->thrift, 2);?>
                 </td>
                 
                 <!-- <td style="color:red">

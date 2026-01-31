@@ -1,4 +1,27 @@
 <div id="fund_account">
+    <style>
+        @media screen and (max-width: 800px){
+            .fund_account{
+                width:100%!important;
+            }
+            .details_forms{
+                flex-direction: column-reverse!important;
+            }
+            .inputs{
+                gap: .3rem!important;
+            }
+            .data{
+                padding:10px!important;
+                width:100%!important;
+                margin:0!important;
+            }
+            .data input, .data select{
+                width:100%!important;
+                padding:5px!important;
+            }
+
+        }
+    </style>
 <?php
     session_start();
     include "../classes/dbh.php";
